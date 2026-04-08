@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milliy Sertifikat - Kimyo Baholash Tizimi</title>
+    <meta name="description" content="Kimyo fanidan milliy sertifikat imtihonini baholash tizimi. Savollar 41, 42, 43 uchun avtomatik baholash.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <circle cx="20" cy="16" r="6" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="14" cy="26" r="6" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="26" cy="26" r="6" stroke="currentColor" stroke-width="2"/>
+                        <line x1="17" y1="20" x2="15" y2="22" stroke="currentColor" stroke-width="2"/>
+                        <line x1="23" y1="20" x2="25" y2="22" stroke="currentColor" stroke-width="2"/>
+                        <line x1="18" y1="28" x2="22" y2="28" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="logo-title">Kimyo Baholash</h1>
+                    <p class="logo-subtitle">Milliy Sertifikat Tizimi</p>
+                </div>
+            </div>
+            <div class="header-stats" style="display: flex; align-items: center; gap: 12px;">
+                <button id="changeApiKeyBtn" style="display:none; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 12px; border-radius: var(--radius-md); cursor: pointer; font-size: 0.75rem; font-family: var(--font-main); transition: all 0.2s;" title="API kalitni o'zgartirish">🔑</button>
+                <div class="stat-chip">
+                    <span class="stat-label">Umumiy ball</span>
+                    <span class="stat-value" id="totalScoreHeader">0 / 75</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <!-- API Key Section -->
+        <div class="api-key-section" id="apiKeySection">
+            <div class="api-key-card">
+                <div class="api-key-icon">🔑</div>
+                <h2>AI API Kalitini kiriting</h2>
+                <p>Rasmlarni tahlil qilish uchun Google Gemini API kaliti kerak</p>
+                <div class="api-input-group">
+                    <input type="password" id="apiKeyInput" placeholder="AIza... kalitingizni kiriting" class="api-input">
+                    <button id="saveApiKey" class="btn-primary">Saqlash</button>
+                </div>
+                <a href="https://aistudio.google.com/apikey" target="_blank" class="api-link">
+                    🔗 Bepul API kalit olish (Google AI Studio)
+                </a>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 12px;">
+                    ⚠️ Ilovani <strong>http://localhost</strong> yoki hosting orqali oching.<br>
+                    Faylni to'g'ridan-to'g'ri ochish (file://) ishlamaydi.
+                </p>
+            </div>
+        </div>
+
+        <!-- Question Tabs -->
+        <div class="tabs-container" id="tabsContainer" style="display:none;">
+            <div class="tabs">
+                <button class="tab active" data-tab="q41" id="tab41">
+                    <span class="tab-number">41</span>
+                    <span class="tab-label">Savol</span>
+                    <span class="tab-score" id="tab41Score">0/25</span>
+                </button>
+                <button class="tab" data-tab="q42" id="tab42">
+                    <span class="tab-number">42</span>
+                    <span class="tab-label">Savol</span>
+                    <span class="tab-score" id="tab42Score">0/25</span>
+                </button>
+                <button class="tab" data-tab="q43" id="tab43">
+                    <span class="tab-number">43</span>
+                    <span class="tab-label">Savol</span>
+                    <span class="tab-score" id="tab43Score">0/25</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question Panels -->
+        <div id="questionPanels" style="display:none;">
+            <!-- Question 41 -->
+            <div class="question-panel active" id="panel-q41">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>41-Savol</h2>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+                            <span class="panel-badge">Savolchalar soni:</span>
+                            <input type="number" id="subCount41" min="3" max="8" value="5" style="width:50px;padding:4px 8px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-mono);font-size:0.9rem;text-align:center;">
+                            <span style="font-size:0.78rem;color:var(--text-muted);">• 25 ball</span>
+                        </div>
+                    </div>
+                    <div class="panel-score">
+                        <span class="score-current" id="score41">0</span>
+                        <span class="score-divider">/</span>
+                        <span class="score-max">25</span>
+                    </div>
+                </div>
+
+                <!-- Mavzu va savol matni -->
+                <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-md);display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:0.85rem;font-weight:600;color:var(--primary-light);white-space:nowrap;">📚 Mavzu:</span>
+                        <input type="text" id="topic41" placeholder="Masalan: Parchalanish reaksiyalari" style="flex:1;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;">
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:10px;">
+                        <span style="font-size:0.85rem;font-weight:600;color:var(--primary-light);white-space:nowrap;margin-top:8px;">❓ Savol:</span>
+                        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+                            <textarea id="questionText41" rows="2" placeholder="Savol matnini yozing yoki rasmini yuklang ↓" style="width:100%;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;resize:vertical;line-height:1.5;"></textarea>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input type="file" accept="image/*" id="qImgInput41" style="display:none;" onchange="loadQuestionImage('41',this)">
+                                <button onclick="document.getElementById('qImgInput41').click()" style="padding:6px 14px;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;font-family:var(--font-main);">📷 Savol rasmini yuklash</button>
+                                <span id="qImgName41" style="font-size:0.78rem;color:var(--text-muted);"></span>
+                            </div>
+                            <div id="qImgPreview41" style="display:none;position:relative;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border-color);">
+                                <img id="qImgTag41" style="width:100%;max-height:200px;object-fit:contain;background:var(--bg-secondary);display:block;">
+                                <button onclick="removeQuestionImage('41')" style="position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:hsla(0,0%,0%,0.7);color:#fff;border:none;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;justify-content:center;">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Baholash mezonlari -->
+                <div class="criteria-select" id="criteriaBox41" style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-lg);">
+                    <p style="font-size:0.85rem;font-weight:600;margin-bottom:var(--space-sm);color:var(--primary-light);">📋 Nimalarga e'tibor berilsin?</p>
+                    <div style="display:flex;gap:8px;margin-bottom:10px;">
+                        <input type="text" id="criteriaInput41" placeholder="Masalan: Formula to'g'ri yozilganmi..." style="flex:1;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;" onkeypress="if(event.key==='Enter'){addCriteria('41')}">
+                        <button onclick="addCriteria('41')" style="padding:8px 16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none;border-radius:var(--radius-md);font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap;">+ Qo'shish</button>
+                    </div>
+                    <div id="criteriaList41" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+                </div>
+
+                <div class="upload-zone" id="uploadZone41">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 64 64" fill="none">
+                                <rect x="8" y="8" width="48" height="48" rx="8" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                                <path d="M32 20v24M20 32h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Rasm yoki PDF yuklang</h3>
+                        <p>41-savolning yechimini skanerlang (rasm yoki PDF)</p>
+                        <div class="upload-buttons">
+                            <label class="btn-upload">
+                                <input type="file" accept="image/*,.pdf,application/pdf" class="file-input" data-question="41">
+                                📁 Rasm / PDF
+                            </label>
+                            <label class="btn-camera">
+                                <input type="file" accept="image/*" capture="environment" class="file-input" data-question="41">
+                                📷 Kamera
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-section" id="preview41" style="display:none;">
+                    <div class="preview-image-container">
+                        <img id="previewImg41" class="preview-image" alt="41-savol rasmi">
+                        <button class="btn-remove-image" data-question="41">✕</button>
+                    </div>
+                    <button class="btn-analyze" data-question="41" id="analyzeBtn41">
+                        <span class="btn-analyze-icon">🔬</span>
+                        <span>Tahlil qilish</span>
+                    </button>
+                </div>
+
+                <div class="result-section" id="result41" style="display:none;">
+                    <div class="result-card" id="resultCard41"></div>
+                </div>
+            </div>
+
+            <!-- Question 42 -->
+            <div class="question-panel" id="panel-q42">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>42-Savol</h2>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+                            <span class="panel-badge">Reaksiyalar soni:</span>
+                            <input type="number" id="subCount42" min="3" max="8" value="6" style="width:50px;padding:4px 8px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-mono);font-size:0.9rem;text-align:center;">
+                            <span style="font-size:0.78rem;color:var(--text-muted);">• 25 ball</span>
+                        </div>
+                    </div>
+                    <div class="panel-score">
+                        <span class="score-current" id="score42">0</span>
+                        <span class="score-divider">/</span>
+                        <span class="score-max">25</span>
+                    </div>
+                </div>
+
+                <!-- Mavzu va savol matni -->
+                <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-md);display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:0.85rem;font-weight:600;color:var(--primary-light);white-space:nowrap;">📚 Mavzu:</span>
+                        <input type="text" id="topic42" placeholder="Masalan: Kimyoviy reaksiya turlari" style="flex:1;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;">
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:10px;">
+                        <span style="font-size:0.85rem;font-weight:600;color:var(--primary-light);white-space:nowrap;margin-top:8px;">❓ Savol:</span>
+                        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+                            <textarea id="questionText42" rows="2" placeholder="Savol matnini yozing yoki rasmini yuklang ↓" style="width:100%;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;resize:vertical;line-height:1.5;"></textarea>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input type="file" accept="image/*" id="qImgInput42" style="display:none;" onchange="loadQuestionImage('42',this)">
+                                <button onclick="document.getElementById('qImgInput42').click()" style="padding:6px 14px;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;font-family:var(--font-main);">📷 Savol rasmini yuklash</button>
+                                <span id="qImgName42" style="font-size:0.78rem;color:var(--text-muted);"></span>
+                            </div>
+                            <div id="qImgPreview42" style="display:none;position:relative;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border-color);">
+                                <img id="qImgTag42" style="width:100%;max-height:200px;object-fit:contain;background:var(--bg-secondary);display:block;">
+                                <button onclick="removeQuestionImage('42')" style="position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:hsla(0,0%,0%,0.7);color:#fff;border:none;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;justify-content:center;">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Baholash mezonlari -->
+                <div class="criteria-select" id="criteriaBox42" style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-lg);">
+                    <p style="font-size:0.85rem;font-weight:600;margin-bottom:var(--space-sm);color:var(--primary-light);">📋 Nimalarga e'tibor berilsin?</p>
+                    <div style="display:flex;gap:8px;margin-bottom:10px;">
+                        <input type="text" id="criteriaInput42" placeholder="Masalan: Reaksiya tenglashtirilganmi..." style="flex:1;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;" onkeypress="if(event.key==='Enter'){addCriteria('42')}">
+                        <button onclick="addCriteria('42')" style="padding:8px 16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none;border-radius:var(--radius-md);font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap;">+ Qo'shish</button>
+                    </div>
+                    <div id="criteriaList42" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+                </div>
+
+                <div class="upload-zone" id="uploadZone42">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 64 64" fill="none">
+                                <rect x="8" y="8" width="48" height="48" rx="8" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                                <path d="M32 20v24M20 32h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Rasm yoki PDF yuklang</h3>
+                        <p>42-savolning reaksiyalarini skanerlang (rasm yoki PDF)</p>
+                        <div class="upload-buttons">
+                            <label class="btn-upload">
+                                <input type="file" accept="image/*,.pdf,application/pdf" class="file-input" data-question="42">
+                                📁 Rasm / PDF
+                            </label>
+                            <label class="btn-camera">
+                                <input type="file" accept="image/*" capture="environment" class="file-input" data-question="42">
+                                📷 Kamera
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-section" id="preview42" style="display:none;">
+                    <div class="preview-image-container">
+                        <img id="previewImg42" class="preview-image" alt="42-savol rasmi">
+                        <button class="btn-remove-image" data-question="42">✕</button>
+                    </div>
+                    <button class="btn-analyze" data-question="42" id="analyzeBtn42">
+                        <span class="btn-analyze-icon">🔬</span>
+                        <span>Tahlil qilish</span>
+                    </button>
+                </div>
+
+                <div class="result-section" id="result42" style="display:none;">
+                    <div class="result-card" id="resultCard42"></div>
+                </div>
+            </div>
+
+            <!-- Question 43 -->
+            <div class="question-panel" id="panel-q43">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>43-Savol</h2>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+                            <span class="panel-badge">Savolchalar soni:</span>
+                            <input type="number" id="subCount43" min="3" max="8" value="5" style="width:50px;padding:4px 8px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-mono);font-size:0.9rem;text-align:center;">
+                            <span style="font-size:0.78rem;color:var(--text-muted);">• 25 ball</span>
+                        </div>
+                    </div>
+                    <div class="panel-score">
+                        <span class="score-current" id="score43">0</span>
+                        <span class="score-divider">/</span>
+                        <span class="score-max">25</span>
+                    </div>
+                </div>
+
+                <!-- Mavzu va savol matni -->
+                <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-md);display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="font-size:0.85rem;font-weight:600;color:var(--primary-light);white-space:nowrap;">📚 Mavzu:</span>
+                        <input type="text" id="topic43" placeholder="Masalan: Eritma konsentratsiyasi" style="flex:1;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;">
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:10px;">
+                        <span style="font-size:0.85rem;font-weight:600;color:var(--primary-light);white-space:nowrap;margin-top:8px;">❓ Savol:</span>
+                        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+                            <textarea id="questionText43" rows="2" placeholder="Savol matnini yozing yoki rasmini yuklang ↓" style="width:100%;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;resize:vertical;line-height:1.5;"></textarea>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input type="file" accept="image/*" id="qImgInput43" style="display:none;" onchange="loadQuestionImage('43',this)">
+                                <button onclick="document.getElementById('qImgInput43').click()" style="padding:6px 14px;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;font-family:var(--font-main);">📷 Savol rasmini yuklash</button>
+                                <span id="qImgName43" style="font-size:0.78rem;color:var(--text-muted);"></span>
+                            </div>
+                            <div id="qImgPreview43" style="display:none;position:relative;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border-color);">
+                                <img id="qImgTag43" style="width:100%;max-height:200px;object-fit:contain;background:var(--bg-secondary);display:block;">
+                                <button onclick="removeQuestionImage('43')" style="position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:hsla(0,0%,0%,0.7);color:#fff;border:none;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;justify-content:center;">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Baholash mezonlari -->
+                <div class="criteria-select" id="criteriaBox43" style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-lg);">
+                    <p style="font-size:0.85rem;font-weight:600;margin-bottom:var(--space-sm);color:var(--primary-light);">📋 Nimalarga e'tibor berilsin?</p>
+                    <div style="display:flex;gap:8px;margin-bottom:10px;">
+                        <input type="text" id="criteriaInput43" placeholder="Masalan: Hisob-kitob to'g'ri bajarilganmi..." style="flex:1;padding:8px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-main);font-size:0.85rem;outline:none;" onkeypress="if(event.key==='Enter'){addCriteria('43')}">
+                        <button onclick="addCriteria('43')" style="padding:8px 16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none;border-radius:var(--radius-md);font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap;">+ Qo'shish</button>
+                    </div>
+                    <div id="criteriaList43" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+                </div>
+
+                <div class="upload-zone" id="uploadZone43">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 64 64" fill="none">
+                                <rect x="8" y="8" width="48" height="48" rx="8" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                                <path d="M32 20v24M20 32h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Rasm yoki PDF yuklang</h3>
+                        <p>43-savolning yechimini skanerlang (rasm yoki PDF)</p>
+                        <div class="upload-buttons">
+                            <label class="btn-upload">
+                                <input type="file" accept="image/*,.pdf,application/pdf" class="file-input" data-question="43">
+                                📁 Rasm / PDF
+                            </label>
+                            <label class="btn-camera">
+                                <input type="file" accept="image/*" capture="environment" class="file-input" data-question="43">
+                                📷 Kamera
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-section" id="preview43" style="display:none;">
+                    <div class="preview-image-container">
+                        <img id="previewImg43" class="preview-image" alt="43-savol rasmi">
+                        <button class="btn-remove-image" data-question="43">✕</button>
+                    </div>
+                    <button class="btn-analyze" data-question="43" id="analyzeBtn43">
+                        <span class="btn-analyze-icon">🔬</span>
+                        <span>Tahlil qilish</span>
+                    </button>
+                </div>
+
+                <div class="result-section" id="result43" style="display:none;">
+                    <div class="result-card" id="resultCard43"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Summary -->
+        <div class="summary-section" id="summarySection" style="display:none;">
+            <div class="summary-card">
+                <h2>📊 Yakuniy Natija</h2>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-label">41-Savol</div>
+                        <div class="summary-bar">
+                            <div class="summary-fill" id="summaryBar41" style="width:0%"></div>
+                        </div>
+                        <div class="summary-value" id="summaryVal41">0/25</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">42-Savol</div>
+                        <div class="summary-bar">
+                            <div class="summary-fill" id="summaryBar42" style="width:0%"></div>
+                        </div>
+                        <div class="summary-value" id="summaryVal42">0/25</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">43-Savol</div>
+                        <div class="summary-bar">
+                            <div class="summary-fill" id="summaryBar43" style="width:0%"></div>
+                        </div>
+                        <div class="summary-value" id="summaryVal43">0/25</div>
+                    </div>
+                </div>
+                <div class="summary-total">
+                    <div class="summary-total-label">Umumiy ball</div>
+                    <div class="summary-total-value" id="summaryTotal">0 / 75</div>
+                    <div class="summary-grade" id="summaryGrade"></div>
+                </div>
+                <button class="btn-reset" id="resetAllBtn">🔄 Qayta boshlash</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+        <div class="loading-card">
+            <div class="loading-spinner"></div>
+            <h3>AI tahlil qilmoqda...</h3>
+            <p id="loadingText">Javoblar tekshirilmoqda va baholanmoqda</p>
+            <div class="loading-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+    <script>
+        // API kalit o'zgartirish tugmasi
+        document.getElementById('changeApiKeyBtn').addEventListener('click', () => {
+            document.getElementById('apiKeySection').style.display = 'flex';
+            document.getElementById('tabsContainer').style.display = 'none';
+            document.getElementById('questionPanels').style.display = 'none';
+            document.getElementById('changeApiKeyBtn').style.display = 'none';
+            document.getElementById('apiKeyInput').value = state.apiKey;
+            document.getElementById('apiKeyInput').focus();
+        });
+        
+        // checkApiKey ni override qilamiz — "o'zgartirish" tugmasini ko'rsatish uchun
+        const origCheckApiKey = checkApiKey;
+        checkApiKey = function() {
+            origCheckApiKey();
+            if (state.apiKey) {
+                document.getElementById('changeApiKeyBtn').style.display = 'block';
+            } else {
+                document.getElementById('changeApiKeyBtn').style.display = 'none';
+            }
+        };
+        checkApiKey();
+    </script>
+</body>
+</html>
