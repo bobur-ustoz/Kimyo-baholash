@@ -146,8 +146,8 @@ function initEvents() {
     document.getElementById('resetAllBtn')?.addEventListener('click', resetAll);
 }
 
-// --- Custom Criteria Tags ---
-const customCriteria = { 41: [], 42: [], 43: [] };
+// --- Custom Criteria Tags (with ball) ---
+const customCriteria = { 41: [], 42: [], 43: [] }; // [{text, ball}]
 const questionImages = { 41: null, 42: null, 43: null };
 
 function loadQuestionImage(q, input) {
@@ -181,27 +181,46 @@ function removeQuestionImage(q) {
 
 function addCriteria(q) {
     const input = document.getElementById('criteriaInput' + q);
+    const ballInput = document.getElementById('criteriaBall' + q);
     const text = input.value.trim();
     if (!text) return;
-    if (customCriteria[q].includes(text)) {
+    if (customCriteria[q].some(c => c.text === text)) {
         showToast('Bu mezon allaqachon qo\'shilgan!', 'info');
         return;
     }
-    customCriteria[q].push(text);
+    const ball = parseFloat(ballInput.value) || 1;
+    customCriteria[q].push({ text, ball });
     input.value = '';
     renderCriteriaTags(q);
+    // Jami ballni ko'rsat
+    updateCriteriaTotal(q);
 }
 
 function removeCriteria(q, index) {
     customCriteria[q].splice(index, 1);
     renderCriteriaTags(q);
+    updateCriteriaTotal(q);
+}
+
+function updateCriteriaTotal(q) {
+    const total = customCriteria[q].reduce((sum, c) => sum + c.ball, 0);
+    const container = document.getElementById('criteriaList' + q);
+    const totalEl = container.parentElement.querySelector('.criteria-total');
+    if (totalEl) totalEl.remove();
+    if (customCriteria[q].length > 0) {
+        const div = document.createElement('div');
+        div.className = 'criteria-total';
+        div.style.cssText = 'font-size:0.8rem;color:var(--primary-light);font-weight:600;margin-top:8px;font-family:var(--font-mono);';
+        div.textContent = `Mezonlar jami: ${total} ball`;
+        container.parentElement.appendChild(div);
+    }
 }
 
 function renderCriteriaTags(q) {
     const container = document.getElementById('criteriaList' + q);
-    container.innerHTML = customCriteria[q].map((text, i) => 
+    container.innerHTML = customCriteria[q].map((item, i) => 
         `<span style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--accent-light);background:hsla(160,70%,50%,0.12);padding:5px 12px;border-radius:var(--radius-round);border:1px solid hsla(160,70%,50%,0.25);">
-            ${escapeHtml(text)}
+            ${escapeHtml(item.text)} <span style="color:var(--warning);font-weight:700;font-family:var(--font-mono);">${item.ball}b</span>
             <button onclick="removeCriteria('${q}',${i})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:1rem;padding:0;line-height:1;">✕</button>
         </span>`
     ).join('');
@@ -574,8 +593,13 @@ function buildPrompt(question) {
     // Tanlangan baholash mezonlarini o'qiymiz
     let selectedCriteria = '';
     if (customCriteria[question] && customCriteria[question].length > 0) {
-        const items = customCriteria[question].map((c, i) => `${i+1}. ${c}`).join('\n');
-        selectedCriteria = `\n\nHar bir savolchada/reaksiyada FAQAT quyidagi mezonlarni tekshir:\n${items}\nBOSHQA MEZONLARNI TEKSHIRMA — faqat yuqoridagilar bo'yicha baholay. Agar shu mezonlar bajarilsa — to'liq ball ber.`;
+        const items = customCriteria[question].map((c, i) => `${i+1}. ${c.text} — ${c.ball} ball`).join('\n');
+        const totalCritBall = customCriteria[question].reduce((s, c) => s + c.ball, 0);
+        selectedCriteria = `\n\nHar bir savolchada/reaksiyada FAQAT quyidagi mezonlarni tekshir va HAR BIRIGA ALOHIDA BALL ber:
+${items}
+Jami mezonlar balli: ${totalCritBall} ball.
+Har bir savolcha/reaksiya uchun shu mezonlar bo'yicha ball ber. Mezon bajarilsa — shu mezon ballini to'liq ber. Bajarilmasa — 0. Qisman to'g'ri bo'lsa — qisman ball ber.
+BOSHQA MEZONLARNI TEKSHIRMA.`;
     }
     
     let questionSpecific = '';
@@ -592,8 +616,8 @@ Bu savolda asosan nazariy bilim, formula yozish, hisob-kitob, klassifikatsiya ka
     } else if (question === '42') {
         let q42criteria = '';
         if (customCriteria['42'] && customCriteria['42'].length > 0) {
-            const items = customCriteria['42'].map((c, i) => `${i+1}. ${c}`).join('\n');
-            q42criteria = `\nHar bir reaksiyada FAQAT quyidagi mezonlarni tekshir:\n${items}\nBOSHQA MEZONLARNI TEKSHIRMA. Agar shu mezonlar bajarilsa — to'liq ball ber.`;
+            const items = customCriteria['42'].map((c, i) => `${i+1}. ${c.text} — ${c.ball} ball`).join('\n');
+            q42criteria = `\nHar bir reaksiyada FAQAT quyidagi mezonlarni tekshir va HAR BIRIGA ALOHIDA BALL ber:\n${items}\nMezon bajarilsa — shu mezon ballini to'liq ber. Bajarilmasa — 0.\nBOSHQA MEZONLARNI TEKSHIRMA.`;
         } else {
             q42criteria = `\nHar bir reaksiyada FAQAT quyidagi 3 ta mezonni tekshir:
 1. Formulalar to'g'ri yozilganmi
