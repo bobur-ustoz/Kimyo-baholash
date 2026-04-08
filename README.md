@@ -1,0 +1,2 @@
+# Kimyo-baholash
+Tashkent
