@@ -225,14 +225,17 @@ function saveApiKey() {
 }
 
 function checkApiKey() {
+    const changeBtn = document.getElementById('changeApiKeyBtn');
     if (state.apiKey) {
         document.getElementById('apiKeySection').style.display = 'none';
         document.getElementById('tabsContainer').style.display = 'block';
         document.getElementById('questionPanels').style.display = 'block';
+        if (changeBtn) changeBtn.style.display = 'block';
     } else {
         document.getElementById('apiKeySection').style.display = 'flex';
         document.getElementById('tabsContainer').style.display = 'none';
         document.getElementById('questionPanels').style.display = 'none';
+        if (changeBtn) changeBtn.style.display = 'none';
     }
 }
 
@@ -579,7 +582,12 @@ function buildPrompt(question) {
     
     if (question === '41') {
         questionSpecific = `Bu 41-savol. Unda ${subCount} ta kichik savol (savolcha) bor. Jami 25 ball.
-Har bir savolchaga ${pointsEach} ball beriladi (25/${subCount}).
+
+MUHIM: Savol rasmida yoki matnida har bir savolcha yonida BALL yozilgan bo'lishi mumkin, masalan:
+a) ... (5 ball)
+b) ... (8 ball)
+Agar ball ko'rsatilgan bo'lsa — HAR BIR SAVOLCHA UCHUN SHU BALLNI max_points sifatida ishlatib baholay.
+Agar ball ko'rsatilmagan bo'lsa — 25 ballni ${subCount} ga teng bo'lib taqsimlay (har biri ${pointsEach} ball).
 Bu savolda asosan nazariy bilim, formula yozish, hisob-kitob, klassifikatsiya kabi topshiriqlar bo'ladi.${selectedCriteria}`;
     } else if (question === '42') {
         let q42criteria = '';
@@ -591,13 +599,24 @@ Bu savolda asosan nazariy bilim, formula yozish, hisob-kitob, klassifikatsiya ka
 1. Formulalar to'g'ri yozilganmi
 2. Reaksiya davom ettirilganmi (mahsulotlar to'g'ri)
 3. Reaksiya tenglashtirilganmi (koeffitsiyentlar to'g'ri)
-BOSHQA MEZONLARNI TEKSHIRMA. Agar shu 3 ta mezon bajarilsa — to'liq ball ber.`;
+BOSHQA MEZONLARNI TEKSHIRMA. Agar shu 3 ta mezon bajarilsa — shu reaksiya uchun to'liq ball ber.`;
         }
         questionSpecific = `Bu 42-savol. Unda ${subCount} ta kimyoviy reaksiya bor. Jami 25 ball.
-Har bir reaksiyaga ${pointsEach} ball beriladi (25/${subCount}).${q42criteria}`;
+
+MUHIM: Savol rasmida yoki matnida har bir reaksiya yonida BALL yozilgan bo'lishi mumkin, masalan:
+1) KClO3 → ........ (1 ball)
+2) CH4 + O2 → ........ (2 ball)
+Agar ball ko'rsatilgan bo'lsa — HAR BIR REAKSIYA UCHUN SHU BALLNI max_points sifatida ishlatib baholay.
+Agar ball ko'rsatilmagan bo'lsa — 25 ballni ${subCount} ga teng bo'lib taqsimlay (har biri ${pointsEach} ball).
+${q42criteria}`;
     } else if (question === '43') {
         questionSpecific = `Bu 43-savol. Unda ${subCount} ta kichik savol (savolcha) bor. Jami 25 ball.
-Har bir savolchaga ${pointsEach} ball beriladi (25/${subCount}).
+
+MUHIM: Savol rasmida yoki matnida har bir savolcha yonida BALL yozilgan bo'lishi mumkin, masalan:
+a) ... (5 ball)
+b) ... (8 ball)
+Agar ball ko'rsatilgan bo'lsa — HAR BIR SAVOLCHA UCHUN SHU BALLNI max_points sifatida ishlatib baholay.
+Agar ball ko'rsatilmagan bo'lsa — 25 ballni ${subCount} ga teng bo'lib taqsimlay (har biri ${pointsEach} ball).
 Bu savolda asosan masala yechish, hisob-kitob, eritma, konsentratsiya kabi topshiriqlar bo'ladi.${selectedCriteria}`;
     }
 
