@@ -2,8 +2,20 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kimyo Baholash — Milliy Sertifikat Tizimi</title>
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a2235">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kimyo Baholash">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png">
+    <meta name="description" content="Kimyo fanidan milliy sertifikat baholash tizimi">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -1532,7 +1544,7 @@
         return match ? match[1] : null;
     }
 
-    async function loadStudentsFromSheet() {
+    function loadStudentsFromSheet() {
         const sheetId = extractSheetId(sheetUrl);
         if (!sheetId) return;
 
@@ -1542,38 +1554,20 @@
         statusText.textContent = 'Yuklanmoqda...';
         statusText.style.color = 'var(--accent-yellow)';
 
-        try {
-            // Method 1: Google Sheets JSON API (no CORS issues)
-            const jsonUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-            const resp = await fetch(jsonUrl);
-            if (!resp.ok) throw new Error('Sheet ochilmadi');
-            let text = await resp.text();
+        // Use JSONP to bypass CORS — works from any domain
+        const callbackName = '_sheetCallback_' + Date.now();
+        const timeout = setTimeout(() => {
+            delete window[callbackName];
+            statusText.textContent = 'Xatolik: Sheet ochilmadi. Ulashish sozlamasini tekshiring.';
+            statusText.style.color = 'var(--accent-red-light)';
+            showToast('❌ Sheets ulanmadi. "Все, у кого есть ссылка" sozlamasini tekshiring.', true);
+        }, 10000);
 
-            // Google wraps JSON in google.visualization.Query.setResponse(...)
-            const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\);?\s*$/);
-            if (!jsonMatch) {
-                // Try CSV fallback
-                const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
-                const csvResp = await fetch(csvUrl);
-                if (!csvResp.ok) throw new Error('Sheet ochilmadi. Ulashish sozlamasini tekshiring.');
-                const csv = await csvResp.text();
-                const rows = parseCSV(csv);
-                if (rows.length < 2) throw new Error('Jadvalda ma\'lumot yo\'q');
-                studentsDB = [];
-                for (let i = 1; i < rows.length; i++) {
-                    const row = rows[i];
-                    if (row.length >= 3 && row[0].trim()) {
-                        studentsDB.push({
-                            id: row[0].trim(),
-                            firstName: row[1] ? row[1].trim() : '',
-                            lastName: row[2] ? row[2].trim() : '',
-                            class: row[3] ? row[3].trim() : '—'
-                        });
-                    }
-                }
-            } else {
-                const jsonData = JSON.parse(jsonMatch[1]);
-                const rows = jsonData.table?.rows || [];
+        window[callbackName] = function(response) {
+            clearTimeout(timeout);
+            delete window[callbackName];
+            try {
+                const rows = response.table?.rows || [];
                 if (rows.length === 0) throw new Error('Jadvalda ma\'lumot yo\'q');
 
                 studentsDB = [];
@@ -1587,19 +1581,30 @@
                         studentsDB.push({ id, firstName, lastName, class: cls });
                     }
                 }
+
+                if (studentsDB.length === 0) throw new Error('Jadvalda o\'quvchilar topilmadi');
+
+                statusText.textContent = `${studentsDB.length} ta o'quvchi yuklandi ✅`;
+                statusText.style.color = 'var(--accent-green-light)';
+                showToast(`✅ ${studentsDB.length} ta o'quvchi Google Sheets dan yuklandi`);
+            } catch (err) {
+                statusText.textContent = `Xatolik: ${err.message}`;
+                statusText.style.color = 'var(--accent-red-light)';
+                showToast(`❌ ${err.message}`, true);
             }
+        };
 
-            if (studentsDB.length === 0) throw new Error('Jadvalda o\'quvchilar topilmadi');
-
-            statusText.textContent = `${studentsDB.length} ta o'quvchi yuklandi ✅`;
-            statusText.style.color = 'var(--accent-green-light)';
-            showToast(`✅ ${studentsDB.length} ta o'quvchi Google Sheets dan yuklandi`);
-
-        } catch (err) {
-            statusText.textContent = `Xatolik: ${err.message}`;
+        const script = document.createElement('script');
+        script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${callbackName}`;
+        script.onerror = () => {
+            clearTimeout(timeout);
+            delete window[callbackName];
+            statusText.textContent = 'Xatolik: Sheet URL noto\'g\'ri yoki internet yo\'q';
             statusText.style.color = 'var(--accent-red-light)';
-            showToast(`❌ Sheets xatolik: ${err.message}`, true);
-        }
+            showToast('❌ Sheet yuklanmadi. URL va internetni tekshiring.', true);
+        };
+        document.body.appendChild(script);
+        script.onload = () => script.remove();
     }
 
     function parseCSV(text) {
@@ -1687,17 +1692,14 @@
         if (!url) { showToast('❌ Sheet havolasini kiriting!', true); return; }
         if (!extractSheetId(url)) { showToast('❌ Noto\'g\'ri Google Sheets havola!', true); return; }
 
-        const btn = document.getElementById('btnSaveSheet');
-        btn.textContent = '⏳ Yuklanmoqda...';
-        btn.disabled = true;
-
         sheetUrl = url;
         localStorage.setItem('sheet_url', url);
-        await loadStudentsFromSheet();
+        loadStudentsFromSheet();
 
-        btn.textContent = 'Saqlash va yuklash';
-        btn.disabled = false;
-        if (studentsDB.length > 0) closeSheetModal();
+        // Close modal after short delay to let JSONP load
+        setTimeout(() => {
+            if (studentsDB.length > 0) closeSheetModal();
+        }, 3000);
     }
 
     // ===== STUDENT =====
@@ -2218,6 +2220,59 @@ O'quvchi javob rasmini tahlil qil va baholashtir.`;
         clearTimeout(toast._timer);
         toast._timer = setTimeout(() => toast.classList.remove('show'), isError ? 8000 : 3000);
     }
+
+    // ===== PWA SERVICE WORKER =====
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(reg => {
+            console.log('SW registered:', reg.scope);
+        }).catch(err => console.log('SW error:', err));
+    }
+
+    // PWA Install Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallBanner();
+    });
+
+    function showInstallBanner() {
+        if (document.getElementById('installBanner')) return;
+        const banner = document.createElement('div');
+        banner.id = 'installBanner';
+        banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#1a2235;border-top:1px solid #2a3550;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:3000;gap:12px;flex-wrap:wrap';
+        banner.innerHTML = `
+            <div style="display:flex;align-items:center;gap:10px;flex:1">
+                <span style="font-size:24px">📱</span>
+                <div>
+                    <div style="font-weight:700;font-size:14px;color:#e8ecf4">Ilovani o'rnatish</div>
+                    <div style="font-size:12px;color:#8b95a8">Telefonga ilova sifatida o'rnating</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px">
+                <button onclick="this.parentElement.parentElement.remove()" style="padding:8px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#f87171;cursor:pointer;font-size:13px">Keyin</button>
+                <button onclick="installPWA()" style="padding:8px 18px;background:linear-gradient(135deg,#3b82f6,#2563eb);border:none;border-radius:8px;color:white;cursor:pointer;font-size:13px;font-weight:700">O'rnatish</button>
+            </div>
+        `;
+        document.body.appendChild(banner);
+    }
+
+    async function installPWA() {
+        const banner = document.getElementById('installBanner');
+        if (banner) banner.remove();
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') showToast('✅ Ilova o\'rnatildi!');
+            deferredPrompt = null;
+        }
+    }
+
+    window.addEventListener('appinstalled', () => {
+        showToast('✅ Kimyo Baholash ilova sifatida o\'rnatildi!');
+        const banner = document.getElementById('installBanner');
+        if (banner) banner.remove();
+    });
 </script>
 </body>
 </html>
