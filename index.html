@@ -1112,6 +1112,30 @@
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
+
+        /* Org selector */
+        .org-btn {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+        }
+        .org-btn:hover {
+            border-color: rgba(59,130,246,0.5);
+        }
+        .org-btn.active {
+            border-color: var(--accent-blue);
+            background: rgba(59,130,246,0.1);
+            color: var(--accent-blue-light);
+            box-shadow: var(--shadow-glow-blue);
+        }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
@@ -1144,6 +1168,11 @@
             <div class="icon">👤</div>
             O'quvchi ma'lumotlari
             <button onclick="openSheetModal()" style="margin-left:auto;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:var(--accent-blue-light);border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600">📊 Google Sheets sozlash</button>
+        </div>
+        <!-- Maktab / Markaz tanlash -->
+        <div style="display:flex;gap:8px;margin-bottom:14px" id="orgSelector">
+            <button class="org-btn active" onclick="selectOrg('maktab')" id="orgMaktab">🏫 Maktab</button>
+            <button class="org-btn" onclick="selectOrg('markaz')" id="orgMarkaz">🎓 Markaz</button>
         </div>
         <div class="student-form">
             <div class="form-group">
@@ -1410,6 +1439,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Turi</th>
                         <th>ID</th>
                         <th>Ism-Familiya</th>
                         <th>Sinf</th>
@@ -1448,9 +1478,10 @@
         </p>
         <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;font-size:12px;color:var(--text-secondary);line-height:1.8">
             <strong style="color:var(--accent-blue-light)">1.</strong> Google Sheets yarating yoki oching<br>
-            <strong style="color:var(--accent-blue-light)">2.</strong> Ustunlar: <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">A=ID</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">B=Ism</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">C=Familiya</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">D=Sinf</code><br>
-            <strong style="color:var(--accent-blue-light)">3.</strong> Fayl → Ulashish → <strong>"Havolaga ega har kim ko'ra oladi"</strong><br>
-            <strong style="color:var(--accent-blue-light)">4.</strong> Sheet URL ni nusxalab pastga joylashtiring
+            <strong style="color:var(--accent-blue-light)">2.</strong> <strong>Лист1</strong> = 🏫 Maktab o'quvchilari, <strong>Лист2</strong> = 🎓 Markaz o'quvchilari<br>
+            <strong style="color:var(--accent-blue-light)">3.</strong> Ustunlar: <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">A=ID</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">B=Ism</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">C=Familiya</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">D=Sinf</code><br>
+            <strong style="color:var(--accent-blue-light)">4.</strong> Fayl → Ulashish → <strong>"Havolaga ega har kim ko'ra oladi"</strong><br>
+            <strong style="color:var(--accent-blue-light)">5.</strong> Sheet URL ni nusxalab pastga joylashtiring
         </div>
         <div class="form-group" style="margin-bottom:14px">
             <label>Google Sheet havolasi</label>
@@ -1527,6 +1558,7 @@
     let selectedModel = localStorage.getItem('gemini_model') || 'gemini-2.5-pro-preview-05-06';
     let sheetUrl = localStorage.getItem('sheet_url') || '';
     let studentsDB = []; // loaded from Google Sheets
+    let selectedOrg = localStorage.getItem('selected_org') || 'maktab'; // 'maktab' or 'markaz'
 
     // ===== INIT =====
     document.addEventListener('DOMContentLoaded', () => {
@@ -1535,8 +1567,28 @@
         document.getElementById('apiKeyInput').value = apiKey;
         document.getElementById('modelSelect').value = selectedModel;
         document.getElementById('sheetUrlInput').value = sheetUrl;
+        // Restore org selection
+        selectOrg(selectedOrg, true);
         if (sheetUrl) loadStudentsFromSheet();
     });
+
+    // ===== ORG SELECTION (Maktab / Markaz) =====
+    function selectOrg(org, silent = false) {
+        selectedOrg = org;
+        localStorage.setItem('selected_org', org);
+        document.getElementById('orgMaktab').classList.toggle('active', org === 'maktab');
+        document.getElementById('orgMarkaz').classList.toggle('active', org === 'markaz');
+        // Clear current student
+        document.getElementById('studentId').value = '';
+        document.getElementById('studentFirstName').value = '';
+        document.getElementById('studentLastName').value = '';
+        document.getElementById('studentClass').value = '';
+        document.getElementById('idStatus').innerHTML = '';
+        document.getElementById('btnConfirmStudent').disabled = true;
+        // Reload students for selected org
+        if (sheetUrl && !silent) loadStudentsFromSheet();
+        if (!silent) showToast(org === 'maktab' ? '🏫 Maktab tanlandi' : '🎓 Markaz tanlandi');
+    }
 
     // ===== GOOGLE SHEETS =====
     function extractSheetId(url) {
@@ -1584,9 +1636,10 @@
 
                 if (studentsDB.length === 0) throw new Error('Jadvalda o\'quvchilar topilmadi');
 
-                statusText.textContent = `${studentsDB.length} ta o'quvchi yuklandi ✅`;
+                const orgLabel = selectedOrg === 'maktab' ? '🏫 Maktab' : '🎓 Markaz';
+                statusText.textContent = `${orgLabel}: ${studentsDB.length} ta o'quvchi yuklandi ✅`;
                 statusText.style.color = 'var(--accent-green-light)';
-                showToast(`✅ ${studentsDB.length} ta o'quvchi Google Sheets dan yuklandi`);
+                showToast(`✅ ${orgLabel} — ${studentsDB.length} ta o'quvchi yuklandi`);
             } catch (err) {
                 statusText.textContent = `Xatolik: ${err.message}`;
                 statusText.style.color = 'var(--accent-red-light)';
@@ -1594,8 +1647,12 @@
             }
         };
 
+        // Sheet name: Лист1 (or "Maktab") for maktab, Лист2 (or "Markaz") for markaz
+        const sheetName = selectedOrg === 'maktab' ? 'Лист1' : 'Лист2';
+        const encodedSheet = encodeURIComponent(sheetName);
+
         const script = document.createElement('script');
-        script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${callbackName}`;
+        script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${callbackName}&sheet=${encodedSheet}`;
         script.onerror = () => {
             clearTimeout(timeout);
             delete window[callbackName];
@@ -1999,6 +2056,7 @@ O'quvchi javob rasmini tahlil qil va baholashtir.`;
         const total = scores[0] + scores[1] + scores[2];
         const entry = {
             id: Date.now(),
+            org: selectedOrg,
             studentId: currentStudent.id || '—',
             firstName: currentStudent.firstName,
             lastName: currentStudent.lastName,
@@ -2055,6 +2113,7 @@ O'quvchi javob rasmini tahlil qil va baholashtir.`;
             const totalClass = r.total >= 26 ? 'high' : r.total >= 20 ? 'medium' : 'low';
             return `<tr>
                 <td class="td-num">${i + 1}</td>
+                <td><span style="font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;${r.org === 'markaz' ? 'background:rgba(139,92,246,0.15);color:#a78bfa' : 'background:rgba(59,130,246,0.15);color:#60a5fa'}">${r.org === 'markaz' ? '🎓 Markaz' : '🏫 Maktab'}</span></td>
                 <td class="td-num">${r.studentId || '—'}</td>
                 <td class="td-name">${r.firstName} ${r.lastName}</td>
                 <td>${r.class}</td>
@@ -2098,9 +2157,9 @@ O'quvchi javob rasmini tahlil qil va baholashtir.`;
             showToast('❌ Eksport qilish uchun natijalar yo\'q', true);
             return;
         }
-        const header = '№,ID,Ism,Familiya,Sinf,41-savol,42-savol,43-savol,Jami,Baho,Sana\n';
+        const header = '№,Turi,ID,Ism,Familiya,Sinf,41-savol,42-savol,43-savol,Jami,Baho,Sana\n';
         const rows = results.map((r, i) =>
-            `${i+1},${r.studentId || '—'},${r.firstName},${r.lastName},${r.class},${r.scores[0]},${r.scores[1]},${r.scores[2]},${r.total},${r.grade},${r.date}`
+            `${i+1},${r.org === 'markaz' ? 'Markaz' : 'Maktab'},${r.studentId || '—'},${r.firstName},${r.lastName},${r.class},${r.scores[0]},${r.scores[1]},${r.scores[2]},${r.total},${r.grade},${r.date}`
         ).join('\n');
 
         const BOM = '\uFEFF';
