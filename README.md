@@ -1,33 +1,1983 @@
-# Kimyo Baholash - Milliy Sertifikat Tizimi
+[index_6.html](https://github.com/user-attachments/files/26589510/index_6.html)
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kimyo Baholash — Milliy Sertifikat Tizimi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2235;
+            --bg-card-hover: #1e2a42;
+            --bg-input: #0d1424;
+            --border: #2a3550;
+            --border-focus: #3b82f6;
+            --text-primary: #e8ecf4;
+            --text-secondary: #8b95a8;
+            --text-muted: #5a6478;
+            --accent-blue: #3b82f6;
+            --accent-blue-light: #60a5fa;
+            --accent-green: #10b981;
+            --accent-green-light: #34d399;
+            --accent-red: #ef4444;
+            --accent-red-light: #f87171;
+            --accent-yellow: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f97316;
+            --gradient-blue: linear-gradient(135deg, #3b82f6, #2563eb);
+            --gradient-green: linear-gradient(135deg, #10b981, #059669);
+            --gradient-red: linear-gradient(135deg, #ef4444, #dc2626);
+            --gradient-purple: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+            --shadow-glow-blue: 0 0 20px rgba(59,130,246,0.15);
+            --shadow-glow-green: 0 0 20px rgba(16,185,129,0.15);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+        }
 
-Kimyo fanidan milliy sertifikat imtihoni javoblarini AI (Google Gemini) yordamida tekshiruvchi web-ilova.
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-## 🚀 Ishga tushirish (3 ta yo'l)
+        /* ===== HEADER ===== */
+        .app-header {
+            background: linear-gradient(180deg, #111827 0%, var(--bg-primary) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-blue);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: var(--shadow-glow-blue);
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .header-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .header-score {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-blue-light);
+        }
+        .btn-api {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 8px 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+        .btn-api:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue-light);
+        }
 
-### 1-yo'l: GitHub Pages (bepul hosting)
-1. GitHub.com da yangi repository yarating
-2. Shu papkadagi barcha fayllarni yuklang
-3. Settings → Pages → Source: `main` branch → Save
-4. 1-2 daqiqada `https://username.github.io/repo-name/` da ishlaydi
+        /* ===== MAIN LAYOUT ===== */
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
 
-### 2-yo'l: Netlify (drag & drop)
-1. https://app.netlify.com/drop ga kiring
-2. Shu papkani drag & drop qiling
-3. Tayyor — link beradi
+        /* ===== STUDENT INPUT SECTION ===== */
+        .student-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+        }
+        .student-section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--accent-blue-light);
+        }
+        .student-section-title .icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(59,130,246,0.15);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .student-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+        @media (max-width: 768px) {
+            .student-form {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .student-form {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .form-group input::placeholder {
+            color: var(--text-muted);
+        }
+        .btn-add-student {
+            padding: 10px 20px;
+            background: var(--gradient-blue);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-add-student:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-glow-blue);
+        }
+        .current-student-badge {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16,185,129,0.1);
+            border: 1px solid rgba(16,185,129,0.3);
+            border-radius: var(--radius);
+            padding: 12px 18px;
+            margin-top: 14px;
+        }
+        .current-student-badge.active {
+            display: flex;
+        }
+        .current-student-badge .avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: white;
+        }
+        .current-student-badge .info {
+            flex: 1;
+        }
+        .current-student-badge .name {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .current-student-badge .class {
+            font-size: 12px;
+            color: var(--accent-green-light);
+        }
+        .btn-clear-student {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: var(--accent-red-light);
+            border-radius: var(--radius-sm);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-clear-student:hover {
+            background: rgba(239,68,68,0.2);
+        }
 
-### 3-yo'l: Lokal server
-```bash
-cd MS_deploy
-python3 -m http.server 8000
-```
-Brauzerda: http://localhost:8000
+        /* ===== QUESTION TABS ===== */
+        .question-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .q-tab {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .q-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-blue);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+        .q-tab.active {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-glow-blue);
+        }
+        .q-tab.active::before {
+            opacity: 1;
+        }
+        .q-tab:hover {
+            border-color: rgba(59,130,246,0.5);
+        }
+        .q-tab-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-blue-light);
+        }
+        .q-tab-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        .q-tab-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+        .q-tab.scored .q-tab-score {
+            color: var(--accent-green-light);
+        }
 
-## 📁 Fayllar
-- `index.html` — asosiy sahifa
-- `style.css` — dizayn
-- `app.js` — dastur logikasi (Gemini API)
-- `K.Baholash.docx` — baholash mezonlari
+        /* ===== QUESTION PANEL ===== */
+        .question-panel {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+        }
+        .question-panel.active {
+            display: block;
+        }
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .panel-title {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        .panel-score-display {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .panel-score-current {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-blue-light);
+        }
+        .panel-score-max {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
 
-## ⚠️ Muhim
-- `file://` protokolida ishlamaydi (CORS xatosi)
-- Faqat `http://` yoki `https://` orqali oching
+        /* Sub-question count */
+        .config-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .config-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        .config-item label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .config-item input, .config-item textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .config-item input:focus, .config-item textarea:focus {
+            border-color: var(--accent-blue);
+        }
+        .config-item textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* Criteria */
+        .criteria-section {
+            margin-bottom: 18px;
+        }
+        .criteria-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .criteria-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .criteria-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+        }
+        .criteria-item input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 13px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .criteria-item .btn-remove {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 2px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .criteria-item .btn-remove:hover { opacity: 1; }
+        .btn-add-criteria {
+            background: rgba(59,130,246,0.1);
+            border: 1px dashed rgba(59,130,246,0.4);
+            color: var(--accent-blue-light);
+            border-radius: var(--radius-sm);
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 6px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-add-criteria:hover {
+            background: rgba(59,130,246,0.15);
+        }
+
+        /* Upload area */
+        .upload-section {
+            margin-top: 18px;
+        }
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 32px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+        }
+        .upload-area:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59,130,246,0.03);
+        }
+        .upload-area.has-file {
+            border-color: var(--accent-green);
+            background: rgba(16,185,129,0.05);
+        }
+        .upload-area input[type="file"] {
+            display: none;
+        }
+        .upload-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+        .upload-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .upload-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .upload-preview {
+            display: none;
+            margin-top: 14px;
+        }
+        .upload-preview.active {
+            display: block;
+        }
+        .upload-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+        .btn-remove-file {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(239,68,68,0.9);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: none;
+        }
+        .upload-area.has-file .btn-remove-file {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .upload-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        .upload-btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .upload-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue-light);
+        }
+
+        /* Analyze button */
+        .btn-analyze {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-blue);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-analyze:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(59,130,246,0.3);
+        }
+        .btn-analyze:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-analyze.loading {
+            position: relative;
+            color: transparent;
+        }
+        .btn-analyze.loading::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Result display in panel */
+        .panel-result {
+            display: none;
+            margin-top: 18px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+        }
+        .panel-result.active {
+            display: block;
+        }
+        .panel-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .panel-result-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-green-light);
+        }
+        .panel-result-details {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        /* ===== FINAL RESULTS SECTION ===== */
+        .results-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+        }
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .results-title {
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .score-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        @media (max-width: 500px) {
+            .score-cards { grid-template-columns: 1fr; }
+        }
+        .score-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+        }
+        .score-card-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .score-card-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        .score-card-value span {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .total-score-bar {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .total-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        .total-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--accent-green-light);
+        }
+        .total-value span {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-green);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        .btn-save-result {
+            padding: 12px 24px;
+            background: var(--gradient-green);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-save-result:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-glow-green);
+        }
+        .btn-save-result:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-reset {
+            padding: 12px 24px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: var(--radius);
+            color: var(--accent-red-light);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-reset:hover {
+            background: rgba(239,68,68,0.2);
+        }
+        .results-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== STUDENTS TABLE SECTION ===== */
+        .table-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+        }
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .table-title {
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .table-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-export {
+            padding: 8px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-export:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue-light);
+        }
+        .btn-clear-all {
+            padding: 8px 16px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: var(--radius-sm);
+            color: var(--accent-red-light);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-clear-all:hover {
+            background: rgba(239,68,68,0.2);
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .search-bar:focus {
+            border-color: var(--accent-blue);
+        }
+        .search-wrapper {
+            position: relative;
+        }
+        .search-wrapper::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+        .results-table-container {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        .results-table thead {
+            background: var(--bg-input);
+        }
+        .results-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .results-table th.center, .results-table td.center {
+            text-align: center;
+        }
+        .results-table tbody tr {
+            border-bottom: 1px solid rgba(42,53,80,0.5);
+            transition: background 0.15s;
+        }
+        .results-table tbody tr:hover {
+            background: rgba(59,130,246,0.04);
+        }
+        .results-table td {
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        .results-table .td-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .results-table .td-name {
+            font-weight: 600;
+        }
+        .results-table .td-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .td-score.high { color: var(--accent-green-light); }
+        .td-score.medium { color: var(--accent-yellow); }
+        .td-score.low { color: var(--accent-red-light); }
+        .results-table .td-total {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 16px;
+        }
+        .td-grade {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .grade-5 { background: rgba(16,185,129,0.15); color: var(--accent-green-light); }
+        .grade-4 { background: rgba(59,130,246,0.15); color: var(--accent-blue-light); }
+        .grade-3 { background: rgba(245,158,11,0.15); color: var(--accent-yellow); }
+        .grade-2 { background: rgba(239,68,68,0.15); color: var(--accent-red-light); }
+        .td-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .btn-delete-row {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.4;
+            transition: opacity 0.2s;
+            padding: 4px;
+        }
+        .btn-delete-row:hover { opacity: 1; }
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        .empty-state-text {
+            font-size: 14px;
+        }
+        .table-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .stat-item strong {
+            color: var(--accent-blue-light);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ===== API MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            margin-bottom: 14px;
+        }
+        .modal input:focus {
+            border-color: var(--accent-blue);
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .modal-link {
+            display: block;
+            margin-bottom: 14px;
+            color: var(--accent-blue-light);
+            font-size: 13px;
+            text-decoration: none;
+        }
+        .modal-link:hover { text-decoration: underline; }
+        .btn-modal {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-modal-primary {
+            background: var(--gradient-blue);
+            color: white;
+        }
+        .btn-modal-secondary {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            left: 24px;
+            max-width: 560px;
+            margin-left: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--accent-green);
+            border-radius: var(--radius);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.error {
+            border-color: var(--accent-red);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+    <div class="header-inner">
+        <div class="header-brand">
+            <div class="header-icon">⚗️</div>
+            <div>
+                <div class="header-title">Kimyo Baholash</div>
+                <div class="header-subtitle">Milliy Sertifikat Tizimi</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="header-score" id="headerScore">0 / 75</div>
+            <button class="btn-api" onclick="openApiModal()" title="API kalit">🔑</button>
+        </div>
+    </div>
+</header>
+
+<div class="app-container">
+
+    <!-- STUDENT INPUT -->
+    <section class="student-section">
+        <div class="student-section-title">
+            <div class="icon">👤</div>
+            O'quvchi ma'lumotlari
+        </div>
+        <div class="student-form">
+            <div class="form-group">
+                <label>Ism</label>
+                <input type="text" id="studentFirstName" placeholder="Masalan: Ali">
+            </div>
+            <div class="form-group">
+                <label>Familiya</label>
+                <input type="text" id="studentLastName" placeholder="Masalan: Valiyev">
+            </div>
+            <div class="form-group">
+                <label>Sinf / Guruh</label>
+                <input type="text" id="studentClass" placeholder="Masalan: 11-A">
+            </div>
+            <button class="btn-add-student" onclick="setStudent()">
+                ✓ Tasdiqlash
+            </button>
+        </div>
+        <div class="current-student-badge" id="currentStudentBadge">
+            <div class="avatar" id="studentAvatar">A</div>
+            <div class="info">
+                <div class="name" id="studentDisplayName">—</div>
+                <div class="class" id="studentDisplayClass">—</div>
+            </div>
+            <button class="btn-clear-student" onclick="clearStudent()">✕ Tozalash</button>
+        </div>
+    </section>
+
+    <!-- QUESTION TABS -->
+    <div class="question-tabs">
+        <div class="q-tab active" onclick="switchTab(0)" id="tab0">
+            <div class="q-tab-num">41</div>
+            <div class="q-tab-label">Savol</div>
+            <div class="q-tab-score" id="tabScore0">0/25</div>
+        </div>
+        <div class="q-tab" onclick="switchTab(1)" id="tab1">
+            <div class="q-tab-num">42</div>
+            <div class="q-tab-label">Savol</div>
+            <div class="q-tab-score" id="tabScore1">0/25</div>
+        </div>
+        <div class="q-tab" onclick="switchTab(2)" id="tab2">
+            <div class="q-tab-num">43</div>
+            <div class="q-tab-label">Savol</div>
+            <div class="q-tab-score" id="tabScore2">0/25</div>
+        </div>
+    </div>
+
+    <!-- QUESTION PANELS -->
+    <div class="question-panel active" id="panel0">
+        <div class="panel-header">
+            <div class="panel-title">41-Savol</div>
+            <div class="panel-score-display">
+                <span class="panel-score-current" id="score0">0</span>
+                <span class="panel-score-max">/ 25</span>
+            </div>
+        </div>
+        <div class="config-row">
+            <div class="config-item">
+                <label>📚 Mavzu</label>
+                <input type="text" id="topic0" placeholder="Masalan: Organik kimyo">
+            </div>
+            <div class="config-item" style="max-width:120px">
+                <label>Savolchalar</label>
+                <input type="number" id="subCount0" value="5" min="1" max="10">
+            </div>
+        </div>
+        <div class="config-row">
+            <div class="config-item">
+                <label>❓ Savol matni</label>
+                <textarea id="question0" placeholder="Savol matnini kiriting..."></textarea>
+            </div>
+        </div>
+        <div class="criteria-section">
+            <div class="criteria-title">📋 Baholash mezonlari</div>
+            <div class="criteria-list" id="criteria0"></div>
+            <button class="btn-add-criteria" onclick="addCriteria(0)">+ Qo'shish</button>
+        </div>
+        <div class="upload-section">
+            <div class="upload-area" id="upload0" onclick="document.getElementById('file0').click()">
+                <input type="file" id="file0" accept="image/*,.pdf" onchange="handleFile(0, this)">
+                <button class="btn-remove-file" onclick="removeFile(0, event)">✕</button>
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Javob rasmini yuklang</div>
+                <div class="upload-hint">Rasm yoki PDF • Kamera yoki fayl</div>
+                <div class="upload-preview" id="preview0">
+                    <img id="previewImg0" src="">
+                </div>
+            </div>
+        </div>
+        <button class="btn-analyze" onclick="analyzeQuestion(0)" id="btnAnalyze0">
+            🔬 Tahlil qilish
+        </button>
+        <div class="panel-result" id="result0">
+            <div class="panel-result-header">
+                <span style="font-weight:700;color:var(--text-secondary)">AI Natijasi</span>
+                <span class="panel-result-score" id="resultScore0">0/25</span>
+            </div>
+            <div class="panel-result-details" id="resultDetails0"></div>
+        </div>
+    </div>
+
+    <div class="question-panel" id="panel1">
+        <div class="panel-header">
+            <div class="panel-title">42-Savol</div>
+            <div class="panel-score-display">
+                <span class="panel-score-current" id="score1">0</span>
+                <span class="panel-score-max">/ 25</span>
+            </div>
+        </div>
+        <div class="config-row">
+            <div class="config-item">
+                <label>📚 Mavzu</label>
+                <input type="text" id="topic1" placeholder="Masalan: Anorganik kimyo">
+            </div>
+            <div class="config-item" style="max-width:120px">
+                <label>Reaksiyalar</label>
+                <input type="number" id="subCount1" value="5" min="1" max="10">
+            </div>
+        </div>
+        <div class="config-row">
+            <div class="config-item">
+                <label>❓ Savol matni</label>
+                <textarea id="question1" placeholder="Savol matnini kiriting..."></textarea>
+            </div>
+        </div>
+        <div class="criteria-section">
+            <div class="criteria-title">📋 Baholash mezonlari</div>
+            <div class="criteria-list" id="criteria1"></div>
+            <button class="btn-add-criteria" onclick="addCriteria(1)">+ Qo'shish</button>
+        </div>
+        <div class="upload-section">
+            <div class="upload-area" id="upload1" onclick="document.getElementById('file1').click()">
+                <input type="file" id="file1" accept="image/*,.pdf" onchange="handleFile(1, this)">
+                <button class="btn-remove-file" onclick="removeFile(1, event)">✕</button>
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Javob rasmini yuklang</div>
+                <div class="upload-hint">Rasm yoki PDF • Kamera yoki fayl</div>
+                <div class="upload-preview" id="preview1">
+                    <img id="previewImg1" src="">
+                </div>
+            </div>
+        </div>
+        <button class="btn-analyze" onclick="analyzeQuestion(1)" id="btnAnalyze1">
+            🔬 Tahlil qilish
+        </button>
+        <div class="panel-result" id="result1">
+            <div class="panel-result-header">
+                <span style="font-weight:700;color:var(--text-secondary)">AI Natijasi</span>
+                <span class="panel-result-score" id="resultScore1">0/25</span>
+            </div>
+            <div class="panel-result-details" id="resultDetails1"></div>
+        </div>
+    </div>
+
+    <div class="question-panel" id="panel2">
+        <div class="panel-header">
+            <div class="panel-title">43-Savol</div>
+            <div class="panel-score-display">
+                <span class="panel-score-current" id="score2">0</span>
+                <span class="panel-score-max">/ 25</span>
+            </div>
+        </div>
+        <div class="config-row">
+            <div class="config-item">
+                <label>📚 Mavzu</label>
+                <input type="text" id="topic2" placeholder="Masalan: Umumiy kimyo">
+            </div>
+            <div class="config-item" style="max-width:120px">
+                <label>Savolchalar</label>
+                <input type="number" id="subCount2" value="5" min="1" max="10">
+            </div>
+        </div>
+        <div class="config-row">
+            <div class="config-item">
+                <label>❓ Savol matni</label>
+                <textarea id="question2" placeholder="Savol matnini kiriting..."></textarea>
+            </div>
+        </div>
+        <div class="criteria-section">
+            <div class="criteria-title">📋 Baholash mezonlari</div>
+            <div class="criteria-list" id="criteria2"></div>
+            <button class="btn-add-criteria" onclick="addCriteria(2)">+ Qo'shish</button>
+        </div>
+        <div class="upload-section">
+            <div class="upload-area" id="upload2" onclick="document.getElementById('file2').click()">
+                <input type="file" id="file2" accept="image/*,.pdf" onchange="handleFile(2, this)">
+                <button class="btn-remove-file" onclick="removeFile(2, event)">✕</button>
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Javob rasmini yuklang</div>
+                <div class="upload-hint">Rasm yoki PDF • Kamera yoki fayl</div>
+                <div class="upload-preview" id="preview2">
+                    <img id="previewImg2" src="">
+                </div>
+            </div>
+        </div>
+        <button class="btn-analyze" onclick="analyzeQuestion(2)" id="btnAnalyze2">
+            🔬 Tahlil qilish
+        </button>
+        <div class="panel-result" id="result2">
+            <div class="panel-result-header">
+                <span style="font-weight:700;color:var(--text-secondary)">AI Natijasi</span>
+                <span class="panel-result-score" id="resultScore2">0/25</span>
+            </div>
+            <div class="panel-result-details" id="resultDetails2"></div>
+        </div>
+    </div>
+
+    <!-- FINAL RESULTS -->
+    <section class="results-section">
+        <div class="results-header">
+            <div class="results-title">📊 Yakuniy Natija</div>
+            <div class="results-actions">
+                <button class="btn-save-result" id="btnSave" onclick="saveResult()" disabled>
+                    💾 Natijani saqlash
+                </button>
+                <button class="btn-reset" onclick="resetAll()">🔄 Qayta boshlash</button>
+            </div>
+        </div>
+        <div class="score-cards">
+            <div class="score-card">
+                <div class="score-card-label">41-Savol</div>
+                <div class="score-card-value" id="finalScore0">0<span>/25</span></div>
+            </div>
+            <div class="score-card">
+                <div class="score-card-label">42-Savol</div>
+                <div class="score-card-value" id="finalScore1">0<span>/25</span></div>
+            </div>
+            <div class="score-card">
+                <div class="score-card-label">43-Savol</div>
+                <div class="score-card-value" id="finalScore2">0<span>/25</span></div>
+            </div>
+        </div>
+        <div class="total-score-bar">
+            <span class="total-label">Umumiy ball</span>
+            <span class="total-value" id="totalScore">0<span> / 75</span></span>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+    </section>
+
+    <!-- STUDENTS TABLE -->
+    <section class="table-section">
+        <div class="table-header">
+            <div class="table-title">📋 O'quvchilar natijalari</div>
+            <div class="table-controls">
+                <button class="btn-export" onclick="exportCSV()">📥 CSV yuklash</button>
+                <button class="btn-clear-all" onclick="clearAllResults()">🗑 Hammasini tozalash</button>
+            </div>
+        </div>
+        <div class="search-wrapper">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Ism, familiya yoki sinf bo'yicha qidirish..." oninput="renderTable()">
+        </div>
+        <div class="results-table-container">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Ism-Familiya</th>
+                        <th>Sinf</th>
+                        <th class="center">41</th>
+                        <th class="center">42</th>
+                        <th class="center">43</th>
+                        <th class="center">Jami</th>
+                        <th class="center">Baho</th>
+                        <th>Sana</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+        <div class="empty-state" id="emptyState">
+            <div class="empty-state-icon">📝</div>
+            <div class="empty-state-text">Hali natijalar yo'q. O'quvchi ma'lumotlarini kiritib, savollarni baholang.</div>
+        </div>
+        <div class="table-stats" id="tableStats" style="display:none">
+            <div class="stat-item">Jami o'quvchilar: <strong id="statCount">0</strong></div>
+            <div class="stat-item">O'rtacha ball: <strong id="statAvg">0</strong></div>
+            <div class="stat-item">Eng yuqori: <strong id="statMax">0</strong></div>
+            <div class="stat-item">Eng past: <strong id="statMin">0</strong></div>
+        </div>
+    </section>
+</div>
+
+<!-- API MODAL -->
+<div class="modal-overlay" id="apiModal">
+    <div class="modal">
+        <div class="modal-title">🔑 API sozlamalari</div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px">
+            Rasmlarni tahlil qilish uchun Google Gemini API kaliti kerak.
+        </p>
+        <div class="form-group" style="margin-bottom:12px">
+            <label>API kalit</label>
+            <input type="text" id="apiKeyInput" placeholder="AIzaSy..." style="width:100%;padding:10px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;font-family:'JetBrains Mono',monospace;outline:none;">
+            <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Kalit "AIza..." bilan boshlanadi • Saqlashda avtomatik tekshiriladi</div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+            <label>AI Model</label>
+            <select id="modelSelect" style="width:100%;padding:10px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;outline:none;font-family:'Inter',sans-serif;">
+                <option value="gemini-2.0-flash">Gemini 2.0 Flash (tez, kvota kam)</option>
+                <option value="gemini-1.5-flash">Gemini 1.5 Flash (barqaror, kvota ko'p)</option>
+                <option value="gemini-2.0-flash-lite">Gemini 2.0 Flash Lite (juda tez)</option>
+                <option value="gemini-1.5-pro">Gemini 1.5 Pro (sifatli, kvota kam)</option>
+            </select>
+        </div>
+        <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--accent-yellow);line-height:1.5">
+            💡 <strong>Kvota tugadimi?</strong> Modelni <strong>gemini-1.5-flash</strong> ga almashtiring — bepul kvotasi ko'proq. Yoki 1-2 daqiqa kutib qayta urining.
+        </div>
+        <a class="modal-link" href="https://aistudio.google.com/apikey" target="_blank">
+            🔗 Bepul API kalit olish (Google AI Studio)
+        </a>
+        <div class="modal-actions">
+            <button class="btn-modal btn-modal-secondary" onclick="closeApiModal()">Bekor</button>
+            <button class="btn-modal btn-modal-primary" onclick="saveApiKey()">Saqlash</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+    // ===== STATE =====
+    let scores = [0, 0, 0];
+    let fileData = [null, null, null];
+    let currentStudent = null;
+    let results = JSON.parse(localStorage.getItem('kimyo_results') || '[]');
+    let apiKey = localStorage.getItem('gemini_api_key') || '';
+    let selectedModel = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', () => {
+        renderTable();
+        if (!apiKey) openApiModal();
+        document.getElementById('apiKeyInput').value = apiKey;
+        document.getElementById('modelSelect').value = selectedModel;
+    });
+
+    // ===== STUDENT =====
+    function setStudent() {
+        const first = document.getElementById('studentFirstName').value.trim();
+        const last = document.getElementById('studentLastName').value.trim();
+        const cls = document.getElementById('studentClass').value.trim();
+        if (!first || !last) {
+            showToast('❌ Ism va familiyani kiriting!', true);
+            return;
+        }
+        currentStudent = { firstName: first, lastName: last, class: cls || '—' };
+        const badge = document.getElementById('currentStudentBadge');
+        badge.classList.add('active');
+        document.getElementById('studentAvatar').textContent = first[0].toUpperCase();
+        document.getElementById('studentDisplayName').textContent = `${first} ${last}`;
+        document.getElementById('studentDisplayClass').textContent = cls || '—';
+        document.getElementById('btnSave').disabled = false;
+        showToast(`✅ ${first} ${last} tanlandi`);
+    }
+
+    function clearStudent() {
+        currentStudent = null;
+        document.getElementById('currentStudentBadge').classList.remove('active');
+        document.getElementById('studentFirstName').value = '';
+        document.getElementById('studentLastName').value = '';
+        document.getElementById('studentClass').value = '';
+        document.getElementById('btnSave').disabled = true;
+    }
+
+    // ===== TABS =====
+    function switchTab(idx) {
+        document.querySelectorAll('.q-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+        document.querySelectorAll('.question-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+    }
+
+    // ===== CRITERIA =====
+    function addCriteria(qIdx) {
+        const list = document.getElementById(`criteria${qIdx}`);
+        const item = document.createElement('div');
+        item.className = 'criteria-item';
+        item.innerHTML = `
+            <input type="text" placeholder="Mezonni kiriting..." onkeydown="if(event.key==='Enter')addCriteria(${qIdx})">
+            <button class="btn-remove" onclick="this.parentElement.remove()">✕</button>
+        `;
+        list.appendChild(item);
+        item.querySelector('input').focus();
+    }
+
+    // ===== FILE UPLOAD =====
+    function handleFile(idx, input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const base64 = e.target.result.split(',')[1];
+            const mimeType = file.type;
+            fileData[idx] = { base64, mimeType, name: file.name };
+
+            const area = document.getElementById(`upload${idx}`);
+            area.classList.add('has-file');
+            
+            if (mimeType.startsWith('image/')) {
+                const preview = document.getElementById(`preview${idx}`);
+                document.getElementById(`previewImg${idx}`).src = e.target.result;
+                preview.classList.add('active');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function removeFile(idx, event) {
+        event.stopPropagation();
+        fileData[idx] = null;
+        document.getElementById(`file${idx}`).value = '';
+        document.getElementById(`upload${idx}`).classList.remove('has-file');
+        document.getElementById(`preview${idx}`).classList.remove('active');
+    }
+
+    // ===== ANALYZE =====
+    async function analyzeQuestion(idx) {
+        if (!apiKey) { openApiModal(); return; }
+        if (!fileData[idx]) { showToast('❌ Avval rasmni yuklang!', true); return; }
+
+        const btn = document.getElementById(`btnAnalyze${idx}`);
+        btn.classList.add('loading');
+        btn.disabled = true;
+
+        const qNum = 41 + idx;
+        const topic = document.getElementById(`topic${idx}`).value.trim();
+        const question = document.getElementById(`question${idx}`).value.trim();
+        const subCount = parseInt(document.getElementById(`subCount${idx}`).value) || 5;
+
+        // Gather criteria
+        const criteriaInputs = document.querySelectorAll(`#criteria${idx} input`);
+        const criteria = Array.from(criteriaInputs).map(i => i.value.trim()).filter(Boolean);
+
+        const ballPerSub = 25 / subCount;
+
+        let prompt = `Sen kimyo fani o'qituvchisisan. O'quvchining ${qNum}-savol javobini tahlil qil.
+
+SAVOL MA'LUMOTLARI:
+- Savol raqami: ${qNum}
+- Jami ball: 25
+${topic ? `- Mavzu: ${topic}` : ''}
+${question ? `- Savol: ${question}` : ''}
+- Savolchalar/reaksiyalar soni: ${subCount}
+- Har bir savolcha: ${ballPerSub.toFixed(1)} ball
+
+${criteria.length > 0 ? `BAHOLASH MEZONLARI:\n${criteria.map((c,i) => `${i+1}. ${c}`).join('\n')}` : ''}
+
+MUHIM: Javobni quyidagi formatda ber:
+1. Har bir savolchani alohida tahlil qil
+2. Har biriga ball ber (0 dan ${ballPerSub.toFixed(1)} gacha)
+3. Eng oxirida FAQAT shu formatda yoz: **BALL: X/25** (X — umumiy ball, butun son)
+
+O'quvchi javob rasmini tahlil qil va baholashtir.`;
+
+        try {
+            const body = {
+                contents: [{
+                    parts: [
+                        {
+                            inline_data: {
+                                mime_type: fileData[idx].mimeType,
+                                data: fileData[idx].base64
+                            }
+                        },
+                        { text: prompt }
+                    ]
+                }]
+            };
+
+            let modelToUse = selectedModel;
+            let resp, data;
+            let success = false;
+
+            // Build unique model list (no duplicates)
+            const fallbackModels = [selectedModel, 'gemini-1.5-flash', 'gemini-2.0-flash-lite', 'gemini-2.0-flash']
+                .filter((m, i, arr) => arr.indexOf(m) === i);
+
+            for (let m = 0; m < fallbackModels.length && !success; m++) {
+                modelToUse = fallbackModels[m];
+                
+                // For each model, try up to 2 times (with delay on retry)
+                for (let retry = 0; retry < 2 && !success; retry++) {
+                    if (retry > 0 || m > 0) {
+                        const waitSec = retry > 0 ? 5 : 2;
+                        btn.classList.remove('loading');
+                        btn.innerHTML = `⏳ ${modelToUse} ${retry > 0 ? '(qayta)' : ''} — ${waitSec}s...`;
+                        btn.style.cssText = 'width:100%;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:not-allowed;background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);';
+                        await new Promise(r => setTimeout(r, waitSec * 1000));
+                        btn.innerHTML = `🔬 ${modelToUse} bilan tahlil...`;
+                    }
+
+                    resp = await fetch(
+                        `https://generativelanguage.googleapis.com/v1beta/models/${modelToUse}:generateContent?key=${apiKey}`,
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(body)
+                        }
+                    );
+
+                    data = await resp.json();
+
+                    if (!data.error) {
+                        success = true;
+                        break;
+                    }
+
+                    const errMsg = (data.error.message || '').toLowerCase();
+                    const isQuotaError = errMsg.includes('quota') || errMsg.includes('rate') || errMsg.includes('limit') || resp.status === 429;
+                    
+                    if (isQuotaError) {
+                        // On first attempt of this model, retry with delay
+                        if (retry === 0) continue;
+                        // On second attempt, move to next model
+                        break;
+                    } else {
+                        // Non-quota error — don't retry, throw immediately
+                        let uzMsg = data.error.message;
+                        if (errMsg.includes('api key') || errMsg.includes('invalid') || errMsg.includes('api_key')) {
+                            uzMsg = 'API kalit noto\'g\'ri! 🔑 tugmasini bosib to\'g\'ri kalitni kiriting.';
+                        } else if (errMsg.includes('not found')) {
+                            uzMsg = `"${modelToUse}" modeli topilmadi. Boshqa modelni tanlang.`;
+                        } else if (errMsg.includes('safety') || errMsg.includes('block')) {
+                            uzMsg = 'AI xavfsizlik filtri ishga tushdi. Boshqa rasm yuklang.';
+                        }
+                        throw new Error(uzMsg);
+                    }
+                }
+            }
+
+            if (!success) {
+                throw new Error('API kvotasi tugagan! Yechimlar:\n• 1-2 daqiqa kutib qayta urining\n• Google AI Studio dan yangi API kalit oling\n• Boshqa Google hisobdan kalit yarating');
+            }
+
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+            if (!text) {
+                throw new Error('AI javob bermadi. Rasmni qayta yuklang yoki boshqa rasm ishlating.');
+            }
+
+            // Restore button
+            btn.innerHTML = '🔬 Tahlil qilish';
+            btn.style.cssText = '';
+
+            // Extract score
+            const scoreMatch = text.match(/\*?\*?BALL:\s*(\d+)\s*\/\s*25\*?\*?/i);
+            let extractedScore = scoreMatch ? parseInt(scoreMatch[1]) : 0;
+            extractedScore = Math.min(25, Math.max(0, extractedScore));
+
+            scores[idx] = extractedScore;
+            updateScoreDisplays();
+
+            // Show result
+            const resultDiv = document.getElementById(`result${idx}`);
+            resultDiv.classList.add('active');
+            document.getElementById(`resultScore${idx}`).textContent = `${extractedScore}/25`;
+            document.getElementById(`resultDetails${idx}`).textContent = text;
+
+            showToast(`✅ ${qNum}-savol tahlil qilindi: ${extractedScore}/25 (${modelToUse})`);
+
+        } catch (err) {
+            const isQuota = err.message.includes('kvotasi tugagan') || err.message.includes('kvota');
+            showToast(`❌ ${err.message}`, true);
+            
+            if (isQuota) {
+                // Show countdown on button for 60 seconds
+                btn.disabled = true;
+                btn.classList.remove('loading');
+                let countdown = 60;
+                const originalText = btn.innerHTML;
+                const timer = setInterval(() => {
+                    countdown--;
+                    btn.innerHTML = `⏳ Kvota tiklanmoqda... ${countdown}s`;
+                    btn.style.background = 'rgba(245,158,11,0.2)';
+                    btn.style.border = '1px solid rgba(245,158,11,0.4)';
+                    btn.style.color = '#f59e0b';
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        btn.innerHTML = '🔬 Qayta urinish';
+                        btn.style.background = '';
+                        btn.style.border = '';
+                        btn.style.color = '';
+                        btn.disabled = false;
+                        showToast('✅ Kvota tiklangan bo\'lishi mumkin. Qayta urining!');
+                    }
+                }, 1000);
+                return; // skip finally to keep custom button state
+            }
+        } finally {
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            if (!btn.innerHTML.includes('⏳')) {
+                btn.innerHTML = '🔬 Tahlil qilish';
+                btn.style.cssText = '';
+            }
+        }
+    }
+
+    // ===== SCORE UPDATES =====
+    function updateScoreDisplays() {
+        const total = scores[0] + scores[1] + scores[2];
+
+        for (let i = 0; i < 3; i++) {
+            document.getElementById(`score${i}`).textContent = scores[i];
+            document.getElementById(`tabScore${i}`).textContent = `${scores[i]}/25`;
+            document.getElementById(`finalScore${i}`).innerHTML = `${scores[i]}<span>/25</span>`;
+
+            const tab = document.getElementById(`tab${i}`);
+            tab.classList.toggle('scored', scores[i] > 0);
+        }
+
+        document.getElementById('totalScore').innerHTML = `${total}<span> / 75</span>`;
+        document.getElementById('headerScore').textContent = `${total} / 75`;
+        document.getElementById('progressBar').style.width = `${(total / 75) * 100}%`;
+    }
+
+    // ===== SAVE RESULT =====
+    function saveResult() {
+        if (!currentStudent) {
+            showToast('❌ O\'quvchi tanlanmagan!', true);
+            return;
+        }
+        const total = scores[0] + scores[1] + scores[2];
+        const entry = {
+            id: Date.now(),
+            firstName: currentStudent.firstName,
+            lastName: currentStudent.lastName,
+            class: currentStudent.class,
+            scores: [...scores],
+            total: total,
+            grade: getGrade(total),
+            date: new Date().toLocaleString('uz-UZ')
+        };
+        results.unshift(entry);
+        localStorage.setItem('kimyo_results', JSON.stringify(results));
+        renderTable();
+        showToast(`✅ ${entry.firstName} ${entry.lastName} natijasi saqlandi!`);
+    }
+
+    function getGrade(total) {
+        if (total >= 64) return 5;
+        if (total >= 49) return 4;
+        if (total >= 34) return 3;
+        return 2;
+    }
+
+    function getGradeLabel(g) {
+        if (g === 5) return "A'lo";
+        if (g === 4) return "Yaxshi";
+        if (g === 3) return "Qoniqarli";
+        return "Qoniqarsiz";
+    }
+
+    // ===== TABLE =====
+    function renderTable() {
+        const search = (document.getElementById('searchBar')?.value || '').toLowerCase();
+        const filtered = results.filter(r => {
+            const fullName = `${r.firstName} ${r.lastName}`.toLowerCase();
+            return fullName.includes(search) || (r.class || '').toLowerCase().includes(search);
+        });
+
+        const tbody = document.getElementById('tableBody');
+        const empty = document.getElementById('emptyState');
+        const stats = document.getElementById('tableStats');
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '';
+            empty.style.display = 'block';
+            stats.style.display = 'none';
+            return;
+        }
+
+        empty.style.display = 'none';
+        stats.style.display = 'flex';
+
+        tbody.innerHTML = filtered.map((r, i) => {
+            const scoreClass = (s) => s >= 20 ? 'high' : s >= 13 ? 'medium' : 'low';
+            const totalClass = r.total >= 64 ? 'high' : r.total >= 49 ? 'medium' : 'low';
+            return `<tr>
+                <td class="td-num">${i + 1}</td>
+                <td class="td-name">${r.firstName} ${r.lastName}</td>
+                <td>${r.class}</td>
+                <td class="center td-score ${scoreClass(r.scores[0])}">${r.scores[0]}</td>
+                <td class="center td-score ${scoreClass(r.scores[1])}">${r.scores[1]}</td>
+                <td class="center td-score ${scoreClass(r.scores[2])}">${r.scores[2]}</td>
+                <td class="center td-total ${totalClass}">${r.total}/75</td>
+                <td class="center"><span class="td-grade grade-${r.grade}">${r.grade} - ${getGradeLabel(r.grade)}</span></td>
+                <td class="td-date">${r.date}</td>
+                <td><button class="btn-delete-row" onclick="deleteResult(${r.id})">🗑</button></td>
+            </tr>`;
+        }).join('');
+
+        // Stats
+        const totals = filtered.map(r => r.total);
+        document.getElementById('statCount').textContent = filtered.length;
+        document.getElementById('statAvg').textContent = (totals.reduce((a, b) => a + b, 0) / totals.length).toFixed(1);
+        document.getElementById('statMax').textContent = Math.max(...totals);
+        document.getElementById('statMin').textContent = Math.min(...totals);
+    }
+
+    function deleteResult(id) {
+        if (!confirm("Bu natijani o'chirmoqchimisiz?")) return;
+        results = results.filter(r => r.id !== id);
+        localStorage.setItem('kimyo_results', JSON.stringify(results));
+        renderTable();
+        showToast('🗑 Natija o\'chirildi');
+    }
+
+    function clearAllResults() {
+        if (!confirm("Barcha natijalarni o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi!")) return;
+        results = [];
+        localStorage.setItem('kimyo_results', JSON.stringify(results));
+        renderTable();
+        showToast('🗑 Barcha natijalar tozalandi');
+    }
+
+    // ===== EXPORT CSV =====
+    function exportCSV() {
+        if (results.length === 0) {
+            showToast('❌ Eksport qilish uchun natijalar yo\'q', true);
+            return;
+        }
+        const header = '№,Ism,Familiya,Sinf,41-savol,42-savol,43-savol,Jami,Baho,Sana\n';
+        const rows = results.map((r, i) =>
+            `${i+1},${r.firstName},${r.lastName},${r.class},${r.scores[0]},${r.scores[1]},${r.scores[2]},${r.total},${r.grade},${r.date}`
+        ).join('\n');
+
+        const BOM = '\uFEFF';
+        const blob = new Blob([BOM + header + rows], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `kimyo_natijalar_${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('📥 CSV fayl yuklandi');
+    }
+
+    // ===== RESET =====
+    function resetAll() {
+        scores = [0, 0, 0];
+        fileData = [null, null, null];
+        updateScoreDisplays();
+
+        for (let i = 0; i < 3; i++) {
+            document.getElementById(`file${i}`).value = '';
+            document.getElementById(`upload${i}`).classList.remove('has-file');
+            document.getElementById(`preview${i}`).classList.remove('active');
+            document.getElementById(`result${i}`).classList.remove('active');
+            document.getElementById(`topic${i}`).value = '';
+            document.getElementById(`question${i}`).value = '';
+            document.getElementById(`subCount${i}`).value = '5';
+            document.getElementById(`criteria${i}`).innerHTML = '';
+        }
+        switchTab(0);
+        showToast('🔄 Hammasi tozalandi');
+    }
+
+    // ===== API MODAL =====
+    function openApiModal() {
+        document.getElementById('apiModal').classList.add('active');
+        document.getElementById('apiKeyInput').value = apiKey;
+    }
+    function closeApiModal() {
+        document.getElementById('apiModal').classList.remove('active');
+    }
+    async function saveApiKey() {
+        const key = document.getElementById('apiKeyInput').value.trim();
+        if (!key) { showToast('❌ API kalit kiriting!', true); return; }
+        
+        // Save model selection
+        selectedModel = document.getElementById('modelSelect').value;
+        localStorage.setItem('gemini_model', selectedModel);
+
+        // Test the API key
+        const saveBtn = document.querySelector('.btn-modal-primary');
+        const origText = saveBtn.textContent;
+        saveBtn.textContent = '⏳ Tekshirilmoqda...';
+        saveBtn.disabled = true;
+
+        try {
+            const testResp = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${key}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: 'Say OK' }] }]
+                    })
+                }
+            );
+            const testData = await testResp.json();
+
+            if (testData.error) {
+                const errMsg = (testData.error.message || '').toLowerCase();
+                if (errMsg.includes('api key') || errMsg.includes('invalid') || errMsg.includes('api_key_invalid') || testResp.status === 400) {
+                    showToast('❌ API kalit noto\'g\'ri! Kalitni tekshirib qayta kiriting.\n\n💡 To\'g\'ri kalit "AIza..." bilan boshlanadi.', true);
+                    return;
+                } else if (errMsg.includes('quota') || errMsg.includes('rate') || errMsg.includes('limit') || testResp.status === 429) {
+                    // Key is valid but quota exceeded — still save it
+                    apiKey = key;
+                    localStorage.setItem('gemini_api_key', key);
+                    closeApiModal();
+                    showToast('⚠️ Kalit to\'g\'ri, lekin kvota hozir tugagan. 1-2 daqiqa kutib tahlil qiling.', true);
+                    return;
+                } else if (errMsg.includes('permission') || errMsg.includes('denied') || errMsg.includes('enable')) {
+                    showToast('❌ Bu kalitda Gemini API yoqilmagan!\n\n💡 Google AI Studio → API kalit → "Generative Language API" ni yoqing.', true);
+                    return;
+                } else {
+                    // Unknown error but key might still work
+                    apiKey = key;
+                    localStorage.setItem('gemini_api_key', key);
+                    closeApiModal();
+                    showToast(`⚠️ Kalit saqlandi, lekin xatolik bor: ${testData.error.message}`, true);
+                    return;
+                }
+            }
+
+            // Success!
+            apiKey = key;
+            localStorage.setItem('gemini_api_key', key);
+            closeApiModal();
+            showToast(`✅ API kalit to'g'ri va ishlayapti! (${selectedModel})`);
+
+        } catch (networkErr) {
+            // Network error — save anyway
+            apiKey = key;
+            localStorage.setItem('gemini_api_key', key);
+            closeApiModal();
+            showToast('⚠️ Kalit saqlandi (internet tekshirib bo\'lmadi)', true);
+        } finally {
+            saveBtn.textContent = origText;
+            saveBtn.disabled = false;
+        }
+    }
+
+    // ===== TOAST =====
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        toast.innerHTML = msg.replace(/\n/g, '<br>');
+        toast.className = `toast show ${isError ? 'error' : ''}`;
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), isError ? 8000 : 3000);
+    }
+</script>
+</body>
+</html>
