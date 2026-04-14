@@ -1115,6 +1115,52 @@
 
         /* Org selector */
         .org-btn {
+
+        /* Mini upload cards */
+        .mini-upload {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.25s;
+            overflow: hidden;
+        }
+        .mini-upload:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59,130,246,0.03);
+        }
+        .mini-upload.has-file {
+            border-style: solid;
+            border-color: var(--accent-green);
+            background: rgba(16,185,129,0.05);
+        }
+        .mini-upload-inner {
+            padding: 16px 10px;
+            text-align: center;
+            position: relative;
+        }
+        .mini-upload input[type="file"] { display: none; }
+        .mini-remove-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(239,68,68,0.9);
+            border: none;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        @media (max-width: 500px) {
+            .three-uploads { grid-template-columns: 1fr !important; }
+        }
+
+        /* Org selector */
+        .org-btn {
             flex: 1;
             padding: 12px 16px;
             background: var(--bg-input);
@@ -1139,6 +1185,414 @@
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* ===== MODE SWITCHER ===== */
+        .mode-switcher {
+            display: flex;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .mode-btn.active {
+            background: var(--gradient-blue);
+            color: white;
+            box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+        }
+        .mode-btn:not(.active):hover {
+            background: rgba(59,130,246,0.08);
+            color: var(--accent-blue-light);
+        }
+        .mode-content { display: none; }
+        .mode-content.active { display: block; }
+
+        /* ===== TEST SECTION ===== */
+        .test-config-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+        }
+        .test-config-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-orange);
+        }
+        .test-type-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .test-type-btn {
+            flex: 1;
+            padding: 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .test-type-btn.active {
+            border-color: var(--accent-orange);
+            background: rgba(249,115,22,0.1);
+            color: var(--accent-orange);
+            box-shadow: 0 0 20px rgba(249,115,22,0.1);
+        }
+        .test-type-btn:not(.active):hover {
+            border-color: rgba(249,115,22,0.4);
+        }
+        .test-type-btn .tt-icon { font-size: 24px; margin-bottom: 4px; }
+        .test-type-btn .tt-label { font-size: 13px; }
+        .test-type-btn .tt-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+
+        /* Answer key input */
+        .answer-key-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+        }
+        .answer-key-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-green-light);
+        }
+        .answer-key-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .answer-grid {
+            display: grid;
+            gap: 8px;
+        }
+        .answer-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(42,53,80,0.5);
+        }
+        .answer-row:last-child { border-bottom: none; }
+        .answer-row-num {
+            min-width: 36px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .answer-row-ball {
+            min-width: 60px;
+        }
+        .answer-row-ball input {
+            width: 56px;
+            padding: 6px 8px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--accent-yellow);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+        }
+        .answer-row-ball input:focus {
+            border-color: var(--accent-yellow);
+        }
+        .answer-options {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+        }
+        .answer-opt {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .answer-opt:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue-light);
+        }
+        .answer-opt.selected {
+            border-color: var(--accent-green);
+            background: rgba(16,185,129,0.15);
+            color: var(--accent-green-light);
+            box-shadow: 0 0 8px rgba(16,185,129,0.15);
+        }
+        .answer-row-written {
+            flex: 1;
+        }
+        .answer-row-written input {
+            width: 100%;
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 13px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .answer-row-written input:focus {
+            border-color: var(--accent-purple);
+        }
+        .answer-row-tag {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .tag-abcde {
+            background: rgba(59,130,246,0.12);
+            color: var(--accent-blue-light);
+        }
+        .tag-yozma {
+            background: rgba(139,92,246,0.12);
+            color: var(--accent-purple);
+        }
+        .answer-section-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-purple);
+        }
+        .answer-section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(139,92,246,0.3);
+        }
+
+        /* Student answer input */
+        .student-answer-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+        }
+        .sa-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-blue-light);
+        }
+        .sa-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(42,53,80,0.5);
+        }
+        .sa-row:last-child { border-bottom: none; }
+        .sa-row-num {
+            min-width: 36px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .sa-opt {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .sa-opt:hover {
+            border-color: var(--accent-blue);
+        }
+        .sa-opt.selected {
+            border-color: var(--accent-blue);
+            background: rgba(59,130,246,0.15);
+            color: var(--accent-blue-light);
+        }
+        /* Result states */
+        .sa-row.correct { background: rgba(16,185,129,0.06); }
+        .sa-row.wrong { background: rgba(239,68,68,0.06); }
+        .sa-row.partial { background: rgba(245,158,11,0.06); }
+        .sa-row .sa-result-icon {
+            font-size: 18px;
+            min-width: 28px;
+            text-align: center;
+            display: none;
+        }
+        .sa-row.correct .sa-result-icon,
+        .sa-row.wrong .sa-result-icon,
+        .sa-row.partial .sa-result-icon { display: block; }
+        .sa-row .sa-result-ball {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            min-width: 44px;
+            text-align: center;
+            display: none;
+        }
+        .sa-row.correct .sa-result-ball { display: block; color: var(--accent-green-light); }
+        .sa-row.wrong .sa-result-ball { display: block; color: var(--accent-red-light); }
+        .sa-row.partial .sa-result-ball { display: block; color: var(--accent-yellow); }
+
+        .test-check-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 24px;
+            font-family: 'Inter', sans-serif;
+        }
+        .test-check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(249,115,22,0.3);
+        }
+        .test-check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Test result summary */
+        .test-result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+            display: none;
+        }
+        .test-result-card.active { display: block; }
+        .test-result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .test-result-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 900;
+        }
+        .test-result-max {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+        .test-result-percent {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+        .test-result-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .test-stat-item {
+            text-align: center;
+            padding: 14px 10px;
+            background: var(--bg-input);
+            border-radius: var(--radius-sm);
+        }
+        .test-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 800;
+        }
+        .test-stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 600;
+        }
+        .test-reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: var(--radius-sm);
+            color: var(--accent-red-light);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        @media (max-width: 480px) {
+            .answer-opt, .sa-opt { width: 34px; height: 34px; font-size: 12px; }
+            .answer-row-ball input { width: 48px; font-size: 12px; }
+            .test-result-stats { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -1161,6 +1615,15 @@
 </header>
 
 <div class="app-container">
+
+    <!-- MODE SWITCHER -->
+    <div class="mode-switcher">
+        <button class="mode-btn active" onclick="switchMode('ai')" id="modeAI">🔬 AI Baholash (41-43)</button>
+        <button class="mode-btn" onclick="switchMode('test')" id="modeTest">📝 Test Tekshirish</button>
+    </div>
+
+    <!-- ===== AI MODE (existing) ===== -->
+    <div class="mode-content active" id="modeContentAI">
 
     <!-- STUDENT INPUT -->
     <section class="student-section">
@@ -1247,28 +1710,58 @@
                 <input type="number" id="subCount0" value="5" min="1" max="10">
             </div>
         </div>
-        <div class="config-row">
+        <!-- 3 ta rasm yuklash -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" class="three-uploads">
+            <!-- 1. Savol rasmi -->
+            <div class="mini-upload" onclick="document.getElementById('questionFile0').click()">
+                <input type="file" id="questionFile0" accept="image/*" onchange="handleQuestionImage(0, this)" style="display:none">
+                <div class="mini-upload-inner" id="qUpload0">
+                    <div style="font-size:24px">📄</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-purple)">Savol rasmi</div>
+                    <div style="font-size:10px;color:var(--text-muted)">ixtiyoriy</div>
+                    <div id="questionPreview0" style="display:none;margin-top:6px">
+                        <img id="questionImg0" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeQuestionImage(0);event.stopPropagation()" id="qRemove0" style="display:none">✕</button>
+                </div>
+            </div>
+            <!-- 2. To'g'ri yechim -->
+            <div class="mini-upload" onclick="document.getElementById('solutionFile0').click()">
+                <input type="file" id="solutionFile0" accept="image/*" onchange="handleSolutionImage(0, this)" style="display:none">
+                <div class="mini-upload-inner" id="sUpload0">
+                    <div style="font-size:24px">✅</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-green-light)">To'g'ri yechim</div>
+                    <div style="font-size:10px;color:var(--text-muted)">ustoz yechimi</div>
+                    <div id="solutionPreview0" style="display:none;margin-top:6px">
+                        <img id="solutionImg0" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeSolutionImage(0);event.stopPropagation()" id="sRemove0" style="display:none">✕</button>
+                </div>
+            </div>
+            <!-- 3. O'quvchi javob -->
+            <div class="mini-upload" onclick="document.getElementById('file0').click()">
+                <input type="file" id="file0" accept="image/*,.pdf" onchange="handleFile(0, this)">
+                <div class="mini-upload-inner" id="upload0">
+                    <div style="font-size:24px">📝</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-blue-light)">O'quvchi javob</div>
+                    <div style="font-size:10px;color:var(--text-muted)">majburiy</div>
+                    <div class="upload-preview" id="preview0" style="display:none;margin-top:6px">
+                        <img id="previewImg0" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeFile(0,event);event.stopPropagation()" id="fRemove0" style="display:none">✕</button>
+                </div>
+            </div>
+        </div>
+        <div class="config-row" style="margin-bottom:12px">
             <div class="config-item">
-                <label>❓ Savol matni</label>
-                <textarea id="question0" placeholder="Savol matnini kiriting..."></textarea>
+                <label>📋 Qo'shimcha mezonlar va izoh</label>
+                <textarea id="question0" placeholder="Qo'shimcha izoh yoki baholash mezonlari..." style="min-height:40px"></textarea>
             </div>
         </div>
         <div class="criteria-section">
             <div class="criteria-title">📋 Baholash mezonlari</div>
             <div class="criteria-list" id="criteria0"></div>
             <button class="btn-add-criteria" onclick="addCriteria(0)">+ Qo'shish</button>
-        </div>
-        <div class="upload-section">
-            <div class="upload-area" id="upload0" onclick="document.getElementById('file0').click()">
-                <input type="file" id="file0" accept="image/*,.pdf" onchange="handleFile(0, this)">
-                <button class="btn-remove-file" onclick="removeFile(0, event)">✕</button>
-                <div class="upload-icon">📷</div>
-                <div class="upload-text">Javob rasmini yuklang</div>
-                <div class="upload-hint">Rasm yoki PDF • Kamera yoki fayl</div>
-                <div class="upload-preview" id="preview0">
-                    <img id="previewImg0" src="">
-                </div>
-            </div>
         </div>
         <button class="btn-analyze" onclick="analyzeQuestion(0)" id="btnAnalyze0">
             🔬 Tahlil qilish
@@ -1300,28 +1793,58 @@
                 <input type="number" id="subCount1" value="5" min="1" max="10">
             </div>
         </div>
-        <div class="config-row">
+        <!-- 3 ta rasm yuklash -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" class="three-uploads">
+            <!-- 1. Savol rasmi -->
+            <div class="mini-upload" onclick="document.getElementById('questionFile1').click()">
+                <input type="file" id="questionFile1" accept="image/*" onchange="handleQuestionImage(1, this)" style="display:none">
+                <div class="mini-upload-inner" id="qUpload1">
+                    <div style="font-size:24px">📄</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-purple)">Savol rasmi</div>
+                    <div style="font-size:10px;color:var(--text-muted)">ixtiyoriy</div>
+                    <div id="questionPreview1" style="display:none;margin-top:6px">
+                        <img id="questionImg1" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeQuestionImage(1);event.stopPropagation()" id="qRemove1" style="display:none">✕</button>
+                </div>
+            </div>
+            <!-- 2. To'g'ri yechim -->
+            <div class="mini-upload" onclick="document.getElementById('solutionFile1').click()">
+                <input type="file" id="solutionFile1" accept="image/*" onchange="handleSolutionImage(1, this)" style="display:none">
+                <div class="mini-upload-inner" id="sUpload1">
+                    <div style="font-size:24px">✅</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-green-light)">To'g'ri yechim</div>
+                    <div style="font-size:10px;color:var(--text-muted)">ustoz yechimi</div>
+                    <div id="solutionPreview1" style="display:none;margin-top:6px">
+                        <img id="solutionImg1" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeSolutionImage(1);event.stopPropagation()" id="sRemove1" style="display:none">✕</button>
+                </div>
+            </div>
+            <!-- 3. O'quvchi javob -->
+            <div class="mini-upload" onclick="document.getElementById('file1').click()">
+                <input type="file" id="file1" accept="image/*,.pdf" onchange="handleFile(1, this)">
+                <div class="mini-upload-inner" id="upload1">
+                    <div style="font-size:24px">📝</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-blue-light)">O'quvchi javob</div>
+                    <div style="font-size:10px;color:var(--text-muted)">majburiy</div>
+                    <div class="upload-preview" id="preview1" style="display:none;margin-top:6px">
+                        <img id="previewImg1" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeFile(1,event);event.stopPropagation()" id="fRemove1" style="display:none">✕</button>
+                </div>
+            </div>
+        </div>
+        <div class="config-row" style="margin-bottom:12px">
             <div class="config-item">
-                <label>❓ Savol matni</label>
-                <textarea id="question1" placeholder="Savol matnini kiriting..."></textarea>
+                <label>📋 Qo'shimcha mezonlar va izoh</label>
+                <textarea id="question1" placeholder="Qo'shimcha izoh yoki baholash mezonlari..." style="min-height:40px"></textarea>
             </div>
         </div>
         <div class="criteria-section">
             <div class="criteria-title">📋 Baholash mezonlari</div>
             <div class="criteria-list" id="criteria1"></div>
             <button class="btn-add-criteria" onclick="addCriteria(1)">+ Qo'shish</button>
-        </div>
-        <div class="upload-section">
-            <div class="upload-area" id="upload1" onclick="document.getElementById('file1').click()">
-                <input type="file" id="file1" accept="image/*,.pdf" onchange="handleFile(1, this)">
-                <button class="btn-remove-file" onclick="removeFile(1, event)">✕</button>
-                <div class="upload-icon">📷</div>
-                <div class="upload-text">Javob rasmini yuklang</div>
-                <div class="upload-hint">Rasm yoki PDF • Kamera yoki fayl</div>
-                <div class="upload-preview" id="preview1">
-                    <img id="previewImg1" src="">
-                </div>
-            </div>
         </div>
         <button class="btn-analyze" onclick="analyzeQuestion(1)" id="btnAnalyze1">
             🔬 Tahlil qilish
@@ -1353,28 +1876,58 @@
                 <input type="number" id="subCount2" value="5" min="1" max="10">
             </div>
         </div>
-        <div class="config-row">
+        <!-- 3 ta rasm yuklash -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" class="three-uploads">
+            <!-- 1. Savol rasmi -->
+            <div class="mini-upload" onclick="document.getElementById('questionFile2').click()">
+                <input type="file" id="questionFile2" accept="image/*" onchange="handleQuestionImage(2, this)" style="display:none">
+                <div class="mini-upload-inner" id="qUpload2">
+                    <div style="font-size:24px">📄</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-purple)">Savol rasmi</div>
+                    <div style="font-size:10px;color:var(--text-muted)">ixtiyoriy</div>
+                    <div id="questionPreview2" style="display:none;margin-top:6px">
+                        <img id="questionImg2" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeQuestionImage(2);event.stopPropagation()" id="qRemove2" style="display:none">✕</button>
+                </div>
+            </div>
+            <!-- 2. To'g'ri yechim -->
+            <div class="mini-upload" onclick="document.getElementById('solutionFile2').click()">
+                <input type="file" id="solutionFile2" accept="image/*" onchange="handleSolutionImage(2, this)" style="display:none">
+                <div class="mini-upload-inner" id="sUpload2">
+                    <div style="font-size:24px">✅</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-green-light)">To'g'ri yechim</div>
+                    <div style="font-size:10px;color:var(--text-muted)">ustoz yechimi</div>
+                    <div id="solutionPreview2" style="display:none;margin-top:6px">
+                        <img id="solutionImg2" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeSolutionImage(2);event.stopPropagation()" id="sRemove2" style="display:none">✕</button>
+                </div>
+            </div>
+            <!-- 3. O'quvchi javob -->
+            <div class="mini-upload" onclick="document.getElementById('file2').click()">
+                <input type="file" id="file2" accept="image/*,.pdf" onchange="handleFile(2, this)">
+                <div class="mini-upload-inner" id="upload2">
+                    <div style="font-size:24px">📝</div>
+                    <div style="font-size:12px;font-weight:700;color:var(--accent-blue-light)">O'quvchi javob</div>
+                    <div style="font-size:10px;color:var(--text-muted)">majburiy</div>
+                    <div class="upload-preview" id="preview2" style="display:none;margin-top:6px">
+                        <img id="previewImg2" src="" style="max-width:100%;max-height:80px;border-radius:6px">
+                    </div>
+                    <button class="mini-remove-btn" onclick="removeFile(2,event);event.stopPropagation()" id="fRemove2" style="display:none">✕</button>
+                </div>
+            </div>
+        </div>
+        <div class="config-row" style="margin-bottom:12px">
             <div class="config-item">
-                <label>❓ Savol matni</label>
-                <textarea id="question2" placeholder="Savol matnini kiriting..."></textarea>
+                <label>📋 Qo'shimcha mezonlar va izoh</label>
+                <textarea id="question2" placeholder="Qo'shimcha izoh yoki baholash mezonlari..." style="min-height:40px"></textarea>
             </div>
         </div>
         <div class="criteria-section">
             <div class="criteria-title">📋 Baholash mezonlari</div>
             <div class="criteria-list" id="criteria2"></div>
             <button class="btn-add-criteria" onclick="addCriteria(2)">+ Qo'shish</button>
-        </div>
-        <div class="upload-section">
-            <div class="upload-area" id="upload2" onclick="document.getElementById('file2').click()">
-                <input type="file" id="file2" accept="image/*,.pdf" onchange="handleFile(2, this)">
-                <button class="btn-remove-file" onclick="removeFile(2, event)">✕</button>
-                <div class="upload-icon">📷</div>
-                <div class="upload-text">Javob rasmini yuklang</div>
-                <div class="upload-hint">Rasm yoki PDF • Kamera yoki fayl</div>
-                <div class="upload-preview" id="preview2">
-                    <img id="previewImg2" src="">
-                </div>
-            </div>
         </div>
         <button class="btn-analyze" onclick="analyzeQuestion(2)" id="btnAnalyze2">
             🔬 Tahlil qilish
@@ -1467,9 +2020,93 @@
             <div class="stat-item">Eng past: <strong id="statMin">0</strong></div>
         </div>
     </section>
-</div>
+    </div><!-- end modeContentAI -->
 
-<!-- SHEETS MODAL -->
+    <!-- ===== TEST MODE ===== -->
+    <div class="mode-content" id="modeContentTest">
+        
+        <!-- Test turi tanlash -->
+        <div class="test-config-card">
+            <div class="test-config-title">📋 Test sozlamalari</div>
+            <div class="test-type-selector">
+                <button class="test-type-btn active" onclick="selectTestType('small')" id="ttSmall">
+                    <div class="tt-icon">📄</div>
+                    <div class="tt-label">Kichik guruh</div>
+                    <div class="tt-desc">1—20 savol</div>
+                </button>
+                <button class="test-type-btn" onclick="selectTestType('big')" id="ttBig">
+                    <div class="tt-icon">📚</div>
+                    <div class="tt-label">Katta guruh</div>
+                    <div class="tt-desc">1—25 savol</div>
+                </button>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <div style="flex:1;min-width:200px;font-size:13px;color:var(--text-secondary);line-height:1.6">
+                    <span id="testTypeInfo">
+                        <strong style="color:var(--accent-orange)">Kichik guruh:</strong> 
+                        1—17 → ABCDE variantli &nbsp;|&nbsp; 18—20 → o'quvchi o'zi yozadi
+                    </span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <span style="font-size:12px;color:var(--text-muted);font-weight:600">Jami ball:</span>
+                    <span id="testTotalBallDisplay" style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:900;color:var(--accent-orange)">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- To'g'ri javoblar kaliti -->
+        <div class="answer-key-section">
+            <div class="answer-key-title">✅ To'g'ri javoblar kaliti</div>
+            <div class="answer-key-subtitle">Har bir savolning to'g'ri javobini va ballini kiriting</div>
+            <div class="answer-grid" id="answerKeyGrid">
+                <!-- JS fills this -->
+            </div>
+        </div>
+
+        <!-- O'quvchi javoblari -->
+        <div class="student-answer-section">
+            <div class="sa-title">📝 O'quvchi javoblari</div>
+            <div class="answer-grid" id="studentAnswerGrid">
+                <!-- JS fills this -->
+            </div>
+        </div>
+
+        <!-- Tekshirish tugmasi -->
+        <button class="test-check-btn" onclick="checkTestAnswers()" id="btnCheckTest">
+            ✅ Tekshirish
+        </button>
+
+        <!-- Natija -->
+        <div class="test-result-card" id="testResultCard">
+            <div class="test-result-header">
+                <div>
+                    <span class="test-result-score" id="testResultScore">0</span>
+                    <span class="test-result-max" id="testResultMax">/ 0</span>
+                </div>
+                <div class="test-result-percent" id="testResultPercent" style="color:var(--accent-green-light)">0%</div>
+            </div>
+            <div class="test-result-stats">
+                <div class="test-stat-item">
+                    <div class="test-stat-value" style="color:var(--accent-green-light)" id="testStatCorrect">0</div>
+                    <div class="test-stat-label">✅ To'g'ri</div>
+                </div>
+                <div class="test-stat-item">
+                    <div class="test-stat-value" style="color:var(--accent-yellow)" id="testStatPartial">0</div>
+                    <div class="test-stat-label">⚠️ Qisman</div>
+                </div>
+                <div class="test-stat-item">
+                    <div class="test-stat-value" style="color:var(--accent-red-light)" id="testStatWrong">0</div>
+                    <div class="test-stat-label">❌ Noto'g'ri</div>
+                </div>
+            </div>
+            <div style="margin-top:16px">
+                <button class="test-reset-btn" onclick="resetTest()">🔄 Qayta boshlash</button>
+            </div>
+        </div>
+
+    </div><!-- end modeContentTest -->
+
+</div>
 <div class="modal-overlay" id="sheetModal">
     <div class="modal" style="max-width:540px">
         <div class="modal-title">📊 Google Sheets ulash</div>
@@ -1552,6 +2189,8 @@
     // ===== STATE =====
     let scores = [0, 0, 0];
     let fileData = [null, null, null];
+    let questionImageData = [null, null, null]; // savol rasmlari
+    let solutionImageData = [null, null, null]; // to'g'ri yechim rasmlari
     let currentStudent = null;
     let results = JSON.parse(localStorage.getItem('kimyo_results') || '[]');
     let apiKey = localStorage.getItem('gemini_api_key') || '';
@@ -1823,27 +2462,71 @@
         const reader = new FileReader();
         reader.onload = (e) => {
             const base64 = e.target.result.split(',')[1];
-            const mimeType = file.type;
-            fileData[idx] = { base64, mimeType, name: file.name };
-
-            const area = document.getElementById(`upload${idx}`);
-            area.classList.add('has-file');
-            
-            if (mimeType.startsWith('image/')) {
-                const preview = document.getElementById(`preview${idx}`);
-                document.getElementById(`previewImg${idx}`).src = e.target.result;
-                preview.classList.add('active');
-            }
+            fileData[idx] = { base64, mimeType: file.type, name: file.name };
+            const preview = document.getElementById(`preview${idx}`);
+            document.getElementById(`previewImg${idx}`).src = e.target.result;
+            preview.style.display = 'block';
+            document.getElementById(`upload${idx}`).parentElement.classList.add('has-file');
+            document.getElementById(`fRemove${idx}`).style.display = 'flex';
         };
         reader.readAsDataURL(file);
     }
 
     function removeFile(idx, event) {
-        event.stopPropagation();
+        if (event) event.stopPropagation();
         fileData[idx] = null;
         document.getElementById(`file${idx}`).value = '';
-        document.getElementById(`upload${idx}`).classList.remove('has-file');
-        document.getElementById(`preview${idx}`).classList.remove('active');
+        document.getElementById(`preview${idx}`).style.display = 'none';
+        document.getElementById(`upload${idx}`).parentElement.classList.remove('has-file');
+        document.getElementById(`fRemove${idx}`).style.display = 'none';
+    }
+
+    // ===== QUESTION IMAGE =====
+    function handleQuestionImage(idx, input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const base64 = e.target.result.split(',')[1];
+            questionImageData[idx] = { base64, mimeType: file.type };
+            document.getElementById(`questionImg${idx}`).src = e.target.result;
+            document.getElementById(`questionPreview${idx}`).style.display = 'block';
+            document.getElementById(`qUpload${idx}`).parentElement.classList.add('has-file');
+            document.getElementById(`qRemove${idx}`).style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function removeQuestionImage(idx) {
+        questionImageData[idx] = null;
+        document.getElementById(`questionFile${idx}`).value = '';
+        document.getElementById(`questionPreview${idx}`).style.display = 'none';
+        document.getElementById(`qUpload${idx}`).parentElement.classList.remove('has-file');
+        document.getElementById(`qRemove${idx}`).style.display = 'none';
+    }
+
+    // ===== SOLUTION IMAGE =====
+    function handleSolutionImage(idx, input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const base64 = e.target.result.split(',')[1];
+            solutionImageData[idx] = { base64, mimeType: file.type };
+            document.getElementById(`solutionImg${idx}`).src = e.target.result;
+            document.getElementById(`solutionPreview${idx}`).style.display = 'block';
+            document.getElementById(`sUpload${idx}`).parentElement.classList.add('has-file');
+            document.getElementById(`sRemove${idx}`).style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function removeSolutionImage(idx) {
+        solutionImageData[idx] = null;
+        document.getElementById(`solutionFile${idx}`).value = '';
+        document.getElementById(`solutionPreview${idx}`).style.display = 'none';
+        document.getElementById(`sUpload${idx}`).parentElement.classList.remove('has-file');
+        document.getElementById(`sRemove${idx}`).style.display = 'none';
     }
 
     // ===== ANALYZE =====
@@ -1866,130 +2549,130 @@
 
         const ballPerSub = 10 / subCount;
 
-        let prompt = `Sen kimyo fani o'qituvchisisan. O'quvchining ${qNum}-savol javobini tahlil qil.
-
-SAVOL MA'LUMOTLARI:
-- Savol raqami: ${qNum}
-- Jami ball: 10
-${topic ? `- Mavzu: ${topic}` : ''}
-${question ? `- Savol: ${question}` : ''}
-- Savolchalar/reaksiyalar soni: ${subCount}
-- Har bir savolcha: ${ballPerSub.toFixed(1)} ball
-
-${criteria.length > 0 ? `BAHOLASH MEZONLARI:\n${criteria.map((c,i) => `${i+1}. ${c}`).join('\n')}` : ''}
-
-MUHIM: Javobni quyidagi formatda ber:
-1. Har bir savolchani alohida tahlil qil
-2. Har biriga ball ber (0 dan ${ballPerSub.toFixed(1)} gacha)
-3. Eng oxirida FAQAT shu formatda yoz: **BALL: X/10** (X — umumiy ball, butun son)
-
-O'quvchi javob rasmini tahlil qil va baholashtir.`;
-
-        try {
-            const body = {
-                contents: [{
-                    parts: [
-                        {
-                            inline_data: {
-                                mime_type: fileData[idx].mimeType,
-                                data: fileData[idx].base64
-                            }
-                        },
-                        { text: prompt }
-                    ]
-                }]
-            };
-
-            let modelToUse = selectedModel;
-            let resp, data;
-            let success = false;
-
-            // Build unique model list (no duplicates)
-            const fallbackModels = [selectedModel, 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash']
+        // ===== 2-BOSQICHLI TEZ TEKSHIRUV =====
+        
+        // Helper: API ga so'rov yuborish
+        async function callGemini(parts) {
+            const body = { contents: [{ parts }] };
+            const fallbackModels = [selectedModel, 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']
                 .filter((m, i, arr) => arr.indexOf(m) === i);
-
-            for (let m = 0; m < fallbackModels.length && !success; m++) {
-                modelToUse = fallbackModels[m];
-                
-                // For each model, try up to 2 times (with delay on retry)
-                for (let retry = 0; retry < 2 && !success; retry++) {
-                    if (retry > 0 || m > 0) {
-                        const waitSec = retry > 0 ? 5 : 2;
-                        btn.classList.remove('loading');
-                        btn.innerHTML = `⏳ ${modelToUse} ${retry > 0 ? '(qayta)' : ''} — ${waitSec}s...`;
-                        btn.style.cssText = 'width:100%;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:not-allowed;background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);';
-                        await new Promise(r => setTimeout(r, waitSec * 1000));
-                        btn.innerHTML = `🔬 ${modelToUse} bilan tahlil...`;
-                    }
-
-                    resp = await fetch(
-                        `https://generativelanguage.googleapis.com/v1beta/models/${modelToUse}:generateContent?key=${apiKey}`,
-                        {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(body)
-                        }
+            
+            for (let m = 0; m < fallbackModels.length; m++) {
+                const model = fallbackModels[m];
+                for (let retry = 0; retry < 2; retry++) {
+                    if (retry > 0 || m > 0) await new Promise(r => setTimeout(r, retry > 0 ? 3000 : 1500));
+                    const resp = await fetch(
+                        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+                        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
                     );
-
-                    data = await resp.json();
-
+                    const data = await resp.json();
                     if (!data.error) {
-                        success = true;
-                        break;
+                        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                        return { text, model };
                     }
-
                     const errMsg = (data.error.message || '').toLowerCase();
-                    const isQuotaError = errMsg.includes('quota') || errMsg.includes('rate') || errMsg.includes('limit') || resp.status === 429;
-                    
-                    if (isQuotaError) {
-                        // On first attempt of this model, retry with delay
-                        if (retry === 0) continue;
-                        // On second attempt, move to next model
-                        break;
+                    if (errMsg.includes('quota') || errMsg.includes('rate') || errMsg.includes('limit') || resp.status === 429) {
+                        if (retry === 0) continue; else break;
                     } else {
-                        // Non-quota error — don't retry, throw immediately
-                        let uzMsg = data.error.message;
-                        if (errMsg.includes('api key') || errMsg.includes('invalid') || errMsg.includes('api_key')) {
-                            uzMsg = 'API kalit noto\'g\'ri! 🔑 tugmasini bosib to\'g\'ri kalitni kiriting.';
-                        } else if (errMsg.includes('not found')) {
-                            uzMsg = `"${modelToUse}" modeli topilmadi. Boshqa modelni tanlang.`;
-                        } else if (errMsg.includes('safety') || errMsg.includes('block')) {
-                            uzMsg = 'AI xavfsizlik filtri ishga tushdi. Boshqa rasm yuklang.';
-                        }
-                        throw new Error(uzMsg);
+                        throw new Error(data.error.message);
                     }
                 }
             }
+            throw new Error('API kvotasi tugagan! 1-2 daqiqa kutib qayta urining.');
+        }
 
-            if (!success) {
-                throw new Error('API kvotasi tugagan! Yechimlar:\n• 1-2 daqiqa kutib qayta urining\n• Google AI Studio dan yangi API kalit oling\n• Boshqa Google hisobdan kalit yarating');
+        try {
+            let step1Result = '', finalResult = '';
+            let modelUsed = '';
+
+            // ========== 1-BOSQICH: O'QI + SOLISHTIR ==========
+            btn.classList.remove('loading');
+            btn.innerHTML = '🔍 1/2: O\'qish va solishtirish...';
+            btn.style.cssText = 'width:100%;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:not-allowed;background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3);';
+
+            const step1Parts = [];
+            
+            if (questionImageData[idx]) {
+                step1Parts.push({ text: '📄 SAVOL (ball taqsimoti shu rasmda):' });
+                step1Parts.push({ inline_data: { mime_type: questionImageData[idx].mimeType, data: questionImageData[idx].base64 } });
             }
-
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-            if (!text) {
-                throw new Error('AI javob bermadi. Rasmni qayta yuklang yoki boshqa rasm ishlating.');
+            if (solutionImageData[idx]) {
+                step1Parts.push({ text: '✅ TO\'G\'RI YECHIM:' });
+                step1Parts.push({ inline_data: { mime_type: solutionImageData[idx].mimeType, data: solutionImageData[idx].base64 } });
             }
+            step1Parts.push({ text: '📝 O\'QUVCHI JAVOBI:' });
+            step1Parts.push({ inline_data: { mime_type: fileData[idx].mimeType, data: fileData[idx].base64 } });
+
+            step1Parts.push({ text: `Kimyo imtihoni ${qNum}-savol. ${topic ? 'Mavzu: ' + topic + '.' : ''} ${question || ''}
+
+VAZIFA: O'quvchi javob rasmidan har bir savolchani ANIQ O'QI va ${solutionImageData[idx] ? 'to\'g\'ri yechim bilan SOLISHTIR' : questionImageData[idx] ? 'savol rasmiga qarab tekshir' : 'o\'z bilimingga qarab tekshir'}.
+
+${criteria.length > 0 ? 'Mezonlar: ' + criteria.join('; ') : ''}
+
+HAR BIR SAVOLCHA UCHUN:
+- O'quvchi javobi: [rasmdan o'qilgan aniq javob]
+- To'g'ri javob: [${solutionImageData[idx] ? 'yechim rasmidan' : 'o\'z bilimingdan'}]  
+- Natija: ✅ TO'G'RI / ⚠️ QISMAN / ❌ NOTO'G'RI
+- Izoh: [qisqa sabab]
+
+Hech qanday ball berma — faqat o'qi va solishtir.` });
+
+            const r1 = await callGemini(step1Parts);
+            step1Result = r1.text;
+            modelUsed = r1.model;
+
+            // ========== 2-BOSQICH: BALL BERISH ==========
+            btn.innerHTML = '🎯 2/2: Ball berilmoqda...';
+            btn.style.cssText = 'width:100%;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:not-allowed;background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);';
+
+            const step2Parts = [];
+            if (questionImageData[idx]) {
+                step2Parts.push({ text: '📄 SAVOL RASMI (ball taqsimoti):' });
+                step2Parts.push({ inline_data: { mime_type: questionImageData[idx].mimeType, data: questionImageData[idx].base64 } });
+            }
+            step2Parts.push({ text: `Kimyo ${qNum}-savol. Jami: 10 ball.
+
+TEKSHIRUV NATIJASI:
+${step1Result}
+
+${questionImageData[idx] ? 'MUHIM: Savol rasmidagi ball taqsimotiga ANIQ amal qil!' : 'Ball taqsimoti: ' + subCount + ' ta savolcha, har biri ' + ballPerSub.toFixed(1) + ' ball'}
+
+QOIDALAR:
+✅ TO'G'RI = to'liq ball
+⚠️ QISMAN = yarim ball (formula to'g'ri hisob xato, yoki javob to'liqmas)
+❌ NOTO'G'RI = 0 ball
+
+FORMAT:
+1-savolcha ([X] ball): ✅/⚠️/❌ — [qisqa izoh]
+2-savolcha ([X] ball): ✅/⚠️/❌ — [qisqa izoh]
+...
+
+**BALL: [JAMI]/10**` });
+
+            const r2 = await callGemini(step2Parts);
+            finalResult = r2.text;
 
             // Restore button
             btn.innerHTML = '🔬 Tahlil qilish';
             btn.style.cssText = '';
 
-            // Extract score
-            const scoreMatch = text.match(/\*?\*?BALL:\s*(\d+)\s*\/\s*10\*?\*?/i);
+            // Extract score from step 3
+            const scoreMatch = finalResult.match(/\*?\*?BALL:\s*(\d+)\s*\/\s*10\*?\*?/i);
             let extractedScore = scoreMatch ? parseInt(scoreMatch[1]) : 0;
             extractedScore = Math.min(10, Math.max(0, extractedScore));
 
             scores[idx] = extractedScore;
             updateScoreDisplays();
 
-            // Show result
+            // Show result with all 3 steps
             const resultDiv = document.getElementById(`result${idx}`);
             resultDiv.classList.add('active');
             document.getElementById(`resultScore${idx}`).textContent = `${extractedScore}/10`;
-            document.getElementById(`resultDetails${idx}`).textContent = text;
+            document.getElementById(`resultDetails${idx}`).innerHTML = 
+                `<details style="margin-bottom:8px;cursor:pointer"><summary style="font-weight:700;color:var(--accent-purple);font-size:13px">🔍 1-bosqich: O'qish va solishtirish</summary><pre style="white-space:pre-wrap;font-size:12px;margin-top:6px;padding:8px;background:var(--bg-card);border-radius:6px">${step1Result}</pre></details>` +
+                `<div style="font-weight:700;color:var(--accent-green-light);font-size:13px;margin-bottom:6px">🎯 2-bosqich: Yakuniy baho</div><pre style="white-space:pre-wrap;font-size:13px">${finalResult}</pre>`;
 
-            showToast(`✅ ${qNum}-savol tahlil qilindi: ${extractedScore}/10 (${modelToUse})`);
+            showToast(`✅ ${qNum}-savol: ${extractedScore}/10 (${modelUsed})`);
 
         } catch (err) {
             const isQuota = err.message.includes('kvotasi tugagan') || err.message.includes('kvota');
@@ -2177,17 +2860,33 @@ O'quvchi javob rasmini tahlil qil va baholashtir.`;
     function resetAll() {
         scores = [0, 0, 0];
         fileData = [null, null, null];
+        questionImageData = [null, null, null];
+        solutionImageData = [null, null, null];
         updateScoreDisplays();
 
         for (let i = 0; i < 3; i++) {
             document.getElementById(`file${i}`).value = '';
-            document.getElementById(`upload${i}`).classList.remove('has-file');
-            document.getElementById(`preview${i}`).classList.remove('active');
+            document.getElementById(`preview${i}`).style.display = 'none';
             document.getElementById(`result${i}`).classList.remove('active');
             document.getElementById(`topic${i}`).value = '';
             document.getElementById(`question${i}`).value = '';
             document.getElementById(`subCount${i}`).value = '5';
             document.getElementById(`criteria${i}`).innerHTML = '';
+            // Clear question images
+            document.getElementById(`questionFile${i}`).value = '';
+            document.getElementById(`questionPreview${i}`).style.display = 'none';
+            // Clear solution images
+            document.getElementById(`solutionFile${i}`).value = '';
+            document.getElementById(`solutionPreview${i}`).style.display = 'none';
+            // Remove has-file classes and hide remove buttons
+            ['qUpload','sUpload','upload'].forEach(prefix => {
+                const el = document.getElementById(`${prefix}${i}`);
+                if (el && el.parentElement) el.parentElement.classList.remove('has-file');
+            });
+            ['qRemove','sRemove','fRemove'].forEach(prefix => {
+                const el = document.getElementById(`${prefix}${i}`);
+                if (el) el.style.display = 'none';
+            });
         }
         switchTab(0);
         showToast('🔄 Hammasi tozalandi');
@@ -2279,6 +2978,307 @@ O'quvchi javob rasmini tahlil qil va baholashtir.`;
         clearTimeout(toast._timer);
         toast._timer = setTimeout(() => toast.classList.remove('show'), isError ? 8000 : 3000);
     }
+
+    // ===== MODE SWITCHER =====
+    function switchMode(mode) {
+        document.getElementById('modeAI').classList.toggle('active', mode === 'ai');
+        document.getElementById('modeTest').classList.toggle('active', mode === 'test');
+        document.getElementById('modeContentAI').classList.toggle('active', mode === 'ai');
+        document.getElementById('modeContentTest').classList.toggle('active', mode === 'test');
+        // Update header score display
+        if (mode === 'test') {
+            document.getElementById('headerScore').style.display = 'none';
+        } else {
+            document.getElementById('headerScore').style.display = '';
+        }
+    }
+
+    // ===== TEST CHECKER =====
+    let testType = 'small'; // 'small' = 20, 'big' = 25
+    let testAnswerKey = {}; // { 1: { answer: 'A', ball: 2 }, 2: {...}, ... }
+    let testStudentAnswers = {}; // { 1: 'A', 2: 'B', ... }
+    let testChecked = false;
+
+    function getTestConfig() {
+        if (testType === 'small') {
+            return { total: 20, abcdeEnd: 17, writtenStart: 18 };
+        } else {
+            return { total: 25, abcdeEnd: 22, writtenStart: 23 };
+        }
+    }
+
+    function selectTestType(type) {
+        testType = type;
+        document.getElementById('ttSmall').classList.toggle('active', type === 'small');
+        document.getElementById('ttBig').classList.toggle('active', type === 'big');
+        
+        const cfg = getTestConfig();
+        if (type === 'small') {
+            document.getElementById('testTypeInfo').innerHTML = 
+                `<strong style="color:var(--accent-orange)">Kichik guruh:</strong> 1—${cfg.abcdeEnd} → ABCDE variantli &nbsp;|&nbsp; ${cfg.writtenStart}—${cfg.total} → o'quvchi o'zi yozadi`;
+        } else {
+            document.getElementById('testTypeInfo').innerHTML = 
+                `<strong style="color:var(--accent-orange)">Katta guruh:</strong> 1—${cfg.abcdeEnd} → ABCDE variantli &nbsp;|&nbsp; ${cfg.writtenStart}—${cfg.total} → o'quvchi o'zi yozadi`;
+        }
+        
+        testAnswerKey = {};
+        testStudentAnswers = {};
+        testChecked = false;
+        document.getElementById('testResultCard').classList.remove('active');
+        buildAnswerKeyGrid();
+        buildStudentAnswerGrid();
+    }
+
+    function buildAnswerKeyGrid() {
+        const cfg = getTestConfig();
+        const grid = document.getElementById('answerKeyGrid');
+        let html = '';
+        
+        // ABCDE section
+        for (let i = 1; i <= cfg.abcdeEnd; i++) {
+            html += `<div class="answer-row" id="akRow${i}">
+                <div class="answer-row-num">${i}.</div>
+                <span class="answer-row-tag tag-abcde">ABCDE</span>
+                <div class="answer-options">
+                    ${['A','B','C','D','E'].map(opt => 
+                        `<div class="answer-opt" onclick="selectAnswerKey(${i},'${opt}',this)" data-q="${i}">${opt}</div>`
+                    ).join('')}
+                </div>
+                <div class="answer-row-ball">
+                    <input type="number" value="1" min="0.5" max="10" step="0.5" onchange="setAnswerKeyBall(${i}, this.value)" title="Ball" id="akBall${i}">
+                </div>
+            </div>`;
+        }
+        
+        // Written section divider
+        html += `<div class="answer-section-divider">✍️ Yozma savollar (${cfg.writtenStart}—${cfg.total})</div>`;
+        
+        // Written section
+        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
+            html += `<div class="answer-row" id="akRow${i}">
+                <div class="answer-row-num">${i}.</div>
+                <span class="answer-row-tag tag-yozma">Yozma</span>
+                <div class="answer-row-written">
+                    <input type="text" placeholder="To'g'ri javobni kiriting..." onchange="setAnswerKeyWritten(${i}, this.value)" id="akWritten${i}">
+                </div>
+                <div class="answer-row-ball">
+                    <input type="number" value="2" min="0.5" max="10" step="0.5" onchange="setAnswerKeyBall(${i}, this.value)" title="Ball" id="akBall${i}">
+                </div>
+            </div>`;
+        }
+        
+        grid.innerHTML = html;
+        
+        // Initialize answer key with default balls
+        for (let i = 1; i <= cfg.abcdeEnd; i++) {
+            testAnswerKey[i] = { answer: null, ball: 1, type: 'abcde' };
+        }
+        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
+            testAnswerKey[i] = { answer: null, ball: 2, type: 'written' };
+        }
+        updateTotalBallDisplay();
+    }
+
+    function buildStudentAnswerGrid() {
+        const cfg = getTestConfig();
+        const grid = document.getElementById('studentAnswerGrid');
+        let html = '';
+        
+        // ABCDE section
+        for (let i = 1; i <= cfg.abcdeEnd; i++) {
+            html += `<div class="sa-row" id="saRow${i}">
+                <div class="sa-row-num">${i}.</div>
+                <div class="answer-options">
+                    ${['A','B','C','D','E'].map(opt => 
+                        `<div class="sa-opt" onclick="selectStudentAnswer(${i},'${opt}',this)" data-q="${i}">${opt}</div>`
+                    ).join('')}
+                </div>
+                <div class="sa-result-icon" id="saIcon${i}"></div>
+                <div class="sa-result-ball" id="saBall${i}"></div>
+            </div>`;
+        }
+        
+        // Written section divider
+        html += `<div class="answer-section-divider">✍️ Yozma savollar (${cfg.writtenStart}—${cfg.total})</div>`;
+        
+        // Written section
+        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
+            html += `<div class="sa-row" id="saRow${i}">
+                <div class="sa-row-num">${i}.</div>
+                <div class="answer-row-written">
+                    <input type="text" placeholder="O'quvchi javobini kiriting..." onchange="setStudentWritten(${i}, this.value)" id="saWritten${i}">
+                </div>
+                <div class="sa-result-icon" id="saIcon${i}"></div>
+                <div class="sa-result-ball" id="saBall${i}"></div>
+            </div>`;
+        }
+        
+        grid.innerHTML = html;
+        testStudentAnswers = {};
+    }
+
+    function selectAnswerKey(q, opt, el) {
+        // Deselect siblings
+        el.parentElement.querySelectorAll('.answer-opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        if (testAnswerKey[q]) testAnswerKey[q].answer = opt;
+    }
+
+    function setAnswerKeyBall(q, val) {
+        const ball = parseFloat(val) || 1;
+        if (testAnswerKey[q]) testAnswerKey[q].ball = ball;
+        updateTotalBallDisplay();
+    }
+
+    function setAnswerKeyWritten(q, val) {
+        if (testAnswerKey[q]) testAnswerKey[q].answer = val.trim();
+    }
+
+    function selectStudentAnswer(q, opt, el) {
+        el.parentElement.querySelectorAll('.sa-opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        testStudentAnswers[q] = opt;
+    }
+
+    function setStudentWritten(q, val) {
+        testStudentAnswers[q] = val.trim();
+    }
+
+    function updateTotalBallDisplay() {
+        let total = 0;
+        for (const q in testAnswerKey) {
+            total += (testAnswerKey[q].ball || 0);
+        }
+        document.getElementById('testTotalBallDisplay').textContent = total;
+    }
+
+    function checkTestAnswers() {
+        const cfg = getTestConfig();
+        let totalBall = 0;
+        let maxBall = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let partialCount = 0;
+        let unanswered = 0;
+
+        for (let i = 1; i <= cfg.total; i++) {
+            const key = testAnswerKey[i];
+            if (!key) continue;
+            
+            const row = document.getElementById(`saRow${i}`);
+            const iconEl = document.getElementById(`saIcon${i}`);
+            const ballEl = document.getElementById(`saBall${i}`);
+            
+            maxBall += key.ball;
+            const studentAns = testStudentAnswers[i];
+            
+            // Remove old classes
+            row.classList.remove('correct', 'wrong', 'partial');
+            
+            if (!studentAns || studentAns === '') {
+                // Unanswered
+                row.classList.add('wrong');
+                iconEl.textContent = '⬜';
+                ballEl.textContent = '0';
+                wrongCount++;
+                unanswered++;
+            } else if (key.type === 'abcde') {
+                if (!key.answer) {
+                    // No answer key set — skip
+                    iconEl.textContent = '❓';
+                    ballEl.textContent = '?';
+                } else if (studentAns === key.answer) {
+                    row.classList.add('correct');
+                    iconEl.textContent = '✅';
+                    ballEl.textContent = `+${key.ball}`;
+                    totalBall += key.ball;
+                    correctCount++;
+                } else {
+                    row.classList.add('wrong');
+                    iconEl.textContent = '❌';
+                    ballEl.textContent = '0';
+                    wrongCount++;
+                }
+            } else if (key.type === 'written') {
+                if (!key.answer || key.answer === '') {
+                    iconEl.textContent = '❓';
+                    ballEl.textContent = '?';
+                } else {
+                    // Compare written answers (case-insensitive, trim)
+                    const correct = key.answer.toLowerCase().replace(/\s+/g, ' ').trim();
+                    const student = studentAns.toLowerCase().replace(/\s+/g, ' ').trim();
+                    
+                    if (correct === student) {
+                        row.classList.add('correct');
+                        iconEl.textContent = '✅';
+                        ballEl.textContent = `+${key.ball}`;
+                        totalBall += key.ball;
+                        correctCount++;
+                    } else {
+                        // Check partial — if answer contains the correct or vice versa
+                        row.classList.add('wrong');
+                        iconEl.textContent = '❌';
+                        ballEl.textContent = '0';
+                        wrongCount++;
+                    }
+                }
+            }
+        }
+
+        // Show result card
+        const resultCard = document.getElementById('testResultCard');
+        resultCard.classList.add('active');
+        
+        document.getElementById('testResultScore').textContent = totalBall;
+        document.getElementById('testResultMax').textContent = `/ ${maxBall}`;
+        
+        const percent = maxBall > 0 ? Math.round((totalBall / maxBall) * 100) : 0;
+        const percentEl = document.getElementById('testResultPercent');
+        percentEl.textContent = `${percent}%`;
+        percentEl.style.color = percent >= 80 ? 'var(--accent-green-light)' : percent >= 50 ? 'var(--accent-yellow)' : 'var(--accent-red-light)';
+        
+        document.getElementById('testStatCorrect').textContent = correctCount;
+        document.getElementById('testStatPartial').textContent = partialCount;
+        document.getElementById('testStatWrong').textContent = wrongCount;
+        
+        testChecked = true;
+        showToast(`✅ Natija: ${totalBall}/${maxBall} (${percent}%)`);
+        
+        // Scroll to result
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function resetTest() {
+        testChecked = false;
+        testStudentAnswers = {};
+        document.getElementById('testResultCard').classList.remove('active');
+        
+        const cfg = getTestConfig();
+        for (let i = 1; i <= cfg.total; i++) {
+            const row = document.getElementById(`saRow${i}`);
+            if (row) row.classList.remove('correct', 'wrong', 'partial');
+            const icon = document.getElementById(`saIcon${i}`);
+            if (icon) icon.textContent = '';
+            const ball = document.getElementById(`saBall${i}`);
+            if (ball) ball.textContent = '';
+        }
+        
+        // Clear student ABCDE selections
+        document.querySelectorAll('#studentAnswerGrid .sa-opt').forEach(o => o.classList.remove('selected'));
+        // Clear student written inputs
+        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
+            const el = document.getElementById(`saWritten${i}`);
+            if (el) el.value = '';
+        }
+        
+        showToast('🔄 Test tozalandi');
+    }
+
+    // Initialize test grids on load
+    document.addEventListener('DOMContentLoaded', () => {
+        buildAnswerKeyGrid();
+        buildStudentAnswerGrid();
+    });
 
     // ===== PWA SERVICE WORKER =====
     if ('serviceWorker' in navigator) {
