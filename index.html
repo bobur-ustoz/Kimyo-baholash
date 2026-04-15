@@ -3,3335 +3,670 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kimyo Baholash — Milliy Sertifikat Tizimi</title>
-    
-    <!-- PWA -->
+    <title>Kimyo Test Tekshirish</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a2235">
+    <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Kimyo Baholash">
-    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png">
-    <meta name="description" content="Kimyo fanidan milliy sertifikat baholash tizimi">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <meta name="apple-mobile-web-app-title" content="Kimyo Test">
+    <link rel="apple-touch-icon" href="icon-152x152.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0e1a;
-            --bg-secondary: #111827;
-            --bg-card: #1a2235;
-            --bg-card-hover: #1e2a42;
-            --bg-input: #0d1424;
-            --border: #2a3550;
-            --border-focus: #3b82f6;
-            --text-primary: #e8ecf4;
-            --text-secondary: #8b95a8;
-            --text-muted: #5a6478;
-            --accent-blue: #3b82f6;
-            --accent-blue-light: #60a5fa;
-            --accent-green: #10b981;
-            --accent-green-light: #34d399;
-            --accent-red: #ef4444;
-            --accent-red-light: #f87171;
-            --accent-yellow: #f59e0b;
-            --accent-purple: #8b5cf6;
-            --accent-orange: #f97316;
-            --gradient-blue: linear-gradient(135deg, #3b82f6, #2563eb);
-            --gradient-green: linear-gradient(135deg, #10b981, #059669);
-            --gradient-red: linear-gradient(135deg, #ef4444, #dc2626);
-            --gradient-purple: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
-            --shadow-glow-blue: 0 0 20px rgba(59,130,246,0.15);
-            --shadow-glow-green: 0 0 20px rgba(16,185,129,0.15);
-            --radius: 12px;
-            --radius-sm: 8px;
-            --radius-lg: 16px;
+            --bg:#0f172a; --bg2:#1e293b; --bg3:#334155;
+            --card:#1e293b; --input:#0f172a; --border:#334155;
+            --text:#f1f5f9; --text2:#94a3b8; --text3:#64748b;
+            --orange:#f97316; --orange-light:#fb923c;
+            --green:#22c55e; --green-light:#4ade80; --green-dim:rgba(34,197,94,0.12);
+            --red:#ef4444; --red-light:#f87171; --red-dim:rgba(239,68,68,0.1);
+            --blue:#3b82f6; --blue-light:#60a5fa; --blue-dim:rgba(59,130,246,0.12);
+            --purple:#a855f7; --purple-light:#c084fc; --purple-dim:rgba(168,85,247,0.12);
+            --yellow:#eab308;
+            --radius:14px; --radius-sm:10px;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+        .header{background:linear-gradient(180deg,#1e293b 0%,var(--bg) 100%);padding:16px 20px;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+        .header-inner{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+        .header-brand{display:flex;align-items:center;gap:12px}
+        .header-logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(249,115,22,0.2)}
+        .header-title{font-size:18px;font-weight:800;letter-spacing:-0.5px}
+        .header-sub{font-size:11px;color:var(--text3);font-weight:600}
+        .btn-settings{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .btn-settings:hover{border-color:var(--orange);color:var(--orange)}
+        .container{max-width:600px;margin:0 auto;padding:20px 16px}
+
+        .group-selector{display:flex;gap:6px;margin-bottom:20px;background:var(--card);border-radius:var(--radius);padding:4px;border:1px solid var(--border)}
+        .group-btn{flex:1;padding:12px 8px;border:none;border-radius:var(--radius-sm);background:transparent;color:var(--text2);font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;font-family:'Outfit',sans-serif;text-align:center}
+        .group-btn.active{background:linear-gradient(135deg,#f97316,#ea580c);color:white;box-shadow:0 4px 16px rgba(249,115,22,0.3)}
+
+        .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+        .card-title{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+        .a-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(51,65,85,0.5);transition:background .3s}
+        .a-row:last-child{border-bottom:none}
+        .a-num{min-width:32px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text3)}
+        .a-opts{display:flex;gap:4px}
+        .a-opt{width:42px;height:42px;border:2px solid var(--border);border-radius:10px;background:var(--input);color:var(--text3);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace}
+        .a-opt:active{transform:scale(0.92)}
+        .a-opt.key-selected{border-color:var(--blue);background:var(--blue-dim);color:var(--blue-light)}
+        .a-opt.selected{border-color:var(--green);background:var(--green-dim);color:var(--green-light)}
+        .a-ball-input{width:50px;padding:6px 4px;text-align:center;background:var(--input);border:1px solid var(--border);border-radius:8px;color:var(--yellow);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;outline:none}
+        .a-ball-input:focus{border-color:var(--yellow)}
+        .a-result{min-width:32px;text-align:center;font-size:16px;display:none}
+        .a-score{min-width:40px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;display:none}
+        .a-row.correct{background:rgba(34,197,94,0.06)}
+        .a-row.correct .a-result,.a-row.correct .a-score{display:block}
+        .a-row.correct .a-score{color:var(--green-light)}
+        .a-row.wrong{background:rgba(239,68,68,0.05)}
+        .a-row.wrong .a-result,.a-row.wrong .a-score{display:block}
+        .a-row.wrong .a-score{color:var(--red-light)}
+        .a-row.empty{background:rgba(100,116,139,0.05)}
+        .a-row.empty .a-result,.a-row.empty .a-score{display:block}
+        .a-row.empty .a-score{color:var(--text3)}
+
+        .a-written{flex:1}
+        .a-written input{width:100%;padding:10px 12px;background:var(--input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none;font-family:'Outfit',sans-serif}
+        .a-written input:focus{border-color:var(--purple)}
+
+        .section-divider{display:flex;align-items:center;gap:8px;margin:16px 0 10px;font-size:12px;font-weight:700}
+        .section-divider::after{content:'';flex:1;height:1px}
+        .divider-purple{color:var(--purple-light)}
+        .divider-purple::after{background:rgba(168,85,247,0.2)}
+
+        .scan-area{border:2px dashed var(--border);border-radius:var(--radius);padding:28px 16px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:16px;position:relative}
+        .scan-area:hover{border-color:var(--orange);background:rgba(249,115,22,0.03)}
+        .scan-area.has-file{border-style:solid;border-color:var(--green);background:var(--green-dim)}
+        .scan-area input[type="file"]{display:none}
+        .scan-icon{font-size:40px;margin-bottom:8px}
+        .scan-label{font-size:14px;font-weight:700;color:var(--orange-light)}
+        .scan-desc{font-size:12px;color:var(--text3);margin-top:4px}
+        .scan-preview{display:none;margin-top:12px}
+        .scan-preview img{max-width:100%;max-height:180px;border-radius:10px;border:1px solid var(--border)}
+
+        .scan-btn-camera,.scan-btn-gallery{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .2s}
+        .scan-btn-camera{background:linear-gradient(135deg,#f97316,#ea580c);color:white;box-shadow:0 2px 12px rgba(249,115,22,0.25)}
+        .scan-btn-camera:active{transform:scale(0.95)}
+        .scan-btn-gallery{background:var(--bg2);border:1px solid var(--border);color:var(--text2)}
+        .scan-btn-gallery:active{transform:scale(0.95)}
+        .scan-btn-remove{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Outfit',sans-serif;background:var(--red-dim);color:var(--red-light);border:1px solid rgba(239,68,68,0.3)}
+
+        .btn-check{width:100%;padding:16px;border:none;border-radius:var(--radius);font-size:16px;font-weight:800;cursor:pointer;transition:all .25s;font-family:'Outfit',sans-serif;margin-bottom:16px;background:linear-gradient(135deg,#f97316,#ea580c);color:white;box-shadow:0 4px 20px rgba(249,115,22,0.25)}
+        .btn-check:active{transform:scale(0.98)}
+        .btn-check:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+        .btn-reset{width:100%;padding:14px;border-radius:var(--radius-sm);background:var(--red-dim);border:1px solid rgba(239,68,68,0.3);color:var(--red-light);font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:12px}
+
+        .result-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;display:none;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.25);animation:slideUp .4s ease}
+        .result-card.active{display:block}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .result-big{font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:900;line-height:1;color:var(--orange-light)}
+        .result-max{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--text3)}
+        .result-percent{font-size:18px;font-weight:800;margin-top:6px}
+        .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+        .stat-box{padding:12px 8px;background:var(--input);border-radius:var(--radius-sm)}
+        .stat-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800}
+        .stat-label{font-size:10px;color:var(--text3);font-weight:600;margin-top:2px}
+
+        .scan-status{display:none;padding:12px;text-align:center;font-size:13px;background:var(--input);border-radius:var(--radius-sm);margin-bottom:14px;color:var(--text2)}
+
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+        .modal-overlay.active{display:flex}
+        .modal{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto}
+        .modal-title{font-size:18px;font-weight:800;margin-bottom:14px}
+        .modal-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.5px}
+        .modal-input{width:100%;padding:12px 14px;background:var(--input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;font-family:'JetBrains Mono',monospace;margin-bottom:14px}
+        .modal-input:focus{border-color:var(--orange)}
+        .modal-select{width:100%;padding:12px 14px;background:var(--input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;font-family:'Outfit',sans-serif;margin-bottom:14px}
+        .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+        .modal-btn{padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .2s}
+        .modal-btn-primary{background:linear-gradient(135deg,#f97316,#ea580c);color:white}
+        .modal-btn-secondary{background:var(--input);border:1px solid var(--border);color:var(--text2)}
+
+        .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:480px;margin:0 auto;background:var(--card);border:1px solid var(--green);border-radius:var(--radius);padding:14px 18px;z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,0.4);transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.16,1,.3,1);font-size:14px;font-weight:600}
+        .toast.show{transform:translateY(0);opacity:1}
+        .toast.error{border-color:var(--red)}
+
+        @media(max-width:420px){
+            .a-opt{width:36px;height:36px;font-size:13px;border-radius:8px}
+            .a-ball-input{width:44px;font-size:12px}
+            .result-big{font-size:40px}
+            .titul-info{flex-direction:column;gap:8px}
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* ===== HEADER ===== */
-        .app-header {
-            background: linear-gradient(180deg, #111827 0%, var(--bg-primary) 100%);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 24px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(12px);
-        }
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .header-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--gradient-blue);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: var(--shadow-glow-blue);
-        }
-        .header-title {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        .header-subtitle {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .header-score {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 8px 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--accent-blue-light);
-        }
-        .btn-api {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 8px 14px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-        .btn-api:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue-light);
-        }
-
-        /* ===== MAIN LAYOUT ===== */
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-
-        /* ===== STUDENT INPUT SECTION ===== */
-        .student-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-        }
-        .student-section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--accent-blue-light);
-        }
-        .student-section-title .icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(59,130,246,0.15);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-        .student-form {
-            display: grid;
-            grid-template-columns: 120px 1fr 1fr 1fr auto;
-            gap: 12px;
-            align-items: end;
-        }
-        @media (max-width: 768px) {
-            .student-form {
-                grid-template-columns: 100px 1fr 1fr;
-            }
-        }
-        @media (max-width: 480px) {
-            .student-form {
-                grid-template-columns: 1fr;
-            }
-        }
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s;
-            outline: none;
-        }
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-        }
-        .form-group input::placeholder {
-            color: var(--text-muted);
-        }
-        .btn-add-student {
-            padding: 10px 20px;
-            background: var(--gradient-blue);
-            border: none;
-            border-radius: var(--radius-sm);
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-add-student:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-glow-blue);
-        }
-        .current-student-badge {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            background: rgba(16,185,129,0.1);
-            border: 1px solid rgba(16,185,129,0.3);
-            border-radius: var(--radius);
-            padding: 12px 18px;
-            margin-top: 14px;
-        }
-        .current-student-badge.active {
-            display: flex;
-        }
-        .current-student-badge .avatar {
-            width: 36px;
-            height: 36px;
-            background: var(--gradient-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 14px;
-            color: white;
-        }
-        .current-student-badge .info {
-            flex: 1;
-        }
-        .current-student-badge .name {
-            font-weight: 700;
-            font-size: 15px;
-        }
-        .current-student-badge .class {
-            font-size: 12px;
-            color: var(--accent-green-light);
-        }
-        .btn-clear-student {
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.3);
-            color: var(--accent-red-light);
-            border-radius: var(--radius-sm);
-            padding: 6px 12px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .btn-clear-student:hover {
-            background: rgba(239,68,68,0.2);
-        }
-
-        /* ===== QUESTION TABS ===== */
-        .question-tabs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .q-tab {
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-        .q-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-blue);
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-        .q-tab.active {
-            border-color: var(--accent-blue);
-            background: var(--bg-card-hover);
-            box-shadow: var(--shadow-glow-blue);
-        }
-        .q-tab.active::before {
-            opacity: 1;
-        }
-        .q-tab:hover {
-            border-color: rgba(59,130,246,0.5);
-        }
-        .q-tab-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--accent-blue-light);
-        }
-        .q-tab-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-        .q-tab-score {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-top: 6px;
-        }
-        .q-tab.scored .q-tab-score {
-            color: var(--accent-green-light);
-        }
-
-        /* ===== QUESTION PANEL ===== */
-        .question-panel {
-            display: none;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-        }
-        .question-panel.active {
-            display: block;
-        }
-        .panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .panel-title {
-            font-size: 18px;
-            font-weight: 800;
-        }
-        .panel-score-display {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .panel-score-current {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--accent-blue-light);
-        }
-        .panel-score-max {
-            font-size: 16px;
-            color: var(--text-muted);
-        }
-
-        /* Sub-question count */
-        .config-row {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-        }
-        .config-item {
-            flex: 1;
-            min-width: 200px;
-        }
-        .config-item label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-        .config-item input, .config-item textarea {
-            width: 100%;
-            padding: 10px 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .config-item input:focus, .config-item textarea:focus {
-            border-color: var(--accent-blue);
-        }
-        .config-item textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-
-        /* Criteria */
-        .criteria-section {
-            margin-bottom: 18px;
-        }
-        .criteria-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .criteria-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .criteria-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 8px 12px;
-        }
-        .criteria-item input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-size: 13px;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        .criteria-item .btn-remove {
-            background: none;
-            border: none;
-            color: var(--accent-red);
-            cursor: pointer;
-            font-size: 16px;
-            padding: 2px;
-            opacity: 0.6;
-            transition: opacity 0.2s;
-        }
-        .criteria-item .btn-remove:hover { opacity: 1; }
-        .btn-add-criteria {
-            background: rgba(59,130,246,0.1);
-            border: 1px dashed rgba(59,130,246,0.4);
-            color: var(--accent-blue-light);
-            border-radius: var(--radius-sm);
-            padding: 8px 14px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            margin-top: 6px;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-add-criteria:hover {
-            background: rgba(59,130,246,0.15);
-        }
-
-        /* Upload area */
-        .upload-section {
-            margin-top: 18px;
-        }
-        .upload-area {
-            border: 2px dashed var(--border);
-            border-radius: var(--radius);
-            padding: 32px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.25s;
-            position: relative;
-        }
-        .upload-area:hover {
-            border-color: var(--accent-blue);
-            background: rgba(59,130,246,0.03);
-        }
-        .upload-area.has-file {
-            border-color: var(--accent-green);
-            background: rgba(16,185,129,0.05);
-        }
-        .upload-area input[type="file"] {
-            display: none;
-        }
-        .upload-icon {
-            font-size: 36px;
-            margin-bottom: 8px;
-        }
-        .upload-text {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        .upload-hint {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-        .upload-preview {
-            display: none;
-            margin-top: 14px;
-        }
-        .upload-preview.active {
-            display: block;
-        }
-        .upload-preview img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-        }
-        .btn-remove-file {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(239,68,68,0.9);
-            border: none;
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 14px;
-            display: none;
-        }
-        .upload-area.has-file .btn-remove-file {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .upload-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 12px;
-        }
-        .upload-btn {
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            background: var(--bg-input);
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-        .upload-btn:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue-light);
-        }
-
-        /* Analyze button */
-        .btn-analyze {
-            width: 100%;
-            padding: 14px;
-            background: var(--gradient-blue);
-            border: none;
-            border-radius: var(--radius);
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.25s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-analyze:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 24px rgba(59,130,246,0.3);
-        }
-        .btn-analyze:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .btn-analyze.loading {
-            position: relative;
-            color: transparent;
-        }
-        .btn-analyze.loading::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Result display in panel */
-        .panel-result {
-            display: none;
-            margin-top: 18px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px;
-        }
-        .panel-result.active {
-            display: block;
-        }
-        .panel-result-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-        .panel-result-score {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--accent-green-light);
-        }
-        .panel-result-details {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            white-space: pre-wrap;
-        }
-
-        /* ===== FINAL RESULTS SECTION ===== */
-        .results-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-        }
-        .results-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .results-title {
-            font-size: 18px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .score-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-        @media (max-width: 500px) {
-            .score-cards { grid-template-columns: 1fr; }
-        }
-        .score-card {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px;
-            text-align: center;
-        }
-        .score-card-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .score-card-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-        .score-card-value span {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-        .total-score-bar {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .total-label {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-secondary);
-        }
-        .total-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--accent-green-light);
-        }
-        .total-value span {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-        .progress-bar-container {
-            width: 100%;
-            height: 8px;
-            background: var(--bg-input);
-            border-radius: 4px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--gradient-green);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-            width: 0%;
-        }
-        .btn-save-result {
-            padding: 12px 24px;
-            background: var(--gradient-green);
-            border: none;
-            border-radius: var(--radius);
-            color: white;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-save-result:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-glow-green);
-        }
-        .btn-save-result:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .btn-reset {
-            padding: 12px 24px;
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.3);
-            border-radius: var(--radius);
-            color: var(--accent-red-light);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-reset:hover {
-            background: rgba(239,68,68,0.2);
-        }
-        .results-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        /* ===== STUDENTS TABLE SECTION ===== */
-        .table-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            box-shadow: var(--shadow-card);
-            margin-bottom: 24px;
-        }
-        .table-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .table-title {
-            font-size: 18px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .table-controls {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .btn-export {
-            padding: 8px 16px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-export:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue-light);
-        }
-        .btn-clear-all {
-            padding: 8px 16px;
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.3);
-            border-radius: var(--radius-sm);
-            color: var(--accent-red-light);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-clear-all:hover {
-            background: rgba(239,68,68,0.2);
-        }
-        .search-bar {
-            width: 100%;
-            padding: 10px 14px 10px 38px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-            margin-bottom: 14px;
-            font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s;
-        }
-        .search-bar:focus {
-            border-color: var(--accent-blue);
-        }
-        .search-wrapper {
-            position: relative;
-        }
-        .search-wrapper::before {
-            content: '🔍';
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-        }
-        .results-table-container {
-            overflow-x: auto;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-        }
-        .results-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
-        .results-table thead {
-            background: var(--bg-input);
-        }
-        .results-table th {
-            padding: 12px 16px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        .results-table th.center, .results-table td.center {
-            text-align: center;
-        }
-        .results-table tbody tr {
-            border-bottom: 1px solid rgba(42,53,80,0.5);
-            transition: background 0.15s;
-        }
-        .results-table tbody tr:hover {
-            background: rgba(59,130,246,0.04);
-        }
-        .results-table td {
-            padding: 12px 16px;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-        .results-table .td-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            color: var(--text-muted);
-            font-size: 13px;
-        }
-        .results-table .td-name {
-            font-weight: 600;
-        }
-        .results-table .td-score {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 14px;
-        }
-        .td-score.high { color: var(--accent-green-light); }
-        .td-score.medium { color: var(--accent-yellow); }
-        .td-score.low { color: var(--accent-red-light); }
-        .results-table .td-total {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 800;
-            font-size: 16px;
-        }
-        .td-grade {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .grade-5 { background: rgba(16,185,129,0.15); color: var(--accent-green-light); }
-        .grade-4 { background: rgba(59,130,246,0.15); color: var(--accent-blue-light); }
-        .grade-3 { background: rgba(245,158,11,0.15); color: var(--accent-yellow); }
-        .grade-2 { background: rgba(239,68,68,0.15); color: var(--accent-red-light); }
-        .td-date {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .btn-delete-row {
-            background: none;
-            border: none;
-            color: var(--accent-red);
-            cursor: pointer;
-            font-size: 16px;
-            opacity: 0.4;
-            transition: opacity 0.2s;
-            padding: 4px;
-        }
-        .btn-delete-row:hover { opacity: 1; }
-        .empty-state {
-            text-align: center;
-            padding: 48px 20px;
-            color: var(--text-muted);
-        }
-        .empty-state-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
-        .empty-state-text {
-            font-size: 14px;
-        }
-        .table-stats {
-            display: flex;
-            gap: 20px;
-            margin-top: 14px;
-            flex-wrap: wrap;
-        }
-        .stat-item {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        .stat-item strong {
-            color: var(--accent-blue-light);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* ===== API MODAL ===== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-overlay.active {
-            display: flex;
-        }
-        .modal {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            width: 100%;
-            max-width: 480px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        .modal-title {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .modal input {
-            width: 100%;
-            padding: 12px 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: 'JetBrains Mono', monospace;
-            outline: none;
-            margin-bottom: 14px;
-        }
-        .modal input:focus {
-            border-color: var(--accent-blue);
-        }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        .modal-link {
-            display: block;
-            margin-bottom: 14px;
-            color: var(--accent-blue-light);
-            font-size: 13px;
-            text-decoration: none;
-        }
-        .modal-link:hover { text-decoration: underline; }
-        .btn-modal {
-            padding: 10px 20px;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-        .btn-modal-primary {
-            background: var(--gradient-blue);
-            color: white;
-        }
-        .btn-modal-secondary {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-        }
-
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            left: 24px;
-            max-width: 560px;
-            margin-left: auto;
-            background: var(--bg-card);
-            border: 1px solid var(--accent-green);
-            border-radius: var(--radius);
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 2000;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .toast.error {
-            border-color: var(--accent-red);
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-
-        /* Org selector */
-        .org-btn {
-
-        /* Mini upload cards */
-        .mini-upload {
-            border: 2px dashed var(--border);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.25s;
-            overflow: hidden;
-        }
-        .mini-upload:hover {
-            border-color: var(--accent-blue);
-            background: rgba(59,130,246,0.03);
-        }
-        .mini-upload.has-file {
-            border-style: solid;
-            border-color: var(--accent-green);
-            background: rgba(16,185,129,0.05);
-        }
-        .mini-upload-inner {
-            padding: 16px 10px;
-            text-align: center;
-            position: relative;
-        }
-        .mini-upload input[type="file"] { display: none; }
-        .mini-remove-btn {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(239,68,68,0.9);
-            border: none;
-            color: white;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 12px;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-        }
-        @media (max-width: 500px) {
-            .three-uploads { grid-template-columns: 1fr !important; }
-        }
-
-        /* Org selector */
-        .org-btn {
-            flex: 1;
-            padding: 12px 16px;
-            background: var(--bg-input);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-            text-align: center;
-        }
-        .org-btn:hover {
-            border-color: rgba(59,130,246,0.5);
-        }
-        .org-btn.active {
-            border-color: var(--accent-blue);
-            background: rgba(59,130,246,0.1);
-            color: var(--accent-blue-light);
-            box-shadow: var(--shadow-glow-blue);
-        }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-        /* ===== MODE SWITCHER ===== */
-        .mode-switcher {
-            display: flex;
-            gap: 6px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 4px;
-            margin-bottom: 24px;
-        }
-        .mode-btn {
-            flex: 1;
-            padding: 12px 16px;
-            background: transparent;
-            border: none;
-            border-radius: var(--radius-sm);
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-        }
-        .mode-btn.active {
-            background: var(--gradient-blue);
-            color: white;
-            box-shadow: 0 2px 12px rgba(59,130,246,0.3);
-        }
-        .mode-btn:not(.active):hover {
-            background: rgba(59,130,246,0.08);
-            color: var(--accent-blue-light);
-        }
-        .mode-content { display: none; }
-        .mode-content.active { display: block; }
-
-        /* ===== TEST SECTION ===== */
-        .test-config-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-        }
-        .test-config-title {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent-orange);
-        }
-        .test-type-selector {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .test-type-btn {
-            flex: 1;
-            padding: 16px;
-            background: var(--bg-input);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-        }
-        .test-type-btn.active {
-            border-color: var(--accent-orange);
-            background: rgba(249,115,22,0.1);
-            color: var(--accent-orange);
-            box-shadow: 0 0 20px rgba(249,115,22,0.1);
-        }
-        .test-type-btn:not(.active):hover {
-            border-color: rgba(249,115,22,0.4);
-        }
-        .test-type-btn .tt-icon { font-size: 24px; margin-bottom: 4px; }
-        .test-type-btn .tt-label { font-size: 13px; }
-        .test-type-btn .tt-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
-
-        /* Answer key input */
-        .answer-key-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-        }
-        .answer-key-title {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent-green-light);
-        }
-        .answer-key-subtitle {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-        .answer-grid {
-            display: grid;
-            gap: 8px;
-        }
-        .answer-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(42,53,80,0.5);
-        }
-        .answer-row:last-child { border-bottom: none; }
-        .answer-row-num {
-            min-width: 36px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-align: center;
-        }
-        .answer-row-ball {
-            min-width: 60px;
-        }
-        .answer-row-ball input {
-            width: 56px;
-            padding: 6px 8px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--accent-yellow);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 700;
-            text-align: center;
-            outline: none;
-        }
-        .answer-row-ball input:focus {
-            border-color: var(--accent-yellow);
-        }
-        .answer-options {
-            display: flex;
-            gap: 4px;
-            flex: 1;
-        }
-        .answer-opt {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            background: var(--bg-input);
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .answer-opt:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue-light);
-        }
-        .answer-opt.selected {
-            border-color: var(--accent-green);
-            background: rgba(16,185,129,0.15);
-            color: var(--accent-green-light);
-            box-shadow: 0 0 8px rgba(16,185,129,0.15);
-        }
-        .answer-row-written {
-            flex: 1;
-        }
-        .answer-row-written input {
-            width: 100%;
-            padding: 8px 12px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-primary);
-            font-size: 13px;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        .answer-row-written input:focus {
-            border-color: var(--accent-purple);
-        }
-        .answer-row-tag {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-        .tag-abcde {
-            background: rgba(59,130,246,0.12);
-            color: var(--accent-blue-light);
-        }
-        .tag-yozma {
-            background: rgba(139,92,246,0.12);
-            color: var(--accent-purple);
-        }
-        .answer-section-divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 14px 0 8px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--accent-purple);
-        }
-        .answer-section-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(139,92,246,0.3);
-        }
-
-        /* Student answer input */
-        .student-answer-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-        }
-        .sa-title {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent-blue-light);
-        }
-        .sa-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(42,53,80,0.5);
-        }
-        .sa-row:last-child { border-bottom: none; }
-        .sa-row-num {
-            min-width: 36px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-align: center;
-        }
-        .sa-opt {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            background: var(--bg-input);
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .sa-opt:hover {
-            border-color: var(--accent-blue);
-        }
-        .sa-opt.selected {
-            border-color: var(--accent-blue);
-            background: rgba(59,130,246,0.15);
-            color: var(--accent-blue-light);
-        }
-        /* Result states */
-        .sa-row.correct { background: rgba(16,185,129,0.06); }
-        .sa-row.wrong { background: rgba(239,68,68,0.06); }
-        .sa-row.partial { background: rgba(245,158,11,0.06); }
-        .sa-row .sa-result-icon {
-            font-size: 18px;
-            min-width: 28px;
-            text-align: center;
-            display: none;
-        }
-        .sa-row.correct .sa-result-icon,
-        .sa-row.wrong .sa-result-icon,
-        .sa-row.partial .sa-result-icon { display: block; }
-        .sa-row .sa-result-ball {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 700;
-            min-width: 44px;
-            text-align: center;
-            display: none;
-        }
-        .sa-row.correct .sa-result-ball { display: block; color: var(--accent-green-light); }
-        .sa-row.wrong .sa-result-ball { display: block; color: var(--accent-red-light); }
-        .sa-row.partial .sa-result-ball { display: block; color: var(--accent-yellow); }
-
-        .test-check-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            border: none;
-            border-radius: var(--radius);
-            color: white;
-            font-size: 16px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.25s;
-            margin-bottom: 24px;
-            font-family: 'Inter', sans-serif;
-        }
-        .test-check-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(249,115,22,0.3);
-        }
-        .test-check-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Test result summary */
-        .test-result-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-card);
-            display: none;
-        }
-        .test-result-card.active { display: block; }
-        .test-result-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .test-result-score {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 48px;
-            font-weight: 900;
-        }
-        .test-result-max {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 20px;
-            color: var(--text-muted);
-        }
-        .test-result-percent {
-            font-size: 16px;
-            font-weight: 700;
-            margin-top: 6px;
-        }
-        .test-result-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 16px;
-        }
-        .test-stat-item {
-            text-align: center;
-            padding: 14px 10px;
-            background: var(--bg-input);
-            border-radius: var(--radius-sm);
-        }
-        .test-stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
-            font-weight: 800;
-        }
-        .test-stat-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
-            font-weight: 600;
-        }
-        .test-reset-btn {
-            width: 100%;
-            padding: 12px;
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.3);
-            border-radius: var(--radius-sm);
-            color: var(--accent-red-light);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-        @media (max-width: 480px) {
-            .answer-opt, .sa-opt { width: 34px; height: 34px; font-size: 12px; }
-            .answer-row-ball input { width: 48px; font-size: 12px; }
-            .test-result-stats { grid-template-columns: 1fr; }
-        }
+        /* ===== TITUL ===== */
+        .titul{
+            background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+            padding:20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.2);
+            position:relative;overflow:hidden;
+        }
+        .titul::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:4px;
+            background:linear-gradient(90deg,#f97316,#eab308,#22c55e,#3b82f6);
+        }
+        .titul-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+        .titul-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(249,115,22,0.25)}
+        .titul-name{font-size:20px;font-weight:900;letter-spacing:-0.5px}
+        .titul-desc{font-size:12px;color:var(--text3);font-weight:500;margin-top:2px}
+        .titul-info{display:flex;gap:12px;align-items:center}
+        .titul-group-badge{
+            padding:6px 14px;border-radius:8px;font-size:13px;font-weight:800;
+            font-family:'JetBrains Mono',monospace;
+            background:var(--orange);background:linear-gradient(135deg,#f97316,#ea580c);
+            color:white;white-space:nowrap;
+        }
+        .titul-id-wrap{flex:1;display:flex;align-items:center;gap:8px}
+        .titul-id-label{font-size:12px;font-weight:700;color:var(--text3);white-space:nowrap}
+        .titul-id-input{
+            flex:1;padding:10px 14px;background:var(--input);border:1px solid var(--border);
+            border-radius:var(--radius-sm);color:var(--text);font-size:16px;font-weight:700;
+            font-family:'JetBrains Mono',monospace;outline:none;text-align:center;
+            max-width:160px;
+        }
+        .titul-id-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,0.1)}
+        .titul-id-input::placeholder{color:var(--text3);font-weight:500;font-size:14px}
     </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="app-header">
+<header class="header">
     <div class="header-inner">
         <div class="header-brand">
-            <div class="header-icon">⚗️</div>
+            <div class="header-logo">⚗️</div>
             <div>
-                <div class="header-title">Kimyo Baholash</div>
-                <div class="header-subtitle">Milliy Sertifikat Tizimi</div>
+                <div class="header-title">Kimyo Test</div>
+                <div class="header-sub">Test tekshirish tizimi</div>
             </div>
         </div>
-        <div class="header-actions">
-            <div class="header-score" id="headerScore">0 / 30</div>
-            <button class="btn-api" onclick="openApiModal()" title="API kalit">🔑</button>
-        </div>
+        <button class="btn-settings" onclick="openSettings()">⚙️</button>
     </div>
 </header>
 
-<div class="app-container">
+<div class="container">
 
-    <!-- MODE SWITCHER -->
-    <div class="mode-switcher">
-        <button class="mode-btn active" onclick="switchMode('ai')" id="modeAI">🔬 AI Baholash (41-43)</button>
-        <button class="mode-btn" onclick="switchMode('test')" id="modeTest">📝 Test Tekshirish</button>
+    <!-- GURUH -->
+    <div class="group-selector">
+        <button class="group-btn active" onclick="selectGroup('small')" id="grpSmall">📄 Kichik (1–20)</button>
+        <button class="group-btn" onclick="selectGroup('big')" id="grpBig">📚 Katta (1–25)</button>
     </div>
 
-    <!-- ===== AI MODE (existing) ===== -->
-    <div class="mode-content active" id="modeContentAI">
-
-    <!-- STUDENT INPUT -->
-    <section class="student-section">
-        <div class="student-section-title">
-            <div class="icon">👤</div>
-            O'quvchi ma'lumotlari
-            <button onclick="openSheetModal()" style="margin-left:auto;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:var(--accent-blue-light);border-radius:var(--radius-sm);padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600">📊 Google Sheets sozlash</button>
-        </div>
-        <!-- Maktab / Markaz tanlash -->
-        <div style="display:flex;gap:8px;margin-bottom:14px" id="orgSelector">
-            <button class="org-btn active" onclick="selectOrg('maktab')" id="orgMaktab">🏫 Maktab</button>
-            <button class="org-btn" onclick="selectOrg('markaz')" id="orgMarkaz">🎓 Markaz</button>
-        </div>
-        <div class="student-form">
-            <div class="form-group">
-                <label>O'quvchi ID</label>
-                <input type="text" id="studentId" placeholder="ID kiriting" oninput="lookupStudent(this.value)" style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;text-align:center">
-                <div id="idStatus" style="font-size:11px;margin-top:3px;min-height:16px"></div>
+    <!-- TITUL -->
+    <div class="titul">
+        <div class="titul-top">
+            <div class="titul-icon">⚗️</div>
+            <div>
+                <div class="titul-name">Kimyo Test Tekshirish</div>
+                <div class="titul-desc">Milliy sertifikat tizimi</div>
             </div>
-            <div class="form-group">
-                <label>Ism</label>
-                <input type="text" id="studentFirstName" placeholder="Avtomatik to'ladi" readonly style="opacity:0.7">
+        </div>
+        <div class="titul-info">
+            <div class="titul-group-badge" id="titulBadge">📄 1 – 20</div>
+            <div class="titul-id-wrap">
+                <span class="titul-id-label">ID:</span>
+                <input type="text" class="titul-id-input" id="studentIdInput" placeholder="O'quvchi ID" inputmode="numeric">
             </div>
-            <div class="form-group">
-                <label>Familiya</label>
-                <input type="text" id="studentLastName" placeholder="Avtomatik to'ladi" readonly style="opacity:0.7">
-            </div>
-            <div class="form-group">
-                <label>Sinf / Guruh</label>
-                <input type="text" id="studentClass" placeholder="Avtomatik to'ladi" readonly style="opacity:0.7">
-            </div>
-            <button class="btn-add-student" onclick="setStudent()" id="btnConfirmStudent" disabled>
-                ✓ Tasdiqlash
-            </button>
-        </div>
-        <div id="sheetStatus" style="font-size:12px;color:var(--text-muted);margin-top:8px;display:none">
-            📊 <span id="sheetStatusText"></span>
-        </div>
-        <div class="current-student-badge" id="currentStudentBadge">
-            <div class="avatar" id="studentAvatar">A</div>
-            <div class="info">
-                <div class="name" id="studentDisplayName">—</div>
-                <div class="class" id="studentDisplayClass">—</div>
-            </div>
-            <button class="btn-clear-student" onclick="clearStudent()">✕ Tozalash</button>
-        </div>
-    </section>
-
-    <!-- QUESTION TABS -->
-    <div class="question-tabs">
-        <div class="q-tab active" onclick="switchTab(0)" id="tab0">
-            <div class="q-tab-num">41</div>
-            <div class="q-tab-label">Savol</div>
-            <div class="q-tab-score" id="tabScore0">0/10</div>
-        </div>
-        <div class="q-tab" onclick="switchTab(1)" id="tab1">
-            <div class="q-tab-num">42</div>
-            <div class="q-tab-label">Savol</div>
-            <div class="q-tab-score" id="tabScore1">0/10</div>
-        </div>
-        <div class="q-tab" onclick="switchTab(2)" id="tab2">
-            <div class="q-tab-num">43</div>
-            <div class="q-tab-label">Savol</div>
-            <div class="q-tab-score" id="tabScore2">0/10</div>
         </div>
     </div>
 
-    <!-- QUESTION PANELS -->
-    <div class="question-panel active" id="panel0">
-        <div class="panel-header">
-            <div class="panel-title">41-Savol</div>
-            <div class="panel-score-display">
-                <span class="panel-score-current" id="score0">0</span>
-                <span class="panel-score-max">/ 10</span>
-            </div>
-        </div>
-        <div class="config-row">
-            <div class="config-item">
-                <label>📚 Mavzu</label>
-                <input type="text" id="topic0" placeholder="Masalan: Organik kimyo">
-            </div>
-            <div class="config-item" style="max-width:120px">
-                <label>Savolchalar</label>
-                <input type="number" id="subCount0" value="5" min="1" max="10">
-            </div>
-        </div>
-        <!-- 3 ta rasm yuklash -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" class="three-uploads">
-            <!-- 1. Savol rasmi -->
-            <div class="mini-upload" onclick="document.getElementById('questionFile0').click()">
-                <input type="file" id="questionFile0" accept="image/*" onchange="handleQuestionImage(0, this)" style="display:none">
-                <div class="mini-upload-inner" id="qUpload0">
-                    <div style="font-size:24px">📄</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-purple)">Savol rasmi</div>
-                    <div style="font-size:10px;color:var(--text-muted)">ixtiyoriy</div>
-                    <div id="questionPreview0" style="display:none;margin-top:6px">
-                        <img id="questionImg0" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeQuestionImage(0);event.stopPropagation()" id="qRemove0" style="display:none">✕</button>
+    <!-- TO'G'RI JAVOBLAR KALITI -->
+    <div class="card">
+        <div class="card-title" style="color:var(--blue-light)">🔑 To'g'ri javoblar kaliti</div>
+        <div id="keyGrid"></div>
+    </div>
+
+    <!-- O'QUVCHI JAVOBLARI — KAMERA -->
+    <div class="card">
+        <div class="card-title" style="color:var(--green-light)">📝 O'quvchi javoblari</div>
+        <div class="scan-area" id="scanArea">
+            <input type="file" id="scanCamera" accept="image/*" capture="environment" onchange="handleScan(this)" style="display:none">
+            <input type="file" id="scanGallery" accept="image/*" onchange="handleScan(this)" style="display:none">
+            <div id="scanPlaceholder">
+                <div class="scan-icon">📸</div>
+                <div class="scan-label">Javob varaqasini suratga oling</div>
+                <div class="scan-desc">Kamera yoki galereyadan tanlang</div>
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+                    <button class="scan-btn-camera" onclick="document.getElementById('scanCamera').click();event.stopPropagation()">📸 Kamera</button>
+                    <button class="scan-btn-gallery" onclick="document.getElementById('scanGallery').click();event.stopPropagation()">🖼 Galereya</button>
                 </div>
             </div>
-            <!-- 2. To'g'ri yechim -->
-            <div class="mini-upload" onclick="document.getElementById('solutionFile0').click()">
-                <input type="file" id="solutionFile0" accept="image/*" onchange="handleSolutionImage(0, this)" style="display:none">
-                <div class="mini-upload-inner" id="sUpload0">
-                    <div style="font-size:24px">✅</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-green-light)">To'g'ri yechim</div>
-                    <div style="font-size:10px;color:var(--text-muted)">ustoz yechimi</div>
-                    <div id="solutionPreview0" style="display:none;margin-top:6px">
-                        <img id="solutionImg0" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeSolutionImage(0);event.stopPropagation()" id="sRemove0" style="display:none">✕</button>
-                </div>
-            </div>
-            <!-- 3. O'quvchi javob -->
-            <div class="mini-upload" onclick="document.getElementById('file0').click()">
-                <input type="file" id="file0" accept="image/*,.pdf" onchange="handleFile(0, this)">
-                <div class="mini-upload-inner" id="upload0">
-                    <div style="font-size:24px">📝</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-blue-light)">O'quvchi javob</div>
-                    <div style="font-size:10px;color:var(--text-muted)">majburiy</div>
-                    <div class="upload-preview" id="preview0" style="display:none;margin-top:6px">
-                        <img id="previewImg0" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeFile(0,event);event.stopPropagation()" id="fRemove0" style="display:none">✕</button>
+            <div class="scan-preview" id="scanPreview">
+                <img id="scanImg" src="">
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
+                    <button class="scan-btn-camera" onclick="document.getElementById('scanCamera').click();event.stopPropagation()">📸 Qayta</button>
+                    <button class="scan-btn-remove" onclick="removeScan();event.stopPropagation()">🗑 O'chirish</button>
                 </div>
             </div>
         </div>
-        <div class="config-row" style="margin-bottom:12px">
-            <div class="config-item">
-                <label>📋 Qo'shimcha mezonlar va izoh</label>
-                <textarea id="question0" placeholder="Qo'shimcha izoh yoki baholash mezonlari..." style="min-height:40px"></textarea>
-            </div>
-        </div>
-        <div class="criteria-section">
-            <div class="criteria-title">📋 Baholash mezonlari</div>
-            <div class="criteria-list" id="criteria0"></div>
-            <button class="btn-add-criteria" onclick="addCriteria(0)">+ Qo'shish</button>
-        </div>
-        <button class="btn-analyze" onclick="analyzeQuestion(0)" id="btnAnalyze0">
-            🔬 Tahlil qilish
+        <button class="btn-check" onclick="aiScanCheck()" id="btnScan" style="margin-top:4px">
+            🤖 AI bilan o'qish va tekshirish
         </button>
-        <div class="panel-result" id="result0">
-            <div class="panel-result-header">
-                <span style="font-weight:700;color:var(--text-secondary)">AI Natijasi</span>
-                <span class="panel-result-score" id="resultScore0">0/10</span>
-            </div>
-            <div class="panel-result-details" id="resultDetails0"></div>
-        </div>
+        <div class="scan-status" id="scanStatus"></div>
+        <div id="scannedGrid" style="display:none"></div>
     </div>
 
-    <div class="question-panel" id="panel1">
-        <div class="panel-header">
-            <div class="panel-title">42-Savol</div>
-            <div class="panel-score-display">
-                <span class="panel-score-current" id="score1">0</span>
-                <span class="panel-score-max">/ 10</span>
-            </div>
+    <!-- NATIJA -->
+    <div class="result-card" id="resultCard">
+        <div id="resultStudentId" style="font-size:13px;font-weight:700;color:var(--text3);margin-bottom:8px;display:none">
+            O'quvchi: <span id="resultIdText" style="color:var(--orange-light);font-family:'JetBrains Mono',monospace"></span>
         </div>
-        <div class="config-row">
-            <div class="config-item">
-                <label>📚 Mavzu</label>
-                <input type="text" id="topic1" placeholder="Masalan: Anorganik kimyo">
-            </div>
-            <div class="config-item" style="max-width:120px">
-                <label>Reaksiyalar</label>
-                <input type="number" id="subCount1" value="5" min="1" max="10">
-            </div>
+        <div>
+            <span class="result-big" id="resultScore">0</span>
+            <span class="result-max" id="resultMax">/ 0</span>
         </div>
-        <!-- 3 ta rasm yuklash -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" class="three-uploads">
-            <!-- 1. Savol rasmi -->
-            <div class="mini-upload" onclick="document.getElementById('questionFile1').click()">
-                <input type="file" id="questionFile1" accept="image/*" onchange="handleQuestionImage(1, this)" style="display:none">
-                <div class="mini-upload-inner" id="qUpload1">
-                    <div style="font-size:24px">📄</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-purple)">Savol rasmi</div>
-                    <div style="font-size:10px;color:var(--text-muted)">ixtiyoriy</div>
-                    <div id="questionPreview1" style="display:none;margin-top:6px">
-                        <img id="questionImg1" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeQuestionImage(1);event.stopPropagation()" id="qRemove1" style="display:none">✕</button>
-                </div>
-            </div>
-            <!-- 2. To'g'ri yechim -->
-            <div class="mini-upload" onclick="document.getElementById('solutionFile1').click()">
-                <input type="file" id="solutionFile1" accept="image/*" onchange="handleSolutionImage(1, this)" style="display:none">
-                <div class="mini-upload-inner" id="sUpload1">
-                    <div style="font-size:24px">✅</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-green-light)">To'g'ri yechim</div>
-                    <div style="font-size:10px;color:var(--text-muted)">ustoz yechimi</div>
-                    <div id="solutionPreview1" style="display:none;margin-top:6px">
-                        <img id="solutionImg1" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeSolutionImage(1);event.stopPropagation()" id="sRemove1" style="display:none">✕</button>
-                </div>
-            </div>
-            <!-- 3. O'quvchi javob -->
-            <div class="mini-upload" onclick="document.getElementById('file1').click()">
-                <input type="file" id="file1" accept="image/*,.pdf" onchange="handleFile(1, this)">
-                <div class="mini-upload-inner" id="upload1">
-                    <div style="font-size:24px">📝</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-blue-light)">O'quvchi javob</div>
-                    <div style="font-size:10px;color:var(--text-muted)">majburiy</div>
-                    <div class="upload-preview" id="preview1" style="display:none;margin-top:6px">
-                        <img id="previewImg1" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeFile(1,event);event.stopPropagation()" id="fRemove1" style="display:none">✕</button>
-                </div>
-            </div>
+        <div class="result-percent" id="resultPercent">0%</div>
+        <div class="result-stats">
+            <div class="stat-box"><div class="stat-val" style="color:var(--green-light)" id="statOk">0</div><div class="stat-label">✅ To'g'ri</div></div>
+            <div class="stat-box"><div class="stat-val" style="color:var(--red-light)" id="statNo">0</div><div class="stat-label">❌ Noto'g'ri</div></div>
+            <div class="stat-box"><div class="stat-val" style="color:var(--text3)" id="statEmpty">0</div><div class="stat-label">⬜ Bo'sh</div></div>
         </div>
-        <div class="config-row" style="margin-bottom:12px">
-            <div class="config-item">
-                <label>📋 Qo'shimcha mezonlar va izoh</label>
-                <textarea id="question1" placeholder="Qo'shimcha izoh yoki baholash mezonlari..." style="min-height:40px"></textarea>
-            </div>
-        </div>
-        <div class="criteria-section">
-            <div class="criteria-title">📋 Baholash mezonlari</div>
-            <div class="criteria-list" id="criteria1"></div>
-            <button class="btn-add-criteria" onclick="addCriteria(1)">+ Qo'shish</button>
-        </div>
-        <button class="btn-analyze" onclick="analyzeQuestion(1)" id="btnAnalyze1">
-            🔬 Tahlil qilish
-        </button>
-        <div class="panel-result" id="result1">
-            <div class="panel-result-header">
-                <span style="font-weight:700;color:var(--text-secondary)">AI Natijasi</span>
-                <span class="panel-result-score" id="resultScore1">0/10</span>
-            </div>
-            <div class="panel-result-details" id="resultDetails1"></div>
-        </div>
+        <button class="btn-reset" onclick="resetAll()">🔄 Qayta boshlash</button>
     </div>
-
-    <div class="question-panel" id="panel2">
-        <div class="panel-header">
-            <div class="panel-title">43-Savol</div>
-            <div class="panel-score-display">
-                <span class="panel-score-current" id="score2">0</span>
-                <span class="panel-score-max">/ 10</span>
-            </div>
-        </div>
-        <div class="config-row">
-            <div class="config-item">
-                <label>📚 Mavzu</label>
-                <input type="text" id="topic2" placeholder="Masalan: Umumiy kimyo">
-            </div>
-            <div class="config-item" style="max-width:120px">
-                <label>Savolchalar</label>
-                <input type="number" id="subCount2" value="5" min="1" max="10">
-            </div>
-        </div>
-        <!-- 3 ta rasm yuklash -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" class="three-uploads">
-            <!-- 1. Savol rasmi -->
-            <div class="mini-upload" onclick="document.getElementById('questionFile2').click()">
-                <input type="file" id="questionFile2" accept="image/*" onchange="handleQuestionImage(2, this)" style="display:none">
-                <div class="mini-upload-inner" id="qUpload2">
-                    <div style="font-size:24px">📄</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-purple)">Savol rasmi</div>
-                    <div style="font-size:10px;color:var(--text-muted)">ixtiyoriy</div>
-                    <div id="questionPreview2" style="display:none;margin-top:6px">
-                        <img id="questionImg2" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeQuestionImage(2);event.stopPropagation()" id="qRemove2" style="display:none">✕</button>
-                </div>
-            </div>
-            <!-- 2. To'g'ri yechim -->
-            <div class="mini-upload" onclick="document.getElementById('solutionFile2').click()">
-                <input type="file" id="solutionFile2" accept="image/*" onchange="handleSolutionImage(2, this)" style="display:none">
-                <div class="mini-upload-inner" id="sUpload2">
-                    <div style="font-size:24px">✅</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-green-light)">To'g'ri yechim</div>
-                    <div style="font-size:10px;color:var(--text-muted)">ustoz yechimi</div>
-                    <div id="solutionPreview2" style="display:none;margin-top:6px">
-                        <img id="solutionImg2" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeSolutionImage(2);event.stopPropagation()" id="sRemove2" style="display:none">✕</button>
-                </div>
-            </div>
-            <!-- 3. O'quvchi javob -->
-            <div class="mini-upload" onclick="document.getElementById('file2').click()">
-                <input type="file" id="file2" accept="image/*,.pdf" onchange="handleFile(2, this)">
-                <div class="mini-upload-inner" id="upload2">
-                    <div style="font-size:24px">📝</div>
-                    <div style="font-size:12px;font-weight:700;color:var(--accent-blue-light)">O'quvchi javob</div>
-                    <div style="font-size:10px;color:var(--text-muted)">majburiy</div>
-                    <div class="upload-preview" id="preview2" style="display:none;margin-top:6px">
-                        <img id="previewImg2" src="" style="max-width:100%;max-height:80px;border-radius:6px">
-                    </div>
-                    <button class="mini-remove-btn" onclick="removeFile(2,event);event.stopPropagation()" id="fRemove2" style="display:none">✕</button>
-                </div>
-            </div>
-        </div>
-        <div class="config-row" style="margin-bottom:12px">
-            <div class="config-item">
-                <label>📋 Qo'shimcha mezonlar va izoh</label>
-                <textarea id="question2" placeholder="Qo'shimcha izoh yoki baholash mezonlari..." style="min-height:40px"></textarea>
-            </div>
-        </div>
-        <div class="criteria-section">
-            <div class="criteria-title">📋 Baholash mezonlari</div>
-            <div class="criteria-list" id="criteria2"></div>
-            <button class="btn-add-criteria" onclick="addCriteria(2)">+ Qo'shish</button>
-        </div>
-        <button class="btn-analyze" onclick="analyzeQuestion(2)" id="btnAnalyze2">
-            🔬 Tahlil qilish
-        </button>
-        <div class="panel-result" id="result2">
-            <div class="panel-result-header">
-                <span style="font-weight:700;color:var(--text-secondary)">AI Natijasi</span>
-                <span class="panel-result-score" id="resultScore2">0/10</span>
-            </div>
-            <div class="panel-result-details" id="resultDetails2"></div>
-        </div>
-    </div>
-
-    <!-- FINAL RESULTS -->
-    <section class="results-section">
-        <div class="results-header">
-            <div class="results-title">📊 Yakuniy Natija</div>
-            <div class="results-actions">
-                <button class="btn-save-result" id="btnSave" onclick="saveResult()" disabled>
-                    💾 Natijani saqlash
-                </button>
-                <button class="btn-reset" onclick="resetAll()">🔄 Qayta boshlash</button>
-            </div>
-        </div>
-        <div class="score-cards">
-            <div class="score-card">
-                <div class="score-card-label">41-Savol</div>
-                <div class="score-card-value" id="finalScore0">0<span>/10</span></div>
-            </div>
-            <div class="score-card">
-                <div class="score-card-label">42-Savol</div>
-                <div class="score-card-value" id="finalScore1">0<span>/10</span></div>
-            </div>
-            <div class="score-card">
-                <div class="score-card-label">43-Savol</div>
-                <div class="score-card-value" id="finalScore2">0<span>/10</span></div>
-            </div>
-        </div>
-        <div class="total-score-bar">
-            <span class="total-label">Umumiy ball</span>
-            <span class="total-value" id="totalScore">0<span> / 30</span></span>
-        </div>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="progressBar"></div>
-        </div>
-    </section>
-
-    <!-- STUDENTS TABLE -->
-    <section class="table-section">
-        <div class="table-header">
-            <div class="table-title">📋 O'quvchilar natijalari</div>
-            <div class="table-controls">
-                <button class="btn-export" onclick="exportCSV()">📥 CSV yuklash</button>
-                <button class="btn-clear-all" onclick="clearAllResults()">🗑 Hammasini tozalash</button>
-            </div>
-        </div>
-        <div class="search-wrapper">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Ism, familiya yoki sinf bo'yicha qidirish..." oninput="renderTable()">
-        </div>
-        <div class="results-table-container">
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Turi</th>
-                        <th>ID</th>
-                        <th>Ism-Familiya</th>
-                        <th>Sinf</th>
-                        <th class="center">41</th>
-                        <th class="center">42</th>
-                        <th class="center">43</th>
-                        <th class="center">Jami</th>
-                        <th class="center">Baho</th>
-                        <th>Sana</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                </tbody>
-            </table>
-        </div>
-        <div class="empty-state" id="emptyState">
-            <div class="empty-state-icon">📝</div>
-            <div class="empty-state-text">Hali natijalar yo'q. O'quvchi ma'lumotlarini kiritib, savollarni baholang.</div>
-        </div>
-        <div class="table-stats" id="tableStats" style="display:none">
-            <div class="stat-item">Jami o'quvchilar: <strong id="statCount">0</strong></div>
-            <div class="stat-item">O'rtacha ball: <strong id="statAvg">0</strong></div>
-            <div class="stat-item">Eng yuqori: <strong id="statMax">0</strong></div>
-            <div class="stat-item">Eng past: <strong id="statMin">0</strong></div>
-        </div>
-    </section>
-    </div><!-- end modeContentAI -->
-
-    <!-- ===== TEST MODE ===== -->
-    <div class="mode-content" id="modeContentTest">
-        
-        <!-- Test turi tanlash -->
-        <div class="test-config-card">
-            <div class="test-config-title">📋 Test sozlamalari</div>
-            <div class="test-type-selector">
-                <button class="test-type-btn active" onclick="selectTestType('small')" id="ttSmall">
-                    <div class="tt-icon">📄</div>
-                    <div class="tt-label">Kichik guruh</div>
-                    <div class="tt-desc">1—20 savol</div>
-                </button>
-                <button class="test-type-btn" onclick="selectTestType('big')" id="ttBig">
-                    <div class="tt-icon">📚</div>
-                    <div class="tt-label">Katta guruh</div>
-                    <div class="tt-desc">1—25 savol</div>
-                </button>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-                <div style="flex:1;min-width:200px;font-size:13px;color:var(--text-secondary);line-height:1.6">
-                    <span id="testTypeInfo">
-                        <strong style="color:var(--accent-orange)">Kichik guruh:</strong> 
-                        1—17 → ABCDE variantli &nbsp;|&nbsp; 18—20 → o'quvchi o'zi yozadi
-                    </span>
-                </div>
-                <div style="display:flex;align-items:center;gap:8px">
-                    <span style="font-size:12px;color:var(--text-muted);font-weight:600">Jami ball:</span>
-                    <span id="testTotalBallDisplay" style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:900;color:var(--accent-orange)">0</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- To'g'ri javoblar kaliti -->
-        <div class="answer-key-section">
-            <div class="answer-key-title">✅ To'g'ri javoblar kaliti</div>
-            <div class="answer-key-subtitle">Har bir savolning to'g'ri javobini va ballini kiriting</div>
-            <div class="answer-grid" id="answerKeyGrid">
-                <!-- JS fills this -->
-            </div>
-        </div>
-
-        <!-- O'quvchi javoblari -->
-        <div class="student-answer-section">
-            <div class="sa-title">📝 O'quvchi javoblari</div>
-            <div class="answer-grid" id="studentAnswerGrid">
-                <!-- JS fills this -->
-            </div>
-        </div>
-
-        <!-- Tekshirish tugmasi -->
-        <button class="test-check-btn" onclick="checkTestAnswers()" id="btnCheckTest">
-            ✅ Tekshirish
-        </button>
-
-        <!-- Natija -->
-        <div class="test-result-card" id="testResultCard">
-            <div class="test-result-header">
-                <div>
-                    <span class="test-result-score" id="testResultScore">0</span>
-                    <span class="test-result-max" id="testResultMax">/ 0</span>
-                </div>
-                <div class="test-result-percent" id="testResultPercent" style="color:var(--accent-green-light)">0%</div>
-            </div>
-            <div class="test-result-stats">
-                <div class="test-stat-item">
-                    <div class="test-stat-value" style="color:var(--accent-green-light)" id="testStatCorrect">0</div>
-                    <div class="test-stat-label">✅ To'g'ri</div>
-                </div>
-                <div class="test-stat-item">
-                    <div class="test-stat-value" style="color:var(--accent-yellow)" id="testStatPartial">0</div>
-                    <div class="test-stat-label">⚠️ Qisman</div>
-                </div>
-                <div class="test-stat-item">
-                    <div class="test-stat-value" style="color:var(--accent-red-light)" id="testStatWrong">0</div>
-                    <div class="test-stat-label">❌ Noto'g'ri</div>
-                </div>
-            </div>
-            <div style="margin-top:16px">
-                <button class="test-reset-btn" onclick="resetTest()">🔄 Qayta boshlash</button>
-            </div>
-        </div>
-
-    </div><!-- end modeContentTest -->
 
 </div>
-<div class="modal-overlay" id="sheetModal">
-    <div class="modal" style="max-width:540px">
-        <div class="modal-title">📊 Google Sheets ulash</div>
-        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6">
-            O'quvchilar ro'yxatini Google Sheets dan yuklash uchun quyidagi qadamlarni bajaring:
-        </p>
-        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;font-size:12px;color:var(--text-secondary);line-height:1.8">
-            <strong style="color:var(--accent-blue-light)">1.</strong> Google Sheets yarating yoki oching<br>
-            <strong style="color:var(--accent-blue-light)">2.</strong> <strong>Лист1</strong> = 🏫 Maktab o'quvchilari, <strong>Лист2</strong> = 🎓 Markaz o'quvchilari<br>
-            <strong style="color:var(--accent-blue-light)">3.</strong> Ustunlar: <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">A=ID</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">B=Ism</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">C=Familiya</code> <code style="background:rgba(59,130,246,0.15);padding:2px 6px;border-radius:4px;color:var(--accent-blue-light)">D=Sinf</code><br>
-            <strong style="color:var(--accent-blue-light)">4.</strong> Fayl → Ulashish → <strong>"Havolaga ega har kim ko'ra oladi"</strong><br>
-            <strong style="color:var(--accent-blue-light)">5.</strong> Sheet URL ni nusxalab pastga joylashtiring
-        </div>
-        <div class="form-group" style="margin-bottom:14px">
-            <label>Google Sheet havolasi</label>
-            <input type="text" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/..." style="width:100%;padding:10px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;font-family:'JetBrains Mono',monospace;outline:none;">
-        </div>
-        <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--accent-green-light);line-height:1.5">
-            📋 <strong>Namuna jadval:</strong><br>
-            <table style="width:100%;margin-top:6px;font-size:11px;border-collapse:collapse">
-                <tr style="border-bottom:1px solid rgba(16,185,129,0.2)">
-                    <td style="padding:3px 8px;font-weight:700">ID</td>
-                    <td style="padding:3px 8px;font-weight:700">Ism</td>
-                    <td style="padding:3px 8px;font-weight:700">Familiya</td>
-                    <td style="padding:3px 8px;font-weight:700">Sinf</td>
-                </tr>
-                <tr><td style="padding:3px 8px">1</td><td style="padding:3px 8px">Ali</td><td style="padding:3px 8px">Valiyev</td><td style="padding:3px 8px">11-A</td></tr>
-                <tr><td style="padding:3px 8px">2</td><td style="padding:3px 8px">Bobur</td><td style="padding:3px 8px">Karimov</td><td style="padding:3px 8px">11-A</td></tr>
-                <tr><td style="padding:3px 8px">3</td><td style="padding:3px 8px">Dilnoza</td><td style="padding:3px 8px">Rahimova</td><td style="padding:3px 8px">11-B</td></tr>
-            </table>
-        </div>
-        <div class="modal-actions">
-            <button class="btn-modal btn-modal-secondary" onclick="closeSheetModal()">Bekor</button>
-            <button class="btn-modal btn-modal-primary" id="btnSaveSheet" onclick="saveSheetUrl()">Saqlash va yuklash</button>
-        </div>
-    </div>
-</div>
 
-<!-- API MODAL -->
-<div class="modal-overlay" id="apiModal">
+<!-- SETTINGS -->
+<div class="modal-overlay" id="settingsModal">
     <div class="modal">
-        <div class="modal-title">🔑 API sozlamalari</div>
-        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px">
-            Rasmlarni tahlil qilish uchun Google Gemini API kaliti kerak.
-        </p>
-        <div class="form-group" style="margin-bottom:12px">
-            <label>API kalit</label>
-            <input type="text" id="apiKeyInput" placeholder="AIzaSy..." style="width:100%;padding:10px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;font-family:'JetBrains Mono',monospace;outline:none;">
-            <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Kalit "AIza..." bilan boshlanadi • Saqlashda avtomatik tekshiriladi</div>
-        </div>
-        <div class="form-group" style="margin-bottom:14px">
-            <label>AI Model</label>
-            <select id="modelSelect" style="width:100%;padding:10px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;outline:none;font-family:'Inter',sans-serif;">
-                <option value="gemini-2.5-pro-preview-05-06">⭐ Gemini 2.5 Pro (eng kuchli, 100/kun)</option>
-                <option value="gemini-2.5-flash">Gemini 2.5 Flash (tez + sifatli, 250/kun)</option>
-                <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite (eng tez, 1000/kun)</option>
-                <option value="gemini-2.0-flash">Gemini 2.0 Flash (eski, tez)</option>
-                <option value="gemini-1.5-flash">Gemini 1.5 Flash (eski, barqaror)</option>
-                <option value="gemini-1.5-pro">Gemini 1.5 Pro (eski, sifatli)</option>
-            </select>
-        </div>
-        <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--accent-green-light);line-height:1.5">
-            ⭐ <strong>Tavsiya: Gemini 2.5 Pro</strong> — rasm tahlilida eng kuchli model. Bepul: kuniga 100 so'rov.<br>
-            💡 Ko'p so'rov kerakmi? <strong>Gemini 2.5 Flash</strong> ni tanlang — kuniga 250 so'rov, sifati yaxshi.
-        </div>
-        <a class="modal-link" href="https://aistudio.google.com/apikey" target="_blank">
-            🔗 Bepul API kalit olish (Google AI Studio)
-        </a>
+        <div class="modal-title">⚙️ Sozlamalar</div>
+        <label class="modal-label">API kalit (Gemini)</label>
+        <input type="text" class="modal-input" id="apiKeyInput" placeholder="AIzaSy...">
+        <div style="font-size:11px;color:var(--text3);margin-top:-10px;margin-bottom:14px">Rasm skanerlash uchun kerak</div>
+        <label class="modal-label">AI Model</label>
+        <select class="modal-select" id="modelSelect">
+            <option value="gemini-2.5-pro-preview-05-06">⭐ Gemini 2.5 Pro (eng kuchli)</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (tez + sifatli)</option>
+            <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite (eng tez)</option>
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+        </select>
+        <a href="https://aistudio.google.com/apikey" target="_blank" style="display:block;color:var(--orange-light);font-size:13px;margin-bottom:14px;text-decoration:none">🔗 Bepul API kalit olish</a>
         <div class="modal-actions">
-            <button class="btn-modal btn-modal-secondary" onclick="closeApiModal()">Bekor</button>
-            <button class="btn-modal btn-modal-primary" onclick="saveApiKey()">Saqlash</button>
+            <button class="modal-btn modal-btn-secondary" onclick="closeSettings()">Bekor</button>
+            <button class="modal-btn modal-btn-primary" onclick="saveSettings()">Saqlash</button>
         </div>
     </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-    // ===== STATE =====
-    let scores = [0, 0, 0];
-    let fileData = [null, null, null];
-    let questionImageData = [null, null, null]; // savol rasmlari
-    let solutionImageData = [null, null, null]; // to'g'ri yechim rasmlari
-    let currentStudent = null;
-    let results = JSON.parse(localStorage.getItem('kimyo_results') || '[]');
-    let apiKey = localStorage.getItem('gemini_api_key') || '';
-    let selectedModel = localStorage.getItem('gemini_model') || 'gemini-2.5-pro-preview-05-06';
-    let sheetUrl = localStorage.getItem('sheet_url') || '';
-    let studentsDB = []; // loaded from Google Sheets
-    let selectedOrg = localStorage.getItem('selected_org') || 'maktab'; // 'maktab' or 'markaz'
+let group = 'small';
+let apiKey = localStorage.getItem('gemini_api_key') || '';
+let selectedAIModel = localStorage.getItem('gemini_model') || 'gemini-2.5-pro-preview-05-06';
+let scanFileData = null;
+let answerKey = {};   // { 1:{answer:'A',ball:1,type:'abcde'}, 18:{answer:'...',ball:2,type:'written'} }
+let studentAnswers = {};
 
-    // ===== INIT =====
-    document.addEventListener('DOMContentLoaded', () => {
-        renderTable();
-        if (!apiKey) openApiModal();
-        document.getElementById('apiKeyInput').value = apiKey;
-        document.getElementById('modelSelect').value = selectedModel;
-        document.getElementById('sheetUrlInput').value = sheetUrl;
-        // Restore org selection
-        selectOrg(selectedOrg, true);
-        if (sheetUrl) loadStudentsFromSheet();
-    });
+function getConfig() {
+    return group === 'small'
+        ? { total:20, abcdeEnd:17, writtenStart:18 }
+        : { total:25, abcdeEnd:22, writtenStart:23 };
+}
 
-    // ===== ORG SELECTION (Maktab / Markaz) =====
-    function selectOrg(org, silent = false) {
-        selectedOrg = org;
-        localStorage.setItem('selected_org', org);
-        document.getElementById('orgMaktab').classList.toggle('active', org === 'maktab');
-        document.getElementById('orgMarkaz').classList.toggle('active', org === 'markaz');
-        // Clear current student
-        document.getElementById('studentId').value = '';
-        document.getElementById('studentFirstName').value = '';
-        document.getElementById('studentLastName').value = '';
-        document.getElementById('studentClass').value = '';
-        document.getElementById('idStatus').innerHTML = '';
-        document.getElementById('btnConfirmStudent').disabled = true;
-        // Reload students for selected org
-        if (sheetUrl && !silent) loadStudentsFromSheet();
-        if (!silent) showToast(org === 'maktab' ? '🏫 Maktab tanlandi' : '🎓 Markaz tanlandi');
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('apiKeyInput').value = apiKey;
+    document.getElementById('modelSelect').value = selectedAIModel;
+    buildKeyGrid();
+    if (!apiKey) openSettings();
+});
+
+function selectGroup(g) {
+    group = g;
+    document.getElementById('grpSmall').classList.toggle('active', g === 'small');
+    document.getElementById('grpBig').classList.toggle('active', g === 'big');
+    document.getElementById('titulBadge').textContent = g === 'small' ? '📄 1 – 20' : '📚 1 – 25';
+    resetAll();
+    buildKeyGrid();
+    showToast(g === 'small' ? '📄 Kichik guruh (1–20)' : '📚 Katta guruh (1–25)');
+}
+
+function buildKeyGrid() {
+    const cfg = getConfig();
+    answerKey = {};
+    let html = '';
+
+    // ABCDE
+    for (let i = 1; i <= cfg.abcdeEnd; i++) {
+        answerKey[i] = { answer:null, ball:1, type:'abcde' };
+        html += `<div class="a-row">
+            <div class="a-num">${i}.</div>
+            <div class="a-opts">${['A','B','C','D','E'].map(o =>
+                `<div class="a-opt" onclick="setKey(${i},'${o}',this)">${o}</div>`
+            ).join('')}</div>
+            <input type="number" class="a-ball-input" value="1" min="0.5" max="10" step="0.5" onchange="answerKey[${i}].ball=parseFloat(this.value)||1" style="margin-left:auto">
+        </div>`;
     }
 
-    // ===== GOOGLE SHEETS =====
-    function extractSheetId(url) {
-        const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-        return match ? match[1] : null;
+    // Divider
+    html += `<div class="section-divider divider-purple">✍️ Yozma savollar (${cfg.writtenStart}–${cfg.total})</div>`;
+
+    // Written
+    for (let i = cfg.writtenStart; i <= cfg.total; i++) {
+        answerKey[i] = { answer:'', ball:2, type:'written' };
+        html += `<div class="a-row">
+            <div class="a-num">${i}.</div>
+            <div class="a-written">
+                <input type="text" placeholder="To'g'ri javob..." onchange="answerKey[${i}].answer=this.value.trim()">
+            </div>
+            <input type="number" class="a-ball-input" value="2" min="0.5" max="10" step="0.5" onchange="answerKey[${i}].ball=parseFloat(this.value)||2">
+        </div>`;
     }
 
-    function loadStudentsFromSheet() {
-        const sheetId = extractSheetId(sheetUrl);
-        if (!sheetId) return;
+    document.getElementById('keyGrid').innerHTML = html;
+}
 
-        const statusEl = document.getElementById('sheetStatus');
-        const statusText = document.getElementById('sheetStatusText');
-        statusEl.style.display = 'block';
-        statusText.textContent = 'Yuklanmoqda...';
-        statusText.style.color = 'var(--accent-yellow)';
+function setKey(q, opt, el) {
+    el.parentElement.querySelectorAll('.a-opt').forEach(o => o.classList.remove('key-selected'));
+    el.classList.add('key-selected');
+    answerKey[q].answer = opt;
+}
 
-        // Use JSONP to bypass CORS — works from any domain
-        const callbackName = '_sheetCallback_' + Date.now();
-        const timeout = setTimeout(() => {
-            delete window[callbackName];
-            statusText.textContent = 'Xatolik: Sheet ochilmadi. Ulashish sozlamasini tekshiring.';
-            statusText.style.color = 'var(--accent-red-light)';
-            showToast('❌ Sheets ulanmadi. "Все, у кого есть ссылка" sozlamasini tekshiring.', true);
-        }, 10000);
+// === SCAN ===
+function handleScan(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        scanFileData = { base64:e.target.result.split(',')[1], mimeType:file.type };
+        document.getElementById('scanImg').src = e.target.result;
+        document.getElementById('scanPreview').style.display = 'block';
+        document.getElementById('scanPlaceholder').style.display = 'none';
+        document.getElementById('scanArea').classList.add('has-file');
+    };
+    reader.readAsDataURL(file);
+}
 
-        window[callbackName] = function(response) {
-            clearTimeout(timeout);
-            delete window[callbackName];
-            try {
-                const rows = response.table?.rows || [];
-                if (rows.length === 0) throw new Error('Jadvalda ma\'lumot yo\'q');
+function removeScan() {
+    scanFileData = null;
+    document.getElementById('scanCamera').value = '';
+    document.getElementById('scanGallery').value = '';
+    document.getElementById('scanPreview').style.display = 'none';
+    document.getElementById('scanPlaceholder').style.display = 'block';
+    document.getElementById('scanArea').classList.remove('has-file');
+}
 
-                studentsDB = [];
-                for (const row of rows) {
-                    const cells = row.c || [];
-                    const id = cells[0]?.v != null ? String(cells[0].v).trim() : '';
-                    const firstName = cells[1]?.v != null ? String(cells[1].v).trim() : '';
-                    const lastName = cells[2]?.v != null ? String(cells[2].v).trim() : '';
-                    const cls = cells[3]?.v != null ? String(cells[3].v).trim() : '—';
-                    if (id && firstName) {
-                        studentsDB.push({ id, firstName, lastName, class: cls });
-                    }
-                }
+async function aiScanCheck() {
+    if (!apiKey) { openSettings(); return; }
+    if (!scanFileData) { showToast('❌ Avval rasmni yuklang!', true); return; }
 
-                if (studentsDB.length === 0) throw new Error('Jadvalda o\'quvchilar topilmadi');
+    const cfg = getConfig();
+    const btn = document.getElementById('btnScan');
+    const status = document.getElementById('scanStatus');
+    btn.disabled = true;
+    btn.innerHTML = '🔍 AI o\'qimoqda...';
+    status.style.display = 'block';
+    status.textContent = '⏳ Rasm tahlil qilinmoqda...';
+    status.style.color = 'var(--text2)';
 
-                const orgLabel = selectedOrg === 'maktab' ? '🏫 Maktab' : '🎓 Markaz';
-                statusText.textContent = `${orgLabel}: ${studentsDB.length} ta o'quvchi yuklandi ✅`;
-                statusText.style.color = 'var(--accent-green-light)';
-                showToast(`✅ ${orgLabel} — ${studentsDB.length} ta o'quvchi yuklandi`);
-            } catch (err) {
-                statusText.textContent = `Xatolik: ${err.message}`;
-                statusText.style.color = 'var(--accent-red-light)';
-                showToast(`❌ ${err.message}`, true);
-            }
-        };
+    const prompt = `Bu rasm kimyo test javob varaqasi. O'quvchi belgilagan javoblarni va O'quvchi ID raqamini o'qi.
 
-        // Sheet name: Лист1 (or "Maktab") for maktab, Лист2 (or "Markaz") for markaz
-        const sheetName = selectedOrg === 'maktab' ? 'Лист1' : 'Лист2';
-        const encodedSheet = encodeURIComponent(sheetName);
+Test: ${group === 'small' ? '20 savol (1-17 ABCDE, 18-20 yozma)' : '25 savol (1-22 ABCDE, 23-25 yozma)'}
 
-        const script = document.createElement('script');
-        script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${callbackName}&sheet=${encodedSheet}`;
-        script.onerror = () => {
-            clearTimeout(timeout);
-            delete window[callbackName];
-            statusText.textContent = 'Xatolik: Sheet URL noto\'g\'ri yoki internet yo\'q';
-            statusText.style.color = 'var(--accent-red-light)';
-            showToast('❌ Sheet yuklanmadi. URL va internetni tekshiring.', true);
-        };
-        document.body.appendChild(script);
-        script.onload = () => script.remove();
-    }
-
-    function parseCSV(text) {
-        const rows = [];
-        let current = [];
-        let field = '';
-        let inQuotes = false;
-        for (let i = 0; i < text.length; i++) {
-            const ch = text[i];
-            if (inQuotes) {
-                if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
-                else if (ch === '"') { inQuotes = false; }
-                else { field += ch; }
-            } else {
-                if (ch === '"') { inQuotes = true; }
-                else if (ch === ',') { current.push(field); field = ''; }
-                else if (ch === '\n' || ch === '\r') {
-                    if (ch === '\r' && text[i + 1] === '\n') i++;
-                    current.push(field); field = '';
-                    if (current.some(c => c.trim())) rows.push(current);
-                    current = [];
-                } else { field += ch; }
-            }
-        }
-        current.push(field);
-        if (current.some(c => c.trim())) rows.push(current);
-        return rows;
-    }
-
-    function lookupStudent(idValue) {
-        const id = idValue.trim();
-        const idStatus = document.getElementById('idStatus');
-        const btnConfirm = document.getElementById('btnConfirmStudent');
-        const fnInput = document.getElementById('studentFirstName');
-        const lnInput = document.getElementById('studentLastName');
-        const clInput = document.getElementById('studentClass');
-
-        if (!id) {
-            idStatus.innerHTML = '';
-            fnInput.value = ''; lnInput.value = ''; clInput.value = '';
-            btnConfirm.disabled = true;
-            return;
-        }
-
-        if (studentsDB.length === 0) {
-            idStatus.innerHTML = '<span style="color:var(--accent-yellow)">⚠ Sheets ulanmagan</span>';
-            // Allow manual entry
-            fnInput.readOnly = false; fnInput.style.opacity = '1'; fnInput.placeholder = 'Ism kiriting';
-            lnInput.readOnly = false; lnInput.style.opacity = '1'; lnInput.placeholder = 'Familiya kiriting';
-            clInput.readOnly = false; clInput.style.opacity = '1'; clInput.placeholder = 'Sinf kiriting';
-            btnConfirm.disabled = false;
-            return;
-        }
-
-        const student = studentsDB.find(s => s.id === id);
-        if (student) {
-            fnInput.value = student.firstName;
-            lnInput.value = student.lastName;
-            clInput.value = student.class;
-            idStatus.innerHTML = `<span style="color:var(--accent-green-light)">✅ Topildi</span>`;
-            btnConfirm.disabled = false;
-            // Auto-confirm
-            fnInput.readOnly = true; fnInput.style.opacity = '1';
-            lnInput.readOnly = true; lnInput.style.opacity = '1';
-            clInput.readOnly = true; clInput.style.opacity = '1';
-        } else {
-            fnInput.value = ''; lnInput.value = ''; clInput.value = '';
-            idStatus.innerHTML = `<span style="color:var(--accent-red-light)">❌ ID topilmadi</span>`;
-            btnConfirm.disabled = true;
-            fnInput.readOnly = true; fnInput.style.opacity = '0.7';
-            lnInput.readOnly = true; lnInput.style.opacity = '0.7';
-            clInput.readOnly = true; clInput.style.opacity = '0.7';
-        }
-    }
-
-    function openSheetModal() {
-        document.getElementById('sheetModal').classList.add('active');
-        document.getElementById('sheetUrlInput').value = sheetUrl;
-    }
-    function closeSheetModal() {
-        document.getElementById('sheetModal').classList.remove('active');
-    }
-    async function saveSheetUrl() {
-        const url = document.getElementById('sheetUrlInput').value.trim();
-        if (!url) { showToast('❌ Sheet havolasini kiriting!', true); return; }
-        if (!extractSheetId(url)) { showToast('❌ Noto\'g\'ri Google Sheets havola!', true); return; }
-
-        sheetUrl = url;
-        localStorage.setItem('sheet_url', url);
-        loadStudentsFromSheet();
-
-        // Close modal after short delay to let JSONP load
-        setTimeout(() => {
-            if (studentsDB.length > 0) closeSheetModal();
-        }, 3000);
-    }
-
-    // ===== STUDENT =====
-    function setStudent() {
-        const id = document.getElementById('studentId').value.trim();
-        const first = document.getElementById('studentFirstName').value.trim();
-        const last = document.getElementById('studentLastName').value.trim();
-        const cls = document.getElementById('studentClass').value.trim();
-        if (!first || !last) {
-            showToast('❌ Ism va familiyani kiriting!', true);
-            return;
-        }
-        currentStudent = { id: id || '—', firstName: first, lastName: last, class: cls || '—' };
-        const badge = document.getElementById('currentStudentBadge');
-        badge.classList.add('active');
-        document.getElementById('studentAvatar').textContent = first[0].toUpperCase();
-        document.getElementById('studentDisplayName').textContent = `#${id || '—'} — ${first} ${last}`;
-        document.getElementById('studentDisplayClass').textContent = cls || '—';
-        document.getElementById('btnSave').disabled = false;
-        showToast(`✅ ${first} ${last} tanlandi`);
-    }
-
-    function clearStudent() {
-        currentStudent = null;
-        document.getElementById('currentStudentBadge').classList.remove('active');
-        document.getElementById('studentId').value = '';
-        document.getElementById('studentFirstName').value = '';
-        document.getElementById('studentLastName').value = '';
-        document.getElementById('studentClass').value = '';
-        document.getElementById('idStatus').innerHTML = '';
-        document.getElementById('btnConfirmStudent').disabled = true;
-        document.getElementById('btnSave').disabled = true;
-        // Reset readonly
-        ['studentFirstName','studentLastName','studentClass'].forEach(id => {
-            const el = document.getElementById(id);
-            el.readOnly = true; el.style.opacity = '0.7';
-            el.placeholder = 'Avtomatik to\'ladi';
-        });
-    }
-
-    // ===== TABS =====
-    function switchTab(idx) {
-        document.querySelectorAll('.q-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
-        document.querySelectorAll('.question-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
-    }
-
-    // ===== CRITERIA =====
-    function addCriteria(qIdx) {
-        const list = document.getElementById(`criteria${qIdx}`);
-        const item = document.createElement('div');
-        item.className = 'criteria-item';
-        item.innerHTML = `
-            <input type="text" placeholder="Mezonni kiriting..." onkeydown="if(event.key==='Enter')addCriteria(${qIdx})">
-            <button class="btn-remove" onclick="this.parentElement.remove()">✕</button>
-        `;
-        list.appendChild(item);
-        item.querySelector('input').focus();
-    }
-
-    // ===== FILE UPLOAD =====
-    function handleFile(idx, input) {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const base64 = e.target.result.split(',')[1];
-            fileData[idx] = { base64, mimeType: file.type, name: file.name };
-            const preview = document.getElementById(`preview${idx}`);
-            document.getElementById(`previewImg${idx}`).src = e.target.result;
-            preview.style.display = 'block';
-            document.getElementById(`upload${idx}`).parentElement.classList.add('has-file');
-            document.getElementById(`fRemove${idx}`).style.display = 'flex';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function removeFile(idx, event) {
-        if (event) event.stopPropagation();
-        fileData[idx] = null;
-        document.getElementById(`file${idx}`).value = '';
-        document.getElementById(`preview${idx}`).style.display = 'none';
-        document.getElementById(`upload${idx}`).parentElement.classList.remove('has-file');
-        document.getElementById(`fRemove${idx}`).style.display = 'none';
-    }
-
-    // ===== QUESTION IMAGE =====
-    function handleQuestionImage(idx, input) {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const base64 = e.target.result.split(',')[1];
-            questionImageData[idx] = { base64, mimeType: file.type };
-            document.getElementById(`questionImg${idx}`).src = e.target.result;
-            document.getElementById(`questionPreview${idx}`).style.display = 'block';
-            document.getElementById(`qUpload${idx}`).parentElement.classList.add('has-file');
-            document.getElementById(`qRemove${idx}`).style.display = 'flex';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function removeQuestionImage(idx) {
-        questionImageData[idx] = null;
-        document.getElementById(`questionFile${idx}`).value = '';
-        document.getElementById(`questionPreview${idx}`).style.display = 'none';
-        document.getElementById(`qUpload${idx}`).parentElement.classList.remove('has-file');
-        document.getElementById(`qRemove${idx}`).style.display = 'none';
-    }
-
-    // ===== SOLUTION IMAGE =====
-    function handleSolutionImage(idx, input) {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const base64 = e.target.result.split(',')[1];
-            solutionImageData[idx] = { base64, mimeType: file.type };
-            document.getElementById(`solutionImg${idx}`).src = e.target.result;
-            document.getElementById(`solutionPreview${idx}`).style.display = 'block';
-            document.getElementById(`sUpload${idx}`).parentElement.classList.add('has-file');
-            document.getElementById(`sRemove${idx}`).style.display = 'flex';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function removeSolutionImage(idx) {
-        solutionImageData[idx] = null;
-        document.getElementById(`solutionFile${idx}`).value = '';
-        document.getElementById(`solutionPreview${idx}`).style.display = 'none';
-        document.getElementById(`sUpload${idx}`).parentElement.classList.remove('has-file');
-        document.getElementById(`sRemove${idx}`).style.display = 'none';
-    }
-
-    // ===== ANALYZE =====
-    async function analyzeQuestion(idx) {
-        if (!apiKey) { openApiModal(); return; }
-        if (!fileData[idx]) { showToast('❌ Avval rasmni yuklang!', true); return; }
-
-        const btn = document.getElementById(`btnAnalyze${idx}`);
-        btn.classList.add('loading');
-        btn.disabled = true;
-
-        const qNum = 41 + idx;
-        const topic = document.getElementById(`topic${idx}`).value.trim();
-        const question = document.getElementById(`question${idx}`).value.trim();
-        const subCount = parseInt(document.getElementById(`subCount${idx}`).value) || 5;
-
-        // Gather criteria
-        const criteriaInputs = document.querySelectorAll(`#criteria${idx} input`);
-        const criteria = Array.from(criteriaInputs).map(i => i.value.trim()).filter(Boolean);
-
-        const ballPerSub = 10 / subCount;
-
-        // ===== 2-BOSQICHLI TEZ TEKSHIRUV =====
-        
-        // Helper: API ga so'rov yuborish
-        async function callGemini(parts) {
-            const body = { contents: [{ parts }] };
-            const fallbackModels = [selectedModel, 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']
-                .filter((m, i, arr) => arr.indexOf(m) === i);
-            
-            for (let m = 0; m < fallbackModels.length; m++) {
-                const model = fallbackModels[m];
-                for (let retry = 0; retry < 2; retry++) {
-                    if (retry > 0 || m > 0) await new Promise(r => setTimeout(r, retry > 0 ? 3000 : 1500));
-                    const resp = await fetch(
-                        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-                        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-                    );
-                    const data = await resp.json();
-                    if (!data.error) {
-                        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-                        return { text, model };
-                    }
-                    const errMsg = (data.error.message || '').toLowerCase();
-                    if (errMsg.includes('quota') || errMsg.includes('rate') || errMsg.includes('limit') || resp.status === 429) {
-                        if (retry === 0) continue; else break;
-                    } else {
-                        throw new Error(data.error.message);
-                    }
-                }
-            }
-            throw new Error('API kvotasi tugagan! 1-2 daqiqa kutib qayta urining.');
-        }
-
-        try {
-            let step1Result = '', finalResult = '';
-            let modelUsed = '';
-
-            // ========== 1-BOSQICH: O'QI + SOLISHTIR ==========
-            btn.classList.remove('loading');
-            btn.innerHTML = '🔍 1/2: O\'qish va solishtirish...';
-            btn.style.cssText = 'width:100%;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:not-allowed;background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3);';
-
-            const step1Parts = [];
-            
-            if (questionImageData[idx]) {
-                step1Parts.push({ text: '📄 SAVOL (ball taqsimoti shu rasmda):' });
-                step1Parts.push({ inline_data: { mime_type: questionImageData[idx].mimeType, data: questionImageData[idx].base64 } });
-            }
-            if (solutionImageData[idx]) {
-                step1Parts.push({ text: '✅ TO\'G\'RI YECHIM:' });
-                step1Parts.push({ inline_data: { mime_type: solutionImageData[idx].mimeType, data: solutionImageData[idx].base64 } });
-            }
-            step1Parts.push({ text: '📝 O\'QUVCHI JAVOBI:' });
-            step1Parts.push({ inline_data: { mime_type: fileData[idx].mimeType, data: fileData[idx].base64 } });
-
-            step1Parts.push({ text: `Kimyo imtihoni ${qNum}-savol. ${topic ? 'Mavzu: ' + topic + '.' : ''} ${question || ''}
-
-VAZIFA: O'quvchi javob rasmidan har bir savolchani ANIQ O'QI va ${solutionImageData[idx] ? 'to\'g\'ri yechim bilan SOLISHTIR' : questionImageData[idx] ? 'savol rasmiga qarab tekshir' : 'o\'z bilimingga qarab tekshir'}.
-
-${criteria.length > 0 ? 'Mezonlar: ' + criteria.join('; ') : ''}
-
-HAR BIR SAVOLCHA UCHUN:
-- O'quvchi javobi: [rasmdan o'qilgan aniq javob]
-- To'g'ri javob: [${solutionImageData[idx] ? 'yechim rasmidan' : 'o\'z bilimingdan'}]  
-- Natija: ✅ TO'G'RI / ⚠️ QISMAN / ❌ NOTO'G'RI
-- Izoh: [qisqa sabab]
-
-Hech qanday ball berma — faqat o'qi va solishtir.` });
-
-            const r1 = await callGemini(step1Parts);
-            step1Result = r1.text;
-            modelUsed = r1.model;
-
-            // ========== 2-BOSQICH: BALL BERISH ==========
-            btn.innerHTML = '🎯 2/2: Ball berilmoqda...';
-            btn.style.cssText = 'width:100%;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:not-allowed;background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);';
-
-            const step2Parts = [];
-            if (questionImageData[idx]) {
-                step2Parts.push({ text: '📄 SAVOL RASMI (ball taqsimoti):' });
-                step2Parts.push({ inline_data: { mime_type: questionImageData[idx].mimeType, data: questionImageData[idx].base64 } });
-            }
-            step2Parts.push({ text: `Kimyo ${qNum}-savol. Jami: 10 ball.
-
-TEKSHIRUV NATIJASI:
-${step1Result}
-
-${questionImageData[idx] ? 'MUHIM: Savol rasmidagi ball taqsimotiga ANIQ amal qil!' : 'Ball taqsimoti: ' + subCount + ' ta savolcha, har biri ' + ballPerSub.toFixed(1) + ' ball'}
-
-QOIDALAR:
-✅ TO'G'RI = to'liq ball
-⚠️ QISMAN = yarim ball (formula to'g'ri hisob xato, yoki javob to'liqmas)
-❌ NOTO'G'RI = 0 ball
-
-FORMAT:
-1-savolcha ([X] ball): ✅/⚠️/❌ — [qisqa izoh]
-2-savolcha ([X] ball): ✅/⚠️/❌ — [qisqa izoh]
+FAQAT shu formatda javob ber:
+ID=123
+1=A
+2=C
+3=B
+...
+${cfg.writtenStart}=javob matni
+${cfg.writtenStart+1}=javob matni
 ...
 
-**BALL: [JAMI]/10**` });
+Birinchi qatorda ID= dan keyin O'quvchi ID raqamini yoz (varaqada "O'quvchi ID" yonidagi raqam).
+ID bo'sh bo'lsa: ID=-
+Javob bo'sh bo'lsa: 1=-
+Boshqa hech narsa yozma!`;
 
-            const r2 = await callGemini(step2Parts);
-            finalResult = r2.text;
+    try {
+        const parts = [
+            { inline_data:{ mime_type:scanFileData.mimeType, data:scanFileData.base64 } },
+            { text:prompt }
+        ];
+        const body = { contents:[{ parts }] };
+        const models = [selectedAIModel,'gemini-2.5-flash','gemini-2.5-flash-lite'].filter((v,i,a)=>a.indexOf(v)===i);
 
-            // Restore button
-            btn.innerHTML = '🔬 Tahlil qilish';
-            btn.style.cssText = '';
-
-            // Extract score from step 3
-            const scoreMatch = finalResult.match(/\*?\*?BALL:\s*(\d+)\s*\/\s*10\*?\*?/i);
-            let extractedScore = scoreMatch ? parseInt(scoreMatch[1]) : 0;
-            extractedScore = Math.min(10, Math.max(0, extractedScore));
-
-            scores[idx] = extractedScore;
-            updateScoreDisplays();
-
-            // Show result with all 3 steps
-            const resultDiv = document.getElementById(`result${idx}`);
-            resultDiv.classList.add('active');
-            document.getElementById(`resultScore${idx}`).textContent = `${extractedScore}/10`;
-            document.getElementById(`resultDetails${idx}`).innerHTML = 
-                `<details style="margin-bottom:8px;cursor:pointer"><summary style="font-weight:700;color:var(--accent-purple);font-size:13px">🔍 1-bosqich: O'qish va solishtirish</summary><pre style="white-space:pre-wrap;font-size:12px;margin-top:6px;padding:8px;background:var(--bg-card);border-radius:6px">${step1Result}</pre></details>` +
-                `<div style="font-weight:700;color:var(--accent-green-light);font-size:13px;margin-bottom:6px">🎯 2-bosqich: Yakuniy baho</div><pre style="white-space:pre-wrap;font-size:13px">${finalResult}</pre>`;
-
-            showToast(`✅ ${qNum}-savol: ${extractedScore}/10 (${modelUsed})`);
-
-        } catch (err) {
-            const isQuota = err.message.includes('kvotasi tugagan') || err.message.includes('kvota');
-            showToast(`❌ ${err.message}`, true);
-            
-            if (isQuota) {
-                // Show countdown on button for 60 seconds
-                btn.disabled = true;
-                btn.classList.remove('loading');
-                let countdown = 60;
-                const originalText = btn.innerHTML;
-                const timer = setInterval(() => {
-                    countdown--;
-                    btn.innerHTML = `⏳ Kvota tiklanmoqda... ${countdown}s`;
-                    btn.style.background = 'rgba(245,158,11,0.2)';
-                    btn.style.border = '1px solid rgba(245,158,11,0.4)';
-                    btn.style.color = '#f59e0b';
-                    if (countdown <= 0) {
-                        clearInterval(timer);
-                        btn.innerHTML = '🔬 Qayta urinish';
-                        btn.style.background = '';
-                        btn.style.border = '';
-                        btn.style.color = '';
-                        btn.disabled = false;
-                        showToast('✅ Kvota tiklangan bo\'lishi mumkin. Qayta urining!');
-                    }
-                }, 1000);
-                return; // skip finally to keep custom button state
-            }
-        } finally {
-            btn.classList.remove('loading');
-            btn.disabled = false;
-            if (!btn.innerHTML.includes('⏳')) {
-                btn.innerHTML = '🔬 Tahlil qilish';
-                btn.style.cssText = '';
-            }
-        }
-    }
-
-    // ===== SCORE UPDATES =====
-    function updateScoreDisplays() {
-        const total = scores[0] + scores[1] + scores[2];
-
-        for (let i = 0; i < 3; i++) {
-            document.getElementById(`score${i}`).textContent = scores[i];
-            document.getElementById(`tabScore${i}`).textContent = `${scores[i]}/10`;
-            document.getElementById(`finalScore${i}`).innerHTML = `${scores[i]}<span>/10</span>`;
-
-            const tab = document.getElementById(`tab${i}`);
-            tab.classList.toggle('scored', scores[i] > 0);
-        }
-
-        document.getElementById('totalScore').innerHTML = `${total}<span> / 30</span>`;
-        document.getElementById('headerScore').textContent = `${total} / 30`;
-        document.getElementById('progressBar').style.width = `${(total / 30) * 100}%`;
-    }
-
-    // ===== SAVE RESULT =====
-    function saveResult() {
-        if (!currentStudent) {
-            showToast('❌ O\'quvchi tanlanmagan!', true);
-            return;
-        }
-        const total = scores[0] + scores[1] + scores[2];
-        const entry = {
-            id: Date.now(),
-            org: selectedOrg,
-            studentId: currentStudent.id || '—',
-            firstName: currentStudent.firstName,
-            lastName: currentStudent.lastName,
-            class: currentStudent.class,
-            scores: [...scores],
-            total: total,
-            grade: getGrade(total),
-            date: new Date().toLocaleString('uz-UZ')
-        };
-        results.unshift(entry);
-        localStorage.setItem('kimyo_results', JSON.stringify(results));
-        renderTable();
-        showToast(`✅ ${entry.firstName} ${entry.lastName} natijasi saqlandi!`);
-    }
-
-    function getGrade(total) {
-        if (total >= 26) return 5;
-        if (total >= 20) return 4;
-        if (total >= 14) return 3;
-        return 2;
-    }
-
-    function getGradeLabel(g) {
-        if (g === 5) return "A'lo";
-        if (g === 4) return "Yaxshi";
-        if (g === 3) return "Qoniqarli";
-        return "Qoniqarsiz";
-    }
-
-    // ===== TABLE =====
-    function renderTable() {
-        const search = (document.getElementById('searchBar')?.value || '').toLowerCase();
-        const filtered = results.filter(r => {
-            const fullName = `${r.firstName} ${r.lastName}`.toLowerCase();
-            return fullName.includes(search) || (r.class || '').toLowerCase().includes(search);
-        });
-
-        const tbody = document.getElementById('tableBody');
-        const empty = document.getElementById('emptyState');
-        const stats = document.getElementById('tableStats');
-
-        if (filtered.length === 0) {
-            tbody.innerHTML = '';
-            empty.style.display = 'block';
-            stats.style.display = 'none';
-            return;
-        }
-
-        empty.style.display = 'none';
-        stats.style.display = 'flex';
-
-        tbody.innerHTML = filtered.map((r, i) => {
-            const scoreClass = (s) => s >= 8 ? 'high' : s >= 5 ? 'medium' : 'low';
-            const totalClass = r.total >= 26 ? 'high' : r.total >= 20 ? 'medium' : 'low';
-            return `<tr>
-                <td class="td-num">${i + 1}</td>
-                <td><span style="font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;${r.org === 'markaz' ? 'background:rgba(139,92,246,0.15);color:#a78bfa' : 'background:rgba(59,130,246,0.15);color:#60a5fa'}">${r.org === 'markaz' ? '🎓 Markaz' : '🏫 Maktab'}</span></td>
-                <td class="td-num">${r.studentId || '—'}</td>
-                <td class="td-name">${r.firstName} ${r.lastName}</td>
-                <td>${r.class}</td>
-                <td class="center td-score ${scoreClass(r.scores[0])}">${r.scores[0]}</td>
-                <td class="center td-score ${scoreClass(r.scores[1])}">${r.scores[1]}</td>
-                <td class="center td-score ${scoreClass(r.scores[2])}">${r.scores[2]}</td>
-                <td class="center td-total ${totalClass}">${r.total}/30</td>
-                <td class="center"><span class="td-grade grade-${r.grade}">${r.grade} - ${getGradeLabel(r.grade)}</span></td>
-                <td class="td-date">${r.date}</td>
-                <td><button class="btn-delete-row" onclick="deleteResult(${r.id})">🗑</button></td>
-            </tr>`;
-        }).join('');
-
-        // Stats
-        const totals = filtered.map(r => r.total);
-        document.getElementById('statCount').textContent = filtered.length;
-        document.getElementById('statAvg').textContent = (totals.reduce((a, b) => a + b, 0) / totals.length).toFixed(1);
-        document.getElementById('statMax').textContent = Math.max(...totals);
-        document.getElementById('statMin').textContent = Math.min(...totals);
-    }
-
-    function deleteResult(id) {
-        if (!confirm("Bu natijani o'chirmoqchimisiz?")) return;
-        results = results.filter(r => r.id !== id);
-        localStorage.setItem('kimyo_results', JSON.stringify(results));
-        renderTable();
-        showToast('🗑 Natija o\'chirildi');
-    }
-
-    function clearAllResults() {
-        if (!confirm("Barcha natijalarni o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi!")) return;
-        results = [];
-        localStorage.setItem('kimyo_results', JSON.stringify(results));
-        renderTable();
-        showToast('🗑 Barcha natijalar tozalandi');
-    }
-
-    // ===== EXPORT CSV =====
-    function exportCSV() {
-        if (results.length === 0) {
-            showToast('❌ Eksport qilish uchun natijalar yo\'q', true);
-            return;
-        }
-        const header = '№,Turi,ID,Ism,Familiya,Sinf,41-savol,42-savol,43-savol,Jami,Baho,Sana\n';
-        const rows = results.map((r, i) =>
-            `${i+1},${r.org === 'markaz' ? 'Markaz' : 'Maktab'},${r.studentId || '—'},${r.firstName},${r.lastName},${r.class},${r.scores[0]},${r.scores[1]},${r.scores[2]},${r.total},${r.grade},${r.date}`
-        ).join('\n');
-
-        const BOM = '\uFEFF';
-        const blob = new Blob([BOM + header + rows], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `kimyo_natijalar_${new Date().toISOString().slice(0,10)}.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('📥 CSV fayl yuklandi');
-    }
-
-    // ===== RESET =====
-    function resetAll() {
-        scores = [0, 0, 0];
-        fileData = [null, null, null];
-        questionImageData = [null, null, null];
-        solutionImageData = [null, null, null];
-        updateScoreDisplays();
-
-        for (let i = 0; i < 3; i++) {
-            document.getElementById(`file${i}`).value = '';
-            document.getElementById(`preview${i}`).style.display = 'none';
-            document.getElementById(`result${i}`).classList.remove('active');
-            document.getElementById(`topic${i}`).value = '';
-            document.getElementById(`question${i}`).value = '';
-            document.getElementById(`subCount${i}`).value = '5';
-            document.getElementById(`criteria${i}`).innerHTML = '';
-            // Clear question images
-            document.getElementById(`questionFile${i}`).value = '';
-            document.getElementById(`questionPreview${i}`).style.display = 'none';
-            // Clear solution images
-            document.getElementById(`solutionFile${i}`).value = '';
-            document.getElementById(`solutionPreview${i}`).style.display = 'none';
-            // Remove has-file classes and hide remove buttons
-            ['qUpload','sUpload','upload'].forEach(prefix => {
-                const el = document.getElementById(`${prefix}${i}`);
-                if (el && el.parentElement) el.parentElement.classList.remove('has-file');
-            });
-            ['qRemove','sRemove','fRemove'].forEach(prefix => {
-                const el = document.getElementById(`${prefix}${i}`);
-                if (el) el.style.display = 'none';
-            });
-        }
-        switchTab(0);
-        showToast('🔄 Hammasi tozalandi');
-    }
-
-    // ===== API MODAL =====
-    function openApiModal() {
-        document.getElementById('apiModal').classList.add('active');
-        document.getElementById('apiKeyInput').value = apiKey;
-    }
-    function closeApiModal() {
-        document.getElementById('apiModal').classList.remove('active');
-    }
-    async function saveApiKey() {
-        const key = document.getElementById('apiKeyInput').value.trim();
-        if (!key) { showToast('❌ API kalit kiriting!', true); return; }
-        
-        // Save model selection
-        selectedModel = document.getElementById('modelSelect').value;
-        localStorage.setItem('gemini_model', selectedModel);
-
-        // Test the API key
-        const saveBtn = document.querySelector('.btn-modal-primary');
-        const origText = saveBtn.textContent;
-        saveBtn.textContent = '⏳ Tekshirilmoqda...';
-        saveBtn.disabled = true;
-
-        try {
-            const testResp = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${key}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: 'Say OK' }] }]
-                    })
+        let resultText = '', usedModel = '';
+        for (const model of models) {
+            for (let r = 0; r < 2; r++) {
+                if (r>0||model!==models[0]) await new Promise(rs=>setTimeout(rs,r>0?3000:1500));
+                status.textContent = `⏳ ${model} bilan tahlil...`;
+                const resp = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+                    { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) }
+                );
+                const data = await resp.json();
+                if (!data.error) {
+                    resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                    usedModel = model; break;
                 }
-            );
-            const testData = await testResp.json();
-
-            if (testData.error) {
-                const errMsg = (testData.error.message || '').toLowerCase();
-                if (errMsg.includes('api key') || errMsg.includes('invalid') || errMsg.includes('api_key_invalid') || testResp.status === 400) {
-                    showToast('❌ API kalit noto\'g\'ri! Kalitni tekshirib qayta kiriting.\n\n💡 To\'g\'ri kalit "AIza..." bilan boshlanadi.', true);
-                    return;
-                } else if (errMsg.includes('quota') || errMsg.includes('rate') || errMsg.includes('limit') || testResp.status === 429) {
-                    // Key is valid but quota exceeded — still save it
-                    apiKey = key;
-                    localStorage.setItem('gemini_api_key', key);
-                    closeApiModal();
-                    showToast('⚠️ Kalit to\'g\'ri, lekin kvota hozir tugagan. 1-2 daqiqa kutib tahlil qiling.', true);
-                    return;
-                } else if (errMsg.includes('permission') || errMsg.includes('denied') || errMsg.includes('enable')) {
-                    showToast('❌ Bu kalitda Gemini API yoqilmagan!\n\n💡 Google AI Studio → API kalit → "Generative Language API" ni yoqing.', true);
-                    return;
-                } else {
-                    // Unknown error but key might still work
-                    apiKey = key;
-                    localStorage.setItem('gemini_api_key', key);
-                    closeApiModal();
-                    showToast(`⚠️ Kalit saqlandi, lekin xatolik bor: ${testData.error.message}`, true);
-                    return;
-                }
+                const err = (data.error.message||'').toLowerCase();
+                if (err.includes('quota')||err.includes('rate')||err.includes('limit')||resp.status===429) {
+                    if (r===0) continue; else break;
+                } else throw new Error(data.error.message);
             }
-
-            // Success!
-            apiKey = key;
-            localStorage.setItem('gemini_api_key', key);
-            closeApiModal();
-            showToast(`✅ API kalit to'g'ri va ishlayapti! (${selectedModel})`);
-
-        } catch (networkErr) {
-            // Network error — save anyway
-            apiKey = key;
-            localStorage.setItem('gemini_api_key', key);
-            closeApiModal();
-            showToast('⚠️ Kalit saqlandi (internet tekshirib bo\'lmadi)', true);
-        } finally {
-            saveBtn.textContent = origText;
-            saveBtn.disabled = false;
+            if (resultText) break;
         }
-    }
+        if (!resultText) throw new Error('AI javob bermadi');
 
-    // ===== TOAST =====
-    function showToast(msg, isError = false) {
-        const toast = document.getElementById('toast');
-        toast.innerHTML = msg.replace(/\n/g, '<br>');
-        toast.className = `toast show ${isError ? 'error' : ''}`;
-        clearTimeout(toast._timer);
-        toast._timer = setTimeout(() => toast.classList.remove('show'), isError ? 8000 : 3000);
-    }
-
-    // ===== MODE SWITCHER =====
-    function switchMode(mode) {
-        document.getElementById('modeAI').classList.toggle('active', mode === 'ai');
-        document.getElementById('modeTest').classList.toggle('active', mode === 'test');
-        document.getElementById('modeContentAI').classList.toggle('active', mode === 'ai');
-        document.getElementById('modeContentTest').classList.toggle('active', mode === 'test');
-        // Update header score display
-        if (mode === 'test') {
-            document.getElementById('headerScore').style.display = 'none';
-        } else {
-            document.getElementById('headerScore').style.display = '';
+        // Parse
+        const parsed = {};
+        let scannedId = '';
+        for (const line of resultText.split('\n')) {
+            // Check for ID line
+            const idMatch = line.trim().match(/^ID\s*[=:]\s*(.+)$/i);
+            if (idMatch) {
+                const idVal = idMatch[1].trim();
+                if (idVal !== '-') scannedId = idVal;
+                continue;
+            }
+            const match = line.trim().match(/^(\d+)\s*[=:]\s*(.+)$/);
+            if (match) {
+                const n = parseInt(match[1]);
+                const v = match[2].trim();
+                if (v !== '-' && n >= 1 && n <= cfg.total) parsed[n] = v.length===1 ? v.toUpperCase() : v;
+            }
         }
-    }
 
-    // ===== TEST CHECKER =====
-    let testType = 'small'; // 'small' = 20, 'big' = 25
-    let testAnswerKey = {}; // { 1: { answer: 'A', ball: 2 }, 2: {...}, ... }
-    let testStudentAnswers = {}; // { 1: 'A', 2: 'B', ... }
-    let testChecked = false;
-
-    function getTestConfig() {
-        if (testType === 'small') {
-            return { total: 20, abcdeEnd: 17, writtenStart: 18 };
-        } else {
-            return { total: 25, abcdeEnd: 22, writtenStart: 23 };
+        // Auto-fill student ID
+        if (scannedId) {
+            document.getElementById('studentIdInput').value = scannedId;
         }
-    }
 
-    function selectTestType(type) {
-        testType = type;
-        document.getElementById('ttSmall').classList.toggle('active', type === 'small');
-        document.getElementById('ttBig').classList.toggle('active', type === 'big');
-        
-        const cfg = getTestConfig();
-        if (type === 'small') {
-            document.getElementById('testTypeInfo').innerHTML = 
-                `<strong style="color:var(--accent-orange)">Kichik guruh:</strong> 1—${cfg.abcdeEnd} → ABCDE variantli &nbsp;|&nbsp; ${cfg.writtenStart}—${cfg.total} → o'quvchi o'zi yozadi`;
-        } else {
-            document.getElementById('testTypeInfo').innerHTML = 
-                `<strong style="color:var(--accent-orange)">Katta guruh:</strong> 1—${cfg.abcdeEnd} → ABCDE variantli &nbsp;|&nbsp; ${cfg.writtenStart}—${cfg.total} → o'quvchi o'zi yozadi`;
-        }
-        
-        testAnswerKey = {};
-        testStudentAnswers = {};
-        testChecked = false;
-        document.getElementById('testResultCard').classList.remove('active');
-        buildAnswerKeyGrid();
-        buildStudentAnswerGrid();
-    }
+        studentAnswers = { ...parsed };
 
-    function buildAnswerKeyGrid() {
-        const cfg = getTestConfig();
-        const grid = document.getElementById('answerKeyGrid');
-        let html = '';
-        
-        // ABCDE section
+        // Build scanned grid with results
+        const sg = document.getElementById('scannedGrid');
+        sg.style.display = 'block';
+        let html = '<div style="font-size:13px;font-weight:700;color:var(--orange-light);margin-bottom:12px">🤖 AI o\'qigan javoblar (tuzatish mumkin)</div>';
+
         for (let i = 1; i <= cfg.abcdeEnd; i++) {
-            html += `<div class="answer-row" id="akRow${i}">
-                <div class="answer-row-num">${i}.</div>
-                <span class="answer-row-tag tag-abcde">ABCDE</span>
-                <div class="answer-options">
-                    ${['A','B','C','D','E'].map(opt => 
-                        `<div class="answer-opt" onclick="selectAnswerKey(${i},'${opt}',this)" data-q="${i}">${opt}</div>`
-                    ).join('')}
-                </div>
-                <div class="answer-row-ball">
-                    <input type="number" value="1" min="0.5" max="10" step="0.5" onchange="setAnswerKeyBall(${i}, this.value)" title="Ball" id="akBall${i}">
-                </div>
+            const ans = parsed[i] || '';
+            html += `<div class="a-row" id="sr${i}">
+                <div class="a-num">${i}.</div>
+                <div class="a-opts">${['A','B','C','D','E'].map(o =>
+                    `<div class="a-opt${ans===o?' selected':''}" onclick="updateScanned(${i},'${o}',this)">${o}</div>`
+                ).join('')}</div>
+                <div class="a-result" id="si${i}"></div>
+                <div class="a-score" id="sb${i}"></div>
             </div>`;
         }
-        
-        // Written section divider
-        html += `<div class="answer-section-divider">✍️ Yozma savollar (${cfg.writtenStart}—${cfg.total})</div>`;
-        
-        // Written section
+
+        html += `<div class="section-divider divider-purple">✍️ Yozma (${cfg.writtenStart}–${cfg.total})</div>`;
+
         for (let i = cfg.writtenStart; i <= cfg.total; i++) {
-            html += `<div class="answer-row" id="akRow${i}">
-                <div class="answer-row-num">${i}.</div>
-                <span class="answer-row-tag tag-yozma">Yozma</span>
-                <div class="answer-row-written">
-                    <input type="text" placeholder="To'g'ri javobni kiriting..." onchange="setAnswerKeyWritten(${i}, this.value)" id="akWritten${i}">
+            const ans = parsed[i] || '';
+            html += `<div class="a-row" id="sr${i}">
+                <div class="a-num">${i}.</div>
+                <div class="a-written">
+                    <input type="text" value="${ans}" onchange="updateScannedWritten(${i},this.value)">
                 </div>
-                <div class="answer-row-ball">
-                    <input type="number" value="2" min="0.5" max="10" step="0.5" onchange="setAnswerKeyBall(${i}, this.value)" title="Ball" id="akBall${i}">
-                </div>
+                <div class="a-result" id="si${i}"></div>
+                <div class="a-score" id="sb${i}"></div>
             </div>`;
         }
-        
-        grid.innerHTML = html;
-        
-        // Initialize answer key with default balls
-        for (let i = 1; i <= cfg.abcdeEnd; i++) {
-            testAnswerKey[i] = { answer: null, ball: 1, type: 'abcde' };
-        }
-        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
-            testAnswerKey[i] = { answer: null, ball: 2, type: 'written' };
-        }
-        updateTotalBallDisplay();
+        sg.innerHTML = html;
+
+        checkResults();
+
+        status.textContent = `✅ ${Object.keys(parsed).length} ta javob o'qildi${scannedId ? ' (ID: '+scannedId+')' : ''} — ${usedModel}`;
+        status.style.color = 'var(--green-light)';
+        showToast(`✅ ${Object.keys(parsed).length} ta javob o'qildi!${scannedId ? ' ID: '+scannedId : ''}`);
+
+    } catch (err) {
+        status.textContent = `❌ ${err.message}`;
+        status.style.color = 'var(--red-light)';
+        showToast(`❌ ${err.message}`, true);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🤖 AI bilan o\'qish va tekshirish';
     }
+}
 
-    function buildStudentAnswerGrid() {
-        const cfg = getTestConfig();
-        const grid = document.getElementById('studentAnswerGrid');
-        let html = '';
-        
-        // ABCDE section
-        for (let i = 1; i <= cfg.abcdeEnd; i++) {
-            html += `<div class="sa-row" id="saRow${i}">
-                <div class="sa-row-num">${i}.</div>
-                <div class="answer-options">
-                    ${['A','B','C','D','E'].map(opt => 
-                        `<div class="sa-opt" onclick="selectStudentAnswer(${i},'${opt}',this)" data-q="${i}">${opt}</div>`
-                    ).join('')}
-                </div>
-                <div class="sa-result-icon" id="saIcon${i}"></div>
-                <div class="sa-result-ball" id="saBall${i}"></div>
-            </div>`;
-        }
-        
-        // Written section divider
-        html += `<div class="answer-section-divider">✍️ Yozma savollar (${cfg.writtenStart}—${cfg.total})</div>`;
-        
-        // Written section
-        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
-            html += `<div class="sa-row" id="saRow${i}">
-                <div class="sa-row-num">${i}.</div>
-                <div class="answer-row-written">
-                    <input type="text" placeholder="O'quvchi javobini kiriting..." onchange="setStudentWritten(${i}, this.value)" id="saWritten${i}">
-                </div>
-                <div class="sa-result-icon" id="saIcon${i}"></div>
-                <div class="sa-result-ball" id="saBall${i}"></div>
-            </div>`;
-        }
-        
-        grid.innerHTML = html;
-        testStudentAnswers = {};
-    }
+function updateScanned(q, opt, el) {
+    el.parentElement.querySelectorAll('.a-opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    studentAnswers[q] = opt;
+    checkResults();
+}
 
-    function selectAnswerKey(q, opt, el) {
-        // Deselect siblings
-        el.parentElement.querySelectorAll('.answer-opt').forEach(o => o.classList.remove('selected'));
-        el.classList.add('selected');
-        if (testAnswerKey[q]) testAnswerKey[q].answer = opt;
-    }
+function updateScannedWritten(q, val) {
+    studentAnswers[q] = val.trim();
+    checkResults();
+}
 
-    function setAnswerKeyBall(q, val) {
-        const ball = parseFloat(val) || 1;
-        if (testAnswerKey[q]) testAnswerKey[q].ball = ball;
-        updateTotalBallDisplay();
-    }
+function checkResults() {
+    const cfg = getConfig();
+    let total=0, max=0, ok=0, no=0, empty=0;
 
-    function setAnswerKeyWritten(q, val) {
-        if (testAnswerKey[q]) testAnswerKey[q].answer = val.trim();
-    }
+    for (let i = 1; i <= cfg.total; i++) {
+        const key = answerKey[i];
+        if (!key) continue;
+        max += key.ball;
+        const row = document.getElementById(`sr${i}`);
+        const icon = document.getElementById(`si${i}`);
+        const ball = document.getElementById(`sb${i}`);
+        if (!row) continue;
+        row.classList.remove('correct','wrong','empty');
 
-    function selectStudentAnswer(q, opt, el) {
-        el.parentElement.querySelectorAll('.sa-opt').forEach(o => o.classList.remove('selected'));
-        el.classList.add('selected');
-        testStudentAnswers[q] = opt;
-    }
-
-    function setStudentWritten(q, val) {
-        testStudentAnswers[q] = val.trim();
-    }
-
-    function updateTotalBallDisplay() {
-        let total = 0;
-        for (const q in testAnswerKey) {
-            total += (testAnswerKey[q].ball || 0);
-        }
-        document.getElementById('testTotalBallDisplay').textContent = total;
-    }
-
-    function checkTestAnswers() {
-        const cfg = getTestConfig();
-        let totalBall = 0;
-        let maxBall = 0;
-        let correctCount = 0;
-        let wrongCount = 0;
-        let partialCount = 0;
-        let unanswered = 0;
-
-        for (let i = 1; i <= cfg.total; i++) {
-            const key = testAnswerKey[i];
-            if (!key) continue;
-            
-            const row = document.getElementById(`saRow${i}`);
-            const iconEl = document.getElementById(`saIcon${i}`);
-            const ballEl = document.getElementById(`saBall${i}`);
-            
-            maxBall += key.ball;
-            const studentAns = testStudentAnswers[i];
-            
-            // Remove old classes
-            row.classList.remove('correct', 'wrong', 'partial');
-            
-            if (!studentAns || studentAns === '') {
-                // Unanswered
-                row.classList.add('wrong');
-                iconEl.textContent = '⬜';
-                ballEl.textContent = '0';
-                wrongCount++;
-                unanswered++;
-            } else if (key.type === 'abcde') {
-                if (!key.answer) {
-                    // No answer key set — skip
-                    iconEl.textContent = '❓';
-                    ballEl.textContent = '?';
-                } else if (studentAns === key.answer) {
-                    row.classList.add('correct');
-                    iconEl.textContent = '✅';
-                    ballEl.textContent = `+${key.ball}`;
-                    totalBall += key.ball;
-                    correctCount++;
-                } else {
-                    row.classList.add('wrong');
-                    iconEl.textContent = '❌';
-                    ballEl.textContent = '0';
-                    wrongCount++;
-                }
-            } else if (key.type === 'written') {
-                if (!key.answer || key.answer === '') {
-                    iconEl.textContent = '❓';
-                    ballEl.textContent = '?';
-                } else {
-                    // Compare written answers (case-insensitive, trim)
-                    const correct = key.answer.toLowerCase().replace(/\s+/g, ' ').trim();
-                    const student = studentAns.toLowerCase().replace(/\s+/g, ' ').trim();
-                    
-                    if (correct === student) {
-                        row.classList.add('correct');
-                        iconEl.textContent = '✅';
-                        ballEl.textContent = `+${key.ball}`;
-                        totalBall += key.ball;
-                        correctCount++;
-                    } else {
-                        // Check partial — if answer contains the correct or vice versa
-                        row.classList.add('wrong');
-                        iconEl.textContent = '❌';
-                        ballEl.textContent = '0';
-                        wrongCount++;
-                    }
-                }
+        const ans = studentAnswers[i];
+        if (!ans || ans === '') {
+            row.classList.add('empty'); icon.textContent='⬜'; ball.textContent='0'; empty++;
+        } else if (!key.answer || key.answer === '') {
+            icon.textContent='❓'; ball.textContent='?';
+            icon.style.display='block'; ball.style.display='block';
+        } else if (key.type === 'abcde') {
+            if (ans === key.answer) {
+                row.classList.add('correct'); icon.textContent='✅'; ball.textContent=`+${key.ball}`; total+=key.ball; ok++;
+            } else {
+                row.classList.add('wrong'); icon.textContent='❌'; ball.textContent='0'; no++;
+            }
+        } else {
+            const c = key.answer.toLowerCase().replace(/\s+/g,' ').trim();
+            const s = ans.toLowerCase().replace(/\s+/g,' ').trim();
+            if (c === s) {
+                row.classList.add('correct'); icon.textContent='✅'; ball.textContent=`+${key.ball}`; total+=key.ball; ok++;
+            } else {
+                row.classList.add('wrong'); icon.textContent='❌'; ball.textContent='0'; no++;
             }
         }
-
-        // Show result card
-        const resultCard = document.getElementById('testResultCard');
-        resultCard.classList.add('active');
-        
-        document.getElementById('testResultScore').textContent = totalBall;
-        document.getElementById('testResultMax').textContent = `/ ${maxBall}`;
-        
-        const percent = maxBall > 0 ? Math.round((totalBall / maxBall) * 100) : 0;
-        const percentEl = document.getElementById('testResultPercent');
-        percentEl.textContent = `${percent}%`;
-        percentEl.style.color = percent >= 80 ? 'var(--accent-green-light)' : percent >= 50 ? 'var(--accent-yellow)' : 'var(--accent-red-light)';
-        
-        document.getElementById('testStatCorrect').textContent = correctCount;
-        document.getElementById('testStatPartial').textContent = partialCount;
-        document.getElementById('testStatWrong').textContent = wrongCount;
-        
-        testChecked = true;
-        showToast(`✅ Natija: ${totalBall}/${maxBall} (${percent}%)`);
-        
-        // Scroll to result
-        resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function resetTest() {
-        testChecked = false;
-        testStudentAnswers = {};
-        document.getElementById('testResultCard').classList.remove('active');
-        
-        const cfg = getTestConfig();
-        for (let i = 1; i <= cfg.total; i++) {
-            const row = document.getElementById(`saRow${i}`);
-            if (row) row.classList.remove('correct', 'wrong', 'partial');
-            const icon = document.getElementById(`saIcon${i}`);
-            if (icon) icon.textContent = '';
-            const ball = document.getElementById(`saBall${i}`);
-            if (ball) ball.textContent = '';
-        }
-        
-        // Clear student ABCDE selections
-        document.querySelectorAll('#studentAnswerGrid .sa-opt').forEach(o => o.classList.remove('selected'));
-        // Clear student written inputs
-        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
-            const el = document.getElementById(`saWritten${i}`);
-            if (el) el.value = '';
-        }
-        
-        showToast('🔄 Test tozalandi');
+    const card = document.getElementById('resultCard');
+    card.classList.add('active');
+    const sid = document.getElementById('studentIdInput').value.trim();
+    const ridEl = document.getElementById('resultStudentId');
+    if (sid) {
+        document.getElementById('resultIdText').textContent = '#' + sid;
+        ridEl.style.display = 'block';
+    } else {
+        ridEl.style.display = 'none';
     }
+    document.getElementById('resultScore').textContent = total;
+    document.getElementById('resultMax').textContent = `/ ${max}`;
+    const pct = max > 0 ? Math.round((total/max)*100) : 0;
+    const pe = document.getElementById('resultPercent');
+    pe.textContent = `${pct}%`;
+    pe.style.color = pct>=80?'var(--green-light)':pct>=50?'var(--yellow)':'var(--red-light)';
+    document.getElementById('statOk').textContent = ok;
+    document.getElementById('statNo').textContent = no;
+    document.getElementById('statEmpty').textContent = empty;
+    card.scrollIntoView({ behavior:'smooth', block:'center' });
+}
 
-    // Initialize test grids on load
-    document.addEventListener('DOMContentLoaded', () => {
-        buildAnswerKeyGrid();
-        buildStudentAnswerGrid();
-    });
+function resetAll() {
+    studentAnswers = {};
+    document.getElementById('resultCard').classList.remove('active');
+    document.getElementById('scannedGrid').style.display = 'none';
+    document.getElementById('scannedGrid').innerHTML = '';
+    document.getElementById('scanStatus').style.display = 'none';
+    removeScan();
+}
 
-    // ===== PWA SERVICE WORKER =====
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(reg => {
-            console.log('SW registered:', reg.scope);
-        }).catch(err => console.log('SW error:', err));
-    }
+function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
+function closeSettings() { document.getElementById('settingsModal').classList.remove('active'); }
+function saveSettings() {
+    apiKey = document.getElementById('apiKeyInput').value.trim();
+    selectedAIModel = document.getElementById('modelSelect').value;
+    localStorage.setItem('gemini_api_key', apiKey);
+    localStorage.setItem('gemini_model', selectedAIModel);
+    closeSettings();
+    showToast('✅ Sozlamalar saqlandi');
+}
 
-    // PWA Install Prompt
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        showInstallBanner();
-    });
+function showToast(msg, isError=false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast show ${isError?'error':''}`;
+    clearTimeout(t._t);
+    t._t = setTimeout(() => t.classList.remove('show'), isError?5000:2500);
+}
 
-    function showInstallBanner() {
-        if (document.getElementById('installBanner')) return;
-        const banner = document.createElement('div');
-        banner.id = 'installBanner';
-        banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#1a2235;border-top:1px solid #2a3550;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:3000;gap:12px;flex-wrap:wrap';
-        banner.innerHTML = `
-            <div style="display:flex;align-items:center;gap:10px;flex:1">
-                <span style="font-size:24px">📱</span>
-                <div>
-                    <div style="font-weight:700;font-size:14px;color:#e8ecf4">Ilovani o'rnatish</div>
-                    <div style="font-size:12px;color:#8b95a8">Telefonga ilova sifatida o'rnating</div>
-                </div>
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+// PWA Install
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallBanner();
+});
+
+function showInstallBanner() {
+    if (document.getElementById('installBanner')) return;
+    const b = document.createElement('div');
+    b.id = 'installBanner';
+    b.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#1e293b;border-top:1px solid #334155;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;z-index:3000;gap:12px;flex-wrap:wrap';
+    b.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+            <span style="font-size:28px">📱</span>
+            <div>
+                <div style="font-weight:800;font-size:14px;color:#f1f5f9">Ilovani o'rnatish</div>
+                <div style="font-size:11px;color:#94a3b8">Telefonga ilova sifatida o'rnating</div>
             </div>
-            <div style="display:flex;gap:8px">
-                <button onclick="this.parentElement.parentElement.remove()" style="padding:8px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#f87171;cursor:pointer;font-size:13px">Keyin</button>
-                <button onclick="installPWA()" style="padding:8px 18px;background:linear-gradient(135deg,#3b82f6,#2563eb);border:none;border-radius:8px;color:white;cursor:pointer;font-size:13px;font-weight:700">O'rnatish</button>
-            </div>
-        `;
-        document.body.appendChild(banner);
-    }
+        </div>
+        <div style="display:flex;gap:8px">
+            <button onclick="this.parentElement.parentElement.remove()" style="padding:8px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#f87171;cursor:pointer;font-size:13px;font-family:Outfit,sans-serif;font-weight:600">Keyin</button>
+            <button onclick="installPWA()" style="padding:8px 18px;background:linear-gradient(135deg,#f97316,#ea580c);border:none;border-radius:8px;color:white;cursor:pointer;font-size:13px;font-weight:700;font-family:Outfit,sans-serif">O'rnatish</button>
+        </div>
+    `;
+    document.body.appendChild(b);
+}
 
-    async function installPWA() {
-        const banner = document.getElementById('installBanner');
-        if (banner) banner.remove();
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') showToast('✅ Ilova o\'rnatildi!');
-            deferredPrompt = null;
-        }
+async function installPWA() {
+    const b = document.getElementById('installBanner');
+    if (b) b.remove();
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') showToast('✅ Ilova o\'rnatildi!');
+        deferredPrompt = null;
     }
+}
 
-    window.addEventListener('appinstalled', () => {
-        showToast('✅ Kimyo Baholash ilova sifatida o\'rnatildi!');
-        const banner = document.getElementById('installBanner');
-        if (banner) banner.remove();
-    });
+window.addEventListener('appinstalled', () => {
+    showToast('✅ Kimyo Test ilova sifatida o\'rnatildi!');
+    const b = document.getElementById('installBanner');
+    if (b) b.remove();
+});
 </script>
 </body>
 </html>
