@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kimyo Test Tekshirish</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kimyo Test">
+    <link rel="apple-touch-icon" href="icon-152x152.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:#0f172a; --bg2:#1e293b; --bg3:#334155;
+            --card:#1e293b; --input:#0f172a; --border:#334155;
+            --text:#f1f5f9; --text2:#94a3b8; --text3:#64748b;
+            --orange:#f97316; --orange-light:#fb923c;
+            --green:#22c55e; --green-light:#4ade80; --green-dim:rgba(34,197,94,0.12);
+            --red:#ef4444; --red-light:#f87171; --red-dim:rgba(239,68,68,0.1);
+            --blue:#3b82f6; --blue-light:#60a5fa; --blue-dim:rgba(59,130,246,0.12);
+            --purple:#a855f7; --purple-light:#c084fc; --purple-dim:rgba(168,85,247,0.12);
+            --yellow:#eab308;
+            --radius:14px; --radius-sm:10px;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+        .header{background:linear-gradient(180deg,#1e293b 0%,var(--bg) 100%);padding:16px 20px;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+        .header-inner{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+        .header-brand{display:flex;align-items:center;gap:12px}
+        .header-logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(249,115,22,0.2)}
+        .header-title{font-size:18px;font-weight:800;letter-spacing:-0.5px}
+        .header-sub{font-size:11px;color:var(--text3);font-weight:600}
+        .btn-settings{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .btn-settings:hover{border-color:var(--orange);color:var(--orange)}
+        .container{max-width:600px;margin:0 auto;padding:20px 16px}
+
+        .group-selector{display:flex;gap:6px;margin-bottom:20px;background:var(--card);border-radius:var(--radius);padding:4px;border:1px solid var(--border)}
+        .group-btn{flex:1;padding:12px 8px;border:none;border-radius:var(--radius-sm);background:transparent;color:var(--text2);font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;font-family:'Outfit',sans-serif;text-align:center}
+        .group-btn.active{background:linear-gradient(135deg,#f97316,#ea580c);color:white;box-shadow:0 4px 16px rgba(249,115,22,0.3)}
+
+        .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+        .card-title{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+        .a-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(51,65,85,0.5);transition:background .3s}
+        .a-row:last-child{border-bottom:none}
+        .a-num{min-width:32px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text3)}
+        .a-opts{display:flex;gap:4px}
+        .a-opt{width:42px;height:42px;border:2px solid var(--border);border-radius:10px;background:var(--input);color:var(--text3);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace}
+        .a-opt:active{transform:scale(0.92)}
+        .a-opt.key-selected{border-color:var(--blue);background:var(--blue-dim);color:var(--blue-light)}
+        .a-opt.selected{border-color:var(--green);background:var(--green-dim);color:var(--green-light)}
+        .a-ball-input{width:50px;padding:6px 4px;text-align:center;background:var(--input);border:1px solid var(--border);border-radius:8px;color:var(--yellow);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;outline:none}
+        .a-ball-input:focus{border-color:var(--yellow)}
+        .a-result{min-width:32px;text-align:center;font-size:16px;display:none}
+        .a-score{min-width:40px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;display:none}
+        .a-row.correct{background:rgba(34,197,94,0.06)}
+        .a-row.correct .a-result,.a-row.correct .a-score{display:block}
+        .a-row.correct .a-score{color:var(--green-light)}
+        .a-row.wrong{background:rgba(239,68,68,0.05)}
+        .a-row.wrong .a-result,.a-row.wrong .a-score{display:block}
+        .a-row.wrong .a-score{color:var(--red-light)}
+        .a-row.empty{background:rgba(100,116,139,0.05)}
+        .a-row.empty .a-result,.a-row.empty .a-score{display:block}
+        .a-row.empty .a-score{color:var(--text3)}
+
+        .a-written{flex:1}
+        .a-written input{width:100%;padding:10px 12px;background:var(--input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none;font-family:'Outfit',sans-serif}
+        .a-written input:focus{border-color:var(--purple)}
+
+        .section-divider{display:flex;align-items:center;gap:8px;margin:16px 0 10px;font-size:12px;font-weight:700}
+        .section-divider::after{content:'';flex:1;height:1px}
+        .divider-purple{color:var(--purple-light)}
+        .divider-purple::after{background:rgba(168,85,247,0.2)}
+
+        .scan-area{border:2px dashed var(--border);border-radius:var(--radius);padding:28px 16px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:16px;position:relative}
+        .scan-area:hover{border-color:var(--orange);background:rgba(249,115,22,0.03)}
+        .scan-area.has-file{border-style:solid;border-color:var(--green);background:var(--green-dim)}
+        .scan-area input[type="file"]{display:none}
+        .scan-icon{font-size:40px;margin-bottom:8px}
+        .scan-label{font-size:14px;font-weight:700;color:var(--orange-light)}
+        .scan-desc{font-size:12px;color:var(--text3);margin-top:4px}
+        .scan-preview{display:none;margin-top:12px}
+        .scan-preview img{max-width:100%;max-height:180px;border-radius:10px;border:1px solid var(--border)}
+
+        .scan-btn-camera,.scan-btn-gallery{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .2s}
+        .scan-btn-camera{background:linear-gradient(135deg,#f97316,#ea580c);color:white;box-shadow:0 2px 12px rgba(249,115,22,0.25)}
+        .scan-btn-camera:active{transform:scale(0.95)}
+        .scan-btn-gallery{background:var(--bg2);border:1px solid var(--border);color:var(--text2)}
+        .scan-btn-gallery:active{transform:scale(0.95)}
+        .scan-btn-remove{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Outfit',sans-serif;background:var(--red-dim);color:var(--red-light);border:1px solid rgba(239,68,68,0.3)}
+
+        .btn-check{width:100%;padding:16px;border:none;border-radius:var(--radius);font-size:16px;font-weight:800;cursor:pointer;transition:all .25s;font-family:'Outfit',sans-serif;margin-bottom:16px;background:linear-gradient(135deg,#f97316,#ea580c);color:white;box-shadow:0 4px 20px rgba(249,115,22,0.25)}
+        .btn-check:active{transform:scale(0.98)}
+        .btn-check:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+        .btn-reset{width:100%;padding:14px;border-radius:var(--radius-sm);background:var(--red-dim);border:1px solid rgba(239,68,68,0.3);color:var(--red-light);font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:12px}
+
+        .result-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;display:none;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.25);animation:slideUp .4s ease}
+        .result-card.active{display:block}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .result-big{font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:900;line-height:1;color:var(--orange-light)}
+        .result-max{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--text3)}
+        .result-percent{font-size:18px;font-weight:800;margin-top:6px}
+        .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+        .stat-box{padding:12px 8px;background:var(--input);border-radius:var(--radius-sm)}
+        .stat-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800}
+        .stat-label{font-size:10px;color:var(--text3);font-weight:600;margin-top:2px}
+
+        .scan-status{display:none;padding:12px;text-align:center;font-size:13px;background:var(--input);border-radius:var(--radius-sm);margin-bottom:14px;color:var(--text2)}
+
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+        .modal-overlay.active{display:flex}
+        .modal{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto}
+        .modal-title{font-size:18px;font-weight:800;margin-bottom:14px}
+        .modal-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.5px}
+        .modal-input{width:100%;padding:12px 14px;background:var(--input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;font-family:'JetBrains Mono',monospace;margin-bottom:14px}
+        .modal-input:focus{border-color:var(--orange)}
+        .modal-select{width:100%;padding:12px 14px;background:var(--input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;font-family:'Outfit',sans-serif;margin-bottom:14px}
+        .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+        .modal-btn{padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .2s}
+        .modal-btn-primary{background:linear-gradient(135deg,#f97316,#ea580c);color:white}
+        .modal-btn-secondary{background:var(--input);border:1px solid var(--border);color:var(--text2)}
+
+        .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:480px;margin:0 auto;background:var(--card);border:1px solid var(--green);border-radius:var(--radius);padding:14px 18px;z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,0.4);transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.16,1,.3,1);font-size:14px;font-weight:600}
+        .toast.show{transform:translateY(0);opacity:1}
+        .toast.error{border-color:var(--red)}
+
+        @media(max-width:420px){
+            .a-opt{width:36px;height:36px;font-size:13px;border-radius:8px}
+            .a-ball-input{width:44px;font-size:12px}
+            .result-big{font-size:40px}
+            .titul-info{flex-direction:column;gap:8px}
+        }
+
+        /* ===== TITUL ===== */
+        .titul{
+            background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+            padding:20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.2);
+            position:relative;overflow:hidden;
+        }
+        .titul::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:4px;
+            background:linear-gradient(90deg,#f97316,#eab308,#22c55e,#3b82f6);
+        }
+        .titul-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+        .titul-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(249,115,22,0.25)}
+        .titul-name{font-size:20px;font-weight:900;letter-spacing:-0.5px}
+        .titul-desc{font-size:12px;color:var(--text3);font-weight:500;margin-top:2px}
+        .titul-info{display:flex;gap:12px;align-items:center}
+        .titul-group-badge{
+            padding:6px 14px;border-radius:8px;font-size:13px;font-weight:800;
+            font-family:'JetBrains Mono',monospace;
+            background:var(--orange);background:linear-gradient(135deg,#f97316,#ea580c);
+            color:white;white-space:nowrap;
+        }
+        .titul-id-wrap{flex:1;display:flex;align-items:center;gap:8px}
+        .titul-id-label{font-size:12px;font-weight:700;color:var(--text3);white-space:nowrap}
+        .titul-id-input{
+            flex:1;padding:10px 14px;background:var(--input);border:1px solid var(--border);
+            border-radius:var(--radius-sm);color:var(--text);font-size:16px;font-weight:700;
+            font-family:'JetBrains Mono',monospace;outline:none;text-align:center;
+            max-width:160px;
+        }
+        .titul-id-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,0.1)}
+        .titul-id-input::placeholder{color:var(--text3);font-weight:500;font-size:14px}
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="header-brand">
+            <div class="header-logo">⚗️</div>
+            <div>
+                <div class="header-title">Kimyo Test</div>
+                <div class="header-sub">Test tekshirish tizimi</div>
+            </div>
+        </div>
+        <button class="btn-settings" onclick="openSettings()">⚙️</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- GURUH -->
+    <div class="group-selector">
+        <button class="group-btn active" onclick="selectGroup('small')" id="grpSmall">📄 Kichik (1–20)</button>
+        <button class="group-btn" onclick="selectGroup('big')" id="grpBig">📚 Katta (1–25)</button>
+    </div>
+
+    <!-- TITUL -->
+    <div class="titul">
+        <div class="titul-top">
+            <div class="titul-icon">⚗️</div>
+            <div>
+                <div class="titul-name">Kimyo Test Tekshirish</div>
+                <div class="titul-desc">Milliy sertifikat tizimi</div>
+            </div>
+        </div>
+        <div class="titul-info">
+            <div class="titul-group-badge" id="titulBadge">📄 1 – 20</div>
+            <div class="titul-id-wrap">
+                <span class="titul-id-label">ID:</span>
+                <input type="text" class="titul-id-input" id="studentIdInput" placeholder="O'quvchi ID" inputmode="numeric">
+            </div>
+        </div>
+    </div>
+
+    <!-- TO'G'RI JAVOBLAR KALITI -->
+    <div class="card">
+        <div class="card-title" style="color:var(--blue-light)">🔑 To'g'ri javoblar kaliti</div>
+        <div id="keyGrid"></div>
+    </div>
+
+    <!-- O'QUVCHI JAVOBLARI — KAMERA -->
+    <div class="card">
+        <div class="card-title" style="color:var(--green-light)">📝 O'quvchi javoblari</div>
+        <div class="scan-area" id="scanArea">
+            <input type="file" id="scanCamera" accept="image/*" capture="environment" onchange="handleScan(this)" style="display:none">
+            <input type="file" id="scanGallery" accept="image/*" onchange="handleScan(this)" style="display:none">
+            <div id="scanPlaceholder">
+                <div class="scan-icon">📸</div>
+                <div class="scan-label">Javob varaqasini suratga oling</div>
+                <div class="scan-desc">Kamera yoki galereyadan tanlang</div>
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+                    <button class="scan-btn-camera" onclick="document.getElementById('scanCamera').click();event.stopPropagation()">📸 Kamera</button>
+                    <button class="scan-btn-gallery" onclick="document.getElementById('scanGallery').click();event.stopPropagation()">🖼 Galereya</button>
+                </div>
+            </div>
+            <div class="scan-preview" id="scanPreview">
+                <img id="scanImg" src="">
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
+                    <button class="scan-btn-camera" onclick="document.getElementById('scanCamera').click();event.stopPropagation()">📸 Qayta</button>
+                    <button class="scan-btn-remove" onclick="removeScan();event.stopPropagation()">🗑 O'chirish</button>
+                </div>
+            </div>
+        </div>
+        <button class="btn-check" onclick="aiScanCheck()" id="btnScan" style="margin-top:4px">
+            🤖 AI bilan o'qish va tekshirish
+        </button>
+        <div class="scan-status" id="scanStatus"></div>
+        <div id="scannedGrid" style="display:none"></div>
+    </div>
+
+    <!-- NATIJA -->
+    <div class="result-card" id="resultCard">
+        <div id="resultStudentId" style="font-size:13px;font-weight:700;color:var(--text3);margin-bottom:8px;display:none">
+            O'quvchi: <span id="resultIdText" style="color:var(--orange-light);font-family:'JetBrains Mono',monospace"></span>
+        </div>
+        <div>
+            <span class="result-big" id="resultScore">0</span>
+            <span class="result-max" id="resultMax">/ 0</span>
+        </div>
+        <div class="result-percent" id="resultPercent">0%</div>
+        <div class="result-stats">
+            <div class="stat-box"><div class="stat-val" style="color:var(--green-light)" id="statOk">0</div><div class="stat-label">✅ To'g'ri</div></div>
+            <div class="stat-box"><div class="stat-val" style="color:var(--red-light)" id="statNo">0</div><div class="stat-label">❌ Noto'g'ri</div></div>
+            <div class="stat-box"><div class="stat-val" style="color:var(--text3)" id="statEmpty">0</div><div class="stat-label">⬜ Bo'sh</div></div>
+        </div>
+        <button class="btn-reset" onclick="resetAll()">🔄 Qayta boshlash</button>
+    </div>
+
+</div>
+
+<!-- SETTINGS -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+        <div class="modal-title">⚙️ Sozlamalar</div>
+        <label class="modal-label">API kalit (Gemini)</label>
+        <input type="text" class="modal-input" id="apiKeyInput" placeholder="AIzaSy...">
+        <div style="font-size:11px;color:var(--text3);margin-top:-10px;margin-bottom:14px">Rasm skanerlash uchun kerak</div>
+        <label class="modal-label">AI Model</label>
+        <select class="modal-select" id="modelSelect">
+            <option value="gemini-2.5-pro-preview-05-06">⭐ Gemini 2.5 Pro (eng kuchli)</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (tez + sifatli)</option>
+            <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite (eng tez)</option>
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+        </select>
+        <a href="https://aistudio.google.com/apikey" target="_blank" style="display:block;color:var(--orange-light);font-size:13px;margin-bottom:14px;text-decoration:none">🔗 Bepul API kalit olish</a>
+        <div class="modal-actions">
+            <button class="modal-btn modal-btn-secondary" onclick="closeSettings()">Bekor</button>
+            <button class="modal-btn modal-btn-primary" onclick="saveSettings()">Saqlash</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let group = 'small';
+let apiKey = localStorage.getItem('gemini_api_key') || '';
+let selectedAIModel = localStorage.getItem('gemini_model') || 'gemini-2.5-pro-preview-05-06';
+let scanFileData = null;
+let answerKey = {};   // { 1:{answer:'A',ball:1,type:'abcde'}, 18:{answer:'...',ball:2,type:'written'} }
+let studentAnswers = {};
+
+function getConfig() {
+    return group === 'small'
+        ? { total:20, abcdeEnd:17, writtenStart:18 }
+        : { total:25, abcdeEnd:22, writtenStart:23 };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('apiKeyInput').value = apiKey;
+    document.getElementById('modelSelect').value = selectedAIModel;
+    buildKeyGrid();
+    if (!apiKey) openSettings();
+});
+
+function selectGroup(g) {
+    group = g;
+    document.getElementById('grpSmall').classList.toggle('active', g === 'small');
+    document.getElementById('grpBig').classList.toggle('active', g === 'big');
+    document.getElementById('titulBadge').textContent = g === 'small' ? '📄 1 – 20' : '📚 1 – 25';
+    resetAll();
+    buildKeyGrid();
+    showToast(g === 'small' ? '📄 Kichik guruh (1–20)' : '📚 Katta guruh (1–25)');
+}
+
+function buildKeyGrid() {
+    const cfg = getConfig();
+    answerKey = {};
+    let html = '';
+
+    // ABCDE
+    for (let i = 1; i <= cfg.abcdeEnd; i++) {
+        answerKey[i] = { answer:null, ball:1, type:'abcde' };
+        html += `<div class="a-row">
+            <div class="a-num">${i}.</div>
+            <div class="a-opts">${['A','B','C','D','E'].map(o =>
+                `<div class="a-opt" onclick="setKey(${i},'${o}',this)">${o}</div>`
+            ).join('')}</div>
+            <input type="number" class="a-ball-input" value="1" min="0.5" max="10" step="0.5" onchange="answerKey[${i}].ball=parseFloat(this.value)||1" style="margin-left:auto">
+        </div>`;
+    }
+
+    // Divider
+    html += `<div class="section-divider divider-purple">✍️ Yozma savollar (${cfg.writtenStart}–${cfg.total})</div>`;
+
+    // Written
+    for (let i = cfg.writtenStart; i <= cfg.total; i++) {
+        answerKey[i] = { answer:'', ball:2, type:'written' };
+        html += `<div class="a-row">
+            <div class="a-num">${i}.</div>
+            <div class="a-written">
+                <input type="text" placeholder="To'g'ri javob..." onchange="answerKey[${i}].answer=this.value.trim()">
+            </div>
+            <input type="number" class="a-ball-input" value="2" min="0.5" max="10" step="0.5" onchange="answerKey[${i}].ball=parseFloat(this.value)||2">
+        </div>`;
+    }
+
+    document.getElementById('keyGrid').innerHTML = html;
+}
+
+function setKey(q, opt, el) {
+    el.parentElement.querySelectorAll('.a-opt').forEach(o => o.classList.remove('key-selected'));
+    el.classList.add('key-selected');
+    answerKey[q].answer = opt;
+}
+
+// === SCAN ===
+function handleScan(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        scanFileData = { base64:e.target.result.split(',')[1], mimeType:file.type };
+        document.getElementById('scanImg').src = e.target.result;
+        document.getElementById('scanPreview').style.display = 'block';
+        document.getElementById('scanPlaceholder').style.display = 'none';
+        document.getElementById('scanArea').classList.add('has-file');
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeScan() {
+    scanFileData = null;
+    document.getElementById('scanCamera').value = '';
+    document.getElementById('scanGallery').value = '';
+    document.getElementById('scanPreview').style.display = 'none';
+    document.getElementById('scanPlaceholder').style.display = 'block';
+    document.getElementById('scanArea').classList.remove('has-file');
+}
+
+async function aiScanCheck() {
+    if (!apiKey) { openSettings(); return; }
+    if (!scanFileData) { showToast('❌ Avval rasmni yuklang!', true); return; }
+
+    const cfg = getConfig();
+    const btn = document.getElementById('btnScan');
+    const status = document.getElementById('scanStatus');
+    btn.disabled = true;
+    btn.innerHTML = '🔍 AI o\'qimoqda...';
+    status.style.display = 'block';
+    status.textContent = '⏳ Rasm tahlil qilinmoqda...';
+    status.style.color = 'var(--text2)';
+
+    const prompt = `Bu rasm kimyo test javob varaqasi. O'quvchi belgilagan javoblarni va O'quvchi ID raqamini o'qi.
+
+Test: ${group === 'small' ? '20 savol (1-17 ABCDE, 18-20 yozma)' : '25 savol (1-22 ABCDE, 23-25 yozma)'}
+
+FAQAT shu formatda javob ber:
+ID=123
+1=A
+2=C
+3=B
+...
+${cfg.writtenStart}=javob matni
+${cfg.writtenStart+1}=javob matni
+...
+
+Birinchi qatorda ID= dan keyin O'quvchi ID raqamini yoz (varaqada "O'quvchi ID" yonidagi raqam).
+ID bo'sh bo'lsa: ID=-
+Javob bo'sh bo'lsa: 1=-
+Boshqa hech narsa yozma!`;
+
+    try {
+        const parts = [
+            { inline_data:{ mime_type:scanFileData.mimeType, data:scanFileData.base64 } },
+            { text:prompt }
+        ];
+        const body = { contents:[{ parts }] };
+        const models = [selectedAIModel,'gemini-2.5-flash','gemini-2.5-flash-lite'].filter((v,i,a)=>a.indexOf(v)===i);
+
+        let resultText = '', usedModel = '';
+        for (const model of models) {
+            for (let r = 0; r < 2; r++) {
+                if (r>0||model!==models[0]) await new Promise(rs=>setTimeout(rs,r>0?3000:1500));
+                status.textContent = `⏳ ${model} bilan tahlil...`;
+                const resp = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+                    { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) }
+                );
+                const data = await resp.json();
+                if (!data.error) {
+                    resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                    usedModel = model; break;
+                }
+                const err = (data.error.message||'').toLowerCase();
+                if (err.includes('quota')||err.includes('rate')||err.includes('limit')||resp.status===429) {
+                    if (r===0) continue; else break;
+                } else throw new Error(data.error.message);
+            }
+            if (resultText) break;
+        }
+        if (!resultText) throw new Error('AI javob bermadi');
+
+        // Parse
+        const parsed = {};
+        let scannedId = '';
+        for (const line of resultText.split('\n')) {
+            // Check for ID line
+            const idMatch = line.trim().match(/^ID\s*[=:]\s*(.+)$/i);
+            if (idMatch) {
+                const idVal = idMatch[1].trim();
+                if (idVal !== '-') scannedId = idVal;
+                continue;
+            }
+            const match = line.trim().match(/^(\d+)\s*[=:]\s*(.+)$/);
+            if (match) {
+                const n = parseInt(match[1]);
+                const v = match[2].trim();
+                if (v !== '-' && n >= 1 && n <= cfg.total) parsed[n] = v.length===1 ? v.toUpperCase() : v;
+            }
+        }
+
+        // Auto-fill student ID
+        if (scannedId) {
+            document.getElementById('studentIdInput').value = scannedId;
+        }
+
+        studentAnswers = { ...parsed };
+
+        // Build scanned grid with results
+        const sg = document.getElementById('scannedGrid');
+        sg.style.display = 'block';
+        let html = '<div style="font-size:13px;font-weight:700;color:var(--orange-light);margin-bottom:12px">🤖 AI o\'qigan javoblar (tuzatish mumkin)</div>';
+
+        for (let i = 1; i <= cfg.abcdeEnd; i++) {
+            const ans = parsed[i] || '';
+            html += `<div class="a-row" id="sr${i}">
+                <div class="a-num">${i}.</div>
+                <div class="a-opts">${['A','B','C','D','E'].map(o =>
+                    `<div class="a-opt${ans===o?' selected':''}" onclick="updateScanned(${i},'${o}',this)">${o}</div>`
+                ).join('')}</div>
+                <div class="a-result" id="si${i}"></div>
+                <div class="a-score" id="sb${i}"></div>
+            </div>`;
+        }
+
+        html += `<div class="section-divider divider-purple">✍️ Yozma (${cfg.writtenStart}–${cfg.total})</div>`;
+
+        for (let i = cfg.writtenStart; i <= cfg.total; i++) {
+            const ans = parsed[i] || '';
+            html += `<div class="a-row" id="sr${i}">
+                <div class="a-num">${i}.</div>
+                <div class="a-written">
+                    <input type="text" value="${ans}" onchange="updateScannedWritten(${i},this.value)">
+                </div>
+                <div class="a-result" id="si${i}"></div>
+                <div class="a-score" id="sb${i}"></div>
+            </div>`;
+        }
+        sg.innerHTML = html;
+
+        checkResults();
+
+        status.textContent = `✅ ${Object.keys(parsed).length} ta javob o'qildi${scannedId ? ' (ID: '+scannedId+')' : ''} — ${usedModel}`;
+        status.style.color = 'var(--green-light)';
+        showToast(`✅ ${Object.keys(parsed).length} ta javob o'qildi!${scannedId ? ' ID: '+scannedId : ''}`);
+
+    } catch (err) {
+        status.textContent = `❌ ${err.message}`;
+        status.style.color = 'var(--red-light)';
+        showToast(`❌ ${err.message}`, true);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🤖 AI bilan o\'qish va tekshirish';
+    }
+}
+
+function updateScanned(q, opt, el) {
+    el.parentElement.querySelectorAll('.a-opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    studentAnswers[q] = opt;
+    checkResults();
+}
+
+function updateScannedWritten(q, val) {
+    studentAnswers[q] = val.trim();
+    checkResults();
+}
+
+function checkResults() {
+    const cfg = getConfig();
+    let total=0, max=0, ok=0, no=0, empty=0;
+
+    for (let i = 1; i <= cfg.total; i++) {
+        const key = answerKey[i];
+        if (!key) continue;
+        max += key.ball;
+        const row = document.getElementById(`sr${i}`);
+        const icon = document.getElementById(`si${i}`);
+        const ball = document.getElementById(`sb${i}`);
+        if (!row) continue;
+        row.classList.remove('correct','wrong','empty');
+
+        const ans = studentAnswers[i];
+        if (!ans || ans === '') {
+            row.classList.add('empty'); icon.textContent='⬜'; ball.textContent='0'; empty++;
+        } else if (!key.answer || key.answer === '') {
+            icon.textContent='❓'; ball.textContent='?';
+            icon.style.display='block'; ball.style.display='block';
+        } else if (key.type === 'abcde') {
+            if (ans === key.answer) {
+                row.classList.add('correct'); icon.textContent='✅'; ball.textContent=`+${key.ball}`; total+=key.ball; ok++;
+            } else {
+                row.classList.add('wrong'); icon.textContent='❌'; ball.textContent='0'; no++;
+            }
+        } else {
+            const c = key.answer.toLowerCase().replace(/\s+/g,' ').trim();
+            const s = ans.toLowerCase().replace(/\s+/g,' ').trim();
+            if (c === s) {
+                row.classList.add('correct'); icon.textContent='✅'; ball.textContent=`+${key.ball}`; total+=key.ball; ok++;
+            } else {
+                row.classList.add('wrong'); icon.textContent='❌'; ball.textContent='0'; no++;
+            }
+        }
+    }
+
+    const card = document.getElementById('resultCard');
+    card.classList.add('active');
+    const sid = document.getElementById('studentIdInput').value.trim();
+    const ridEl = document.getElementById('resultStudentId');
+    if (sid) {
+        document.getElementById('resultIdText').textContent = '#' + sid;
+        ridEl.style.display = 'block';
+    } else {
+        ridEl.style.display = 'none';
+    }
+    document.getElementById('resultScore').textContent = total;
+    document.getElementById('resultMax').textContent = `/ ${max}`;
+    const pct = max > 0 ? Math.round((total/max)*100) : 0;
+    const pe = document.getElementById('resultPercent');
+    pe.textContent = `${pct}%`;
+    pe.style.color = pct>=80?'var(--green-light)':pct>=50?'var(--yellow)':'var(--red-light)';
+    document.getElementById('statOk').textContent = ok;
+    document.getElementById('statNo').textContent = no;
+    document.getElementById('statEmpty').textContent = empty;
+    card.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function resetAll() {
+    studentAnswers = {};
+    document.getElementById('resultCard').classList.remove('active');
+    document.getElementById('scannedGrid').style.display = 'none';
+    document.getElementById('scannedGrid').innerHTML = '';
+    document.getElementById('scanStatus').style.display = 'none';
+    removeScan();
+}
+
+function openSettings() { document.getElementById('settingsModal').classList.add('active'); }
+function closeSettings() { document.getElementById('settingsModal').classList.remove('active'); }
+function saveSettings() {
+    apiKey = document.getElementById('apiKeyInput').value.trim();
+    selectedAIModel = document.getElementById('modelSelect').value;
+    localStorage.setItem('gemini_api_key', apiKey);
+    localStorage.setItem('gemini_model', selectedAIModel);
+    closeSettings();
+    showToast('✅ Sozlamalar saqlandi');
+}
+
+function showToast(msg, isError=false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast show ${isError?'error':''}`;
+    clearTimeout(t._t);
+    t._t = setTimeout(() => t.classList.remove('show'), isError?5000:2500);
+}
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+// PWA Install
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallBanner();
+});
+
+function showInstallBanner() {
+    if (document.getElementById('installBanner')) return;
+    const b = document.createElement('div');
+    b.id = 'installBanner';
+    b.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#1e293b;border-top:1px solid #334155;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;z-index:3000;gap:12px;flex-wrap:wrap';
+    b.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+            <span style="font-size:28px">📱</span>
+            <div>
+                <div style="font-weight:800;font-size:14px;color:#f1f5f9">Ilovani o'rnatish</div>
+                <div style="font-size:11px;color:#94a3b8">Telefonga ilova sifatida o'rnating</div>
+            </div>
+        </div>
+        <div style="display:flex;gap:8px">
+            <button onclick="this.parentElement.parentElement.remove()" style="padding:8px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#f87171;cursor:pointer;font-size:13px;font-family:Outfit,sans-serif;font-weight:600">Keyin</button>
+            <button onclick="installPWA()" style="padding:8px 18px;background:linear-gradient(135deg,#f97316,#ea580c);border:none;border-radius:8px;color:white;cursor:pointer;font-size:13px;font-weight:700;font-family:Outfit,sans-serif">O'rnatish</button>
+        </div>
+    `;
+    document.body.appendChild(b);
+}
+
+async function installPWA() {
+    const b = document.getElementById('installBanner');
+    if (b) b.remove();
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') showToast('✅ Ilova o\'rnatildi!');
+        deferredPrompt = null;
+    }
+}
+
+window.addEventListener('appinstalled', () => {
+    showToast('✅ Kimyo Test ilova sifatida o\'rnatildi!');
+    const b = document.getElementById('installBanner');
+    if (b) b.remove();
+});
+</script>
+</body>
+</html>
