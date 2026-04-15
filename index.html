@@ -165,6 +165,39 @@
         }
         .titul-id-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,0.1)}
         .titul-id-input::placeholder{color:var(--text3);font-weight:500;font-size:14px}
+
+        /* Student found badge */
+        .student-badge{display:none;margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);background:var(--green-dim);border:1px solid rgba(34,197,94,0.3);font-size:13px;color:var(--green-light);font-weight:600}
+        .student-badge.active{display:flex;align-items:center;gap:8px}
+        .student-badge .sb-name{font-weight:800;color:var(--text)}
+        .student-badge .sb-class{font-size:11px;color:var(--green-light);background:rgba(34,197,94,0.15);padding:2px 8px;border-radius:4px}
+
+        /* Sheet status */
+        .sheet-status{font-size:11px;margin-top:8px;min-height:16px}
+
+        /* Save button */
+        .btn-save{width:100%;padding:14px;border:none;border-radius:var(--radius);font-size:15px;font-weight:800;cursor:pointer;font-family:'Outfit',sans-serif;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;box-shadow:0 4px 16px rgba(34,197,94,0.25);margin-top:8px;transition:all .2s}
+        .btn-save:active{transform:scale(0.98)}
+        .btn-save:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+
+        /* Results table */
+        .table-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;margin-bottom:80px;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+        .table-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+        .table-title{font-size:15px;font-weight:800;color:var(--orange-light)}
+        .table-actions{display:flex;gap:6px}
+        .btn-export,.btn-clear-all{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;border:none}
+        .btn-export{background:var(--blue-dim);color:var(--blue-light);border:1px solid rgba(59,130,246,0.3)}
+        .btn-clear-all{background:var(--red-dim);color:var(--red-light);border:1px solid rgba(239,68,68,0.3)}
+        .results-table{width:100%;border-collapse:collapse;font-size:12px}
+        .results-table th{text-align:left;padding:8px 6px;color:var(--text3);font-weight:700;border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase}
+        .results-table td{padding:8px 6px;border-bottom:1px solid rgba(51,65,85,0.3);font-size:12px}
+        .results-table .td-score{font-family:'JetBrains Mono',monospace;font-weight:700;text-align:center}
+        .results-table .td-name{font-weight:700}
+        .btn-del-row{background:none;border:none;color:var(--red-light);cursor:pointer;font-size:14px;opacity:0.6}
+        .btn-del-row:hover{opacity:1}
+        .empty-msg{text-align:center;padding:20px;color:var(--text3);font-size:13px}
+        .table-stats{display:flex;gap:16px;margin-top:10px;font-size:11px;color:var(--text3);flex-wrap:wrap}
+        .table-stats strong{color:var(--text2)}
     </style>
 </head>
 <body>
@@ -203,9 +236,13 @@
             <div class="titul-group-badge" id="titulBadge">📄 1 – 20</div>
             <div class="titul-id-wrap">
                 <span class="titul-id-label">ID:</span>
-                <input type="text" class="titul-id-input" id="studentIdInput" placeholder="O'quvchi ID" inputmode="numeric">
+                <input type="text" class="titul-id-input" id="studentIdInput" placeholder="O'quvchi ID" inputmode="numeric" oninput="lookupStudent(this.value)">
             </div>
         </div>
+        <div class="student-badge" id="studentBadge">
+            👤 <span class="sb-name" id="sbName"></span> <span class="sb-class" id="sbClass"></span>
+        </div>
+        <div class="sheet-status" id="sheetStatus"></div>
     </div>
 
     <!-- TO'G'RI JAVOBLAR KALITI -->
@@ -260,6 +297,39 @@
             <div class="stat-box"><div class="stat-val" style="color:var(--text3)" id="statEmpty">0</div><div class="stat-label">⬜ Bo'sh</div></div>
         </div>
         <button class="btn-reset" onclick="resetAll()">🔄 Qayta boshlash</button>
+        <button class="btn-save" onclick="saveResult()" id="btnSave">💾 Natijani saqlash</button>
+    </div>
+
+    <!-- NATIJALAR JADVALI -->
+    <div class="table-section">
+        <div class="table-header">
+            <div class="table-title">📋 Natijalar</div>
+            <div class="table-actions">
+                <button class="btn-export" onclick="exportCSV()">📥 CSV</button>
+                <button class="btn-clear-all" onclick="clearAllResults()">🗑 Tozalash</button>
+            </div>
+        </div>
+        <div style="overflow-x:auto">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID</th>
+                        <th>Ism Familiya</th>
+                        <th>Guruh</th>
+                        <th>Ball</th>
+                        <th>%</th>
+                        <th>Sana</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <div class="empty-msg" id="emptyMsg">Hali natijalar yo'q</div>
+        <div class="table-stats" id="tableStats" style="display:none">
+            Jami: <strong id="tsStat">0</strong> &nbsp;|&nbsp; O'rtacha: <strong id="tsAvg">0</strong> &nbsp;|&nbsp; Max: <strong id="tsMax">0</strong> &nbsp;|&nbsp; Min: <strong id="tsMin">0</strong>
+        </div>
     </div>
 
 </div>
@@ -268,6 +338,12 @@
 <div class="modal-overlay" id="settingsModal">
     <div class="modal">
         <div class="modal-title">⚙️ Sozlamalar</div>
+        <label class="modal-label">Google Sheets havolasi</label>
+        <input type="text" class="modal-input" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/..." style="font-size:12px">
+        <div style="font-size:10px;color:var(--text3);margin-top:-10px;margin-bottom:14px;line-height:1.5">
+            Ustunlar: A=ID, B=Ism, C=Familiya, D=Guruh<br>
+            "Havolaga ega har kim ko'ra oladi" qilib ulashing
+        </div>
         <label class="modal-label">API kalit (Gemini)</label>
         <input type="text" class="modal-input" id="apiKeyInput" placeholder="AIzaSy...">
         <div style="font-size:11px;color:var(--text3);margin-top:-10px;margin-bottom:14px">Rasm skanerlash uchun kerak</div>
@@ -292,9 +368,13 @@
 let group = 'small';
 let apiKey = localStorage.getItem('gemini_api_key') || '';
 let selectedAIModel = localStorage.getItem('gemini_model') || 'gemini-2.5-pro-preview-05-06';
+let sheetUrl = localStorage.getItem('sheet_url') || 'https://docs.google.com/spreadsheets/d/13fVR9FdjNvy1tc7uIMhTa9vzbKO8fKp2MdidpySI6rg/edit?gid=0#gid=0';
 let scanFileData = null;
-let answerKey = {};   // { 1:{answer:'A',ball:1,type:'abcde'}, 18:{answer:'...',ball:2,type:'written'} }
+let answerKey = {};
 let studentAnswers = {};
+let studentsDB = [];
+let currentStudent = null;
+let results = JSON.parse(localStorage.getItem('kimyo_results') || '[]');
 
 function getConfig() {
     return group === 'small'
@@ -305,9 +385,73 @@ function getConfig() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('apiKeyInput').value = apiKey;
     document.getElementById('modelSelect').value = selectedAIModel;
+    document.getElementById('sheetUrlInput').value = sheetUrl;
     buildKeyGrid();
+    renderTable();
+    if (sheetUrl) loadStudentsFromSheet();
     if (!apiKey) openSettings();
 });
+
+// === GOOGLE SHEETS ===
+function extractSheetId(url) {
+    const m = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+    return m ? m[1] : null;
+}
+
+function loadStudentsFromSheet() {
+    const sheetId = extractSheetId(sheetUrl);
+    if (!sheetId) return;
+    const st = document.getElementById('sheetStatus');
+    st.textContent = '⏳ O\'quvchilar yuklanmoqda...';
+    st.style.color = 'var(--yellow)';
+
+    const cb = '_sc_' + Date.now();
+    const timeout = setTimeout(() => { delete window[cb]; st.textContent = '❌ Timeout'; st.style.color='var(--red-light)'; }, 10000);
+
+    window[cb] = (response) => {
+        clearTimeout(timeout);
+        delete window[cb];
+        try {
+            const rows = response.table?.rows || [];
+            studentsDB = [];
+            for (const row of rows) {
+                const c = row.c || [];
+                const id = c[0]?.v != null ? String(c[0].v).trim() : '';
+                const ism = c[1]?.v != null ? String(c[1].v).trim() : '';
+                const fam = c[2]?.v != null ? String(c[2].v).trim() : '';
+                const guruh = c[3]?.v != null ? String(c[3].v).trim() : '—';
+                if (id && ism) studentsDB.push({ id, ism, fam, guruh });
+            }
+            st.textContent = `✅ ${studentsDB.length} ta o'quvchi yuklandi`;
+            st.style.color = 'var(--green-light)';
+        } catch (e) {
+            st.textContent = '❌ ' + e.message;
+            st.style.color = 'var(--red-light)';
+        }
+    };
+
+    const script = document.createElement('script');
+    script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${cb}`;
+    script.onerror = () => { clearTimeout(timeout); delete window[cb]; st.textContent='❌ Yuklanmadi'; st.style.color='var(--red-light)'; };
+    document.body.appendChild(script);
+    script.onload = () => script.remove();
+}
+
+function lookupStudent(idVal) {
+    const id = idVal.trim();
+    const badge = document.getElementById('studentBadge');
+    if (!id) { badge.classList.remove('active'); currentStudent = null; return; }
+    const s = studentsDB.find(s => s.id === id);
+    if (s) {
+        currentStudent = s;
+        document.getElementById('sbName').textContent = `${s.ism} ${s.fam}`;
+        document.getElementById('sbClass').textContent = s.guruh;
+        badge.classList.add('active');
+    } else {
+        badge.classList.remove('active');
+        currentStudent = null;
+    }
+}
 
 function selectGroup(g) {
     group = g;
@@ -469,6 +613,7 @@ Boshqa hech narsa yozma!`;
         // Auto-fill student ID
         if (scannedId) {
             document.getElementById('studentIdInput').value = scannedId;
+            lookupStudent(scannedId);
         }
 
         studentAnswers = { ...parsed };
@@ -574,7 +719,10 @@ function checkResults() {
     card.classList.add('active');
     const sid = document.getElementById('studentIdInput').value.trim();
     const ridEl = document.getElementById('resultStudentId');
-    if (sid) {
+    if (sid && currentStudent) {
+        document.getElementById('resultIdText').textContent = `#${sid} — ${currentStudent.ism} ${currentStudent.fam} (${currentStudent.guruh})`;
+        ridEl.style.display = 'block';
+    } else if (sid) {
         document.getElementById('resultIdText').textContent = '#' + sid;
         ridEl.style.display = 'block';
     } else {
@@ -606,10 +754,107 @@ function closeSettings() { document.getElementById('settingsModal').classList.re
 function saveSettings() {
     apiKey = document.getElementById('apiKeyInput').value.trim();
     selectedAIModel = document.getElementById('modelSelect').value;
+    const newSheet = document.getElementById('sheetUrlInput').value.trim();
     localStorage.setItem('gemini_api_key', apiKey);
     localStorage.setItem('gemini_model', selectedAIModel);
+    if (newSheet !== sheetUrl) {
+        sheetUrl = newSheet;
+        localStorage.setItem('sheet_url', sheetUrl);
+        if (sheetUrl) loadStudentsFromSheet();
+    }
     closeSettings();
     showToast('✅ Sozlamalar saqlandi');
+}
+
+// === SAVE RESULT ===
+function saveResult() {
+    const sid = document.getElementById('studentIdInput').value.trim();
+    const scoreText = document.getElementById('resultScore').textContent;
+    const maxText = document.getElementById('resultMax').textContent.replace('/','').trim();
+    const total = parseFloat(scoreText) || 0;
+    const max = parseFloat(maxText) || 0;
+    const pct = max > 0 ? Math.round((total/max)*100) : 0;
+
+    const entry = {
+        id: Date.now(),
+        studentId: sid || '—',
+        ism: currentStudent ? currentStudent.ism : '—',
+        fam: currentStudent ? currentStudent.fam : '—',
+        guruh: currentStudent ? currentStudent.guruh : '—',
+        groupType: group,
+        total: total,
+        max: max,
+        pct: pct,
+        date: new Date().toLocaleString('uz-UZ')
+    };
+    results.unshift(entry);
+    localStorage.setItem('kimyo_results', JSON.stringify(results));
+    renderTable();
+    showToast(`✅ ${entry.ism} ${entry.fam} — ${total}/${max} saqlandi!`);
+}
+
+// === TABLE ===
+function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    const emptyEl = document.getElementById('emptyMsg');
+    const statsEl = document.getElementById('tableStats');
+
+    if (results.length === 0) {
+        tbody.innerHTML = '';
+        emptyEl.style.display = 'block';
+        statsEl.style.display = 'none';
+        return;
+    }
+    emptyEl.style.display = 'none';
+    statsEl.style.display = 'flex';
+
+    tbody.innerHTML = results.map((r, i) => {
+        const pColor = r.pct >= 80 ? 'var(--green-light)' : r.pct >= 50 ? 'var(--yellow)' : 'var(--red-light)';
+        return `<tr>
+            <td>${i+1}</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700">${r.studentId}</td>
+            <td class="td-name">${r.ism} ${r.fam}</td>
+            <td>${r.guruh}</td>
+            <td class="td-score">${r.total}/${r.max}</td>
+            <td class="td-score" style="color:${pColor}">${r.pct}%</td>
+            <td style="font-size:10px;color:var(--text3)">${r.date}</td>
+            <td><button class="btn-del-row" onclick="deleteResult(${r.id})">🗑</button></td>
+        </tr>`;
+    }).join('');
+
+    const totals = results.map(r => r.total);
+    document.getElementById('tsStat').textContent = results.length;
+    document.getElementById('tsAvg').textContent = (totals.reduce((a,b)=>a+b,0)/totals.length).toFixed(1);
+    document.getElementById('tsMax').textContent = Math.max(...totals);
+    document.getElementById('tsMin').textContent = Math.min(...totals);
+}
+
+function deleteResult(id) {
+    if (!confirm("O'chirmoqchimisiz?")) return;
+    results = results.filter(r => r.id !== id);
+    localStorage.setItem('kimyo_results', JSON.stringify(results));
+    renderTable();
+    showToast('🗑 O\'chirildi');
+}
+
+function clearAllResults() {
+    if (!confirm("Barcha natijalarni o'chirmoqchimisiz?")) return;
+    results = [];
+    localStorage.setItem('kimyo_results', JSON.stringify(results));
+    renderTable();
+    showToast('🗑 Tozalandi');
+}
+
+function exportCSV() {
+    if (results.length === 0) { showToast('❌ Natijalar yo\'q', true); return; }
+    const h = 'ID,Ism,Familiya,Guruh,Ball,Max,%,Sana\n';
+    const rows = results.map(r => `${r.studentId},${r.ism},${r.fam},${r.guruh},${r.total},${r.max},${r.pct},${r.date}`).join('\n');
+    const blob = new Blob(['\uFEFF' + h + rows], { type:'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `kimyo_natijalar_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    showToast('📥 CSV yuklandi');
 }
 
 function showToast(msg, isError=false) {
