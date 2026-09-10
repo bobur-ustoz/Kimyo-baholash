@@ -1,0 +1,682 @@
+<title>Top Xodim</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F4F5F1; --surface:#FFFFFF; --ink:#1A2129; --muted:#5E6873; --line:#D6DAD2; --line-soft:#E6E9E2;
+  --cand:#237A67; --cand-soft:#E2F1EC; --cand-ink:#155546;
+  --emp:#A85C1F; --emp-soft:#F7E9DC; --emp-ink:#7A4013;
+  --shared:#3F4B5B; --shared-soft:#E8ECF0;
+  --code-bg:#EEF0EA;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14181C; --surface:#1C2127; --ink:#E7EAE4; --muted:#9AA3AC; --line:#2E353D; --line-soft:#252B32;
+    --cand:#5FBFA6; --cand-soft:#173A33; --cand-ink:#9FE0CC;
+    --emp:#E39A5E; --emp-soft:#3D2A18; --emp-ink:#F3C89E;
+    --shared:#AEB8C4; --shared-soft:#262D35;
+    --code-bg:#22282E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14181C; --surface:#1C2127; --ink:#E7EAE4; --muted:#9AA3AC; --line:#2E353D; --line-soft:#252B32;
+  --cand:#5FBFA6; --cand-soft:#173A33; --cand-ink:#9FE0CC;
+  --emp:#E39A5E; --emp-soft:#3D2A18; --emp-ink:#F3C89E;
+  --shared:#AEB8C4; --shared-soft:#262D35;
+  --code-bg:#22282E;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;margin:0}
+.page{max-width:920px;margin:0 auto;padding:40px 24px 96px}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(34px,5vw,48px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:26px;font-weight:700;margin-top:64px;padding-top:24px;border-top:2px solid var(--ink)}
+h3{font-size:18px;font-weight:700;margin-top:28px}
+p{max-width:68ch;margin:12px 0}
+.lede{font-size:18px;color:var(--muted);max-width:60ch;margin-top:14px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:22px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.role{border-radius:6px;padding:18px 20px 20px;border:1px solid var(--line)}
+.role.cand{background:var(--cand-soft);border-color:transparent}
+.role.emp{background:var(--emp-soft);border-color:transparent}
+.role .tag{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.role.cand .tag{color:var(--cand-ink)} .role.emp .tag{color:var(--emp-ink)}
+.role h3{margin-top:6px;font-size:22px}
+.role ul{margin:12px 0 0;padding-left:18px;font-size:15px}
+.role li{margin:4px 0}
+
+figure{margin:24px 0 0}
+figure .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px}
+figure svg{display:block;min-width:640px;max-width:100%;height:auto;font-family:"IBM Plex Sans",system-ui,sans-serif}
+figcaption{font-size:14px;color:var(--muted);margin-top:10px;max-width:70ch}
+svg text{fill:var(--ink);font-size:12px}
+svg .lbl{font-size:11px;fill:var(--muted)}
+svg .mono{font-family:"IBM Plex Mono",monospace;font-size:11px}
+svg .box{fill:var(--surface);stroke:var(--ink);stroke-width:1.2}
+svg .box.cand{stroke:var(--cand);fill:var(--cand-soft)}
+svg .box.emp{stroke:var(--emp);fill:var(--emp-soft)}
+svg .box.shared{stroke:var(--shared);fill:var(--shared-soft)}
+svg .edge{fill:none;stroke:var(--ink);stroke-width:1.2}
+svg .edge.cand{stroke:var(--cand)} svg .edge.emp{stroke:var(--emp)}
+svg .op{fill:var(--surface);stroke:var(--line);stroke-width:1}
+svg .strong{font-weight:600}
+svg .t-cand{fill:var(--cand-ink)} svg .t-emp{fill:var(--emp-ink)}
+
+.steps{counter-reset:step;display:grid;gap:14px;margin-top:20px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.step::before{counter-increment:step;content:counter(step);font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:26px;line-height:1;color:var(--cand);padding-top:2px}
+.step h4{margin:0 0 8px;font-size:16px;font-weight:600}
+.fields{display:grid;grid-template-columns:minmax(150px,200px) 1fr;gap:6px 16px;font-size:14px;margin:0}
+.fields dt{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);font-weight:500}
+.fields dd{margin:0}
+.fields .req::after{content:" *";color:var(--emp)}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+
+.form{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--emp);border-radius:6px;padding:18px 20px;margin-top:20px}
+.form h4{margin:0 0 10px;font-size:16px;font-weight:600}
+.form + .form{margin-top:14px}
+
+table{border-collapse:collapse;width:100%;font-size:14px;margin-top:18px;background:var(--surface)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+.tbl table{margin:0}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.mono,code{font-family:"IBM Plex Mono",monospace;font-size:13px}
+code{background:var(--code-bg);padding:1px 5px;border-radius:3px}
+.num{font-variant-numeric:tabular-nums}
+
+.entities{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:22px}
+.ent{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:0;overflow:hidden}
+.ent header{padding:10px 14px;font-weight:600;font-size:15px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line-soft)}
+.ent header small{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);font-weight:500}
+.ent.cand header{background:var(--cand-soft)} .ent.emp header{background:var(--emp-soft)} .ent.shared header{background:var(--shared-soft)}
+.ent ul{list-style:none;margin:0;padding:10px 14px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;line-height:1.7}
+.ent li span{color:var(--muted)}
+.ent li.key{font-weight:500}
+
+.lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.list h4{margin:0 0 8px;font-size:14px;font-weight:600}
+.list ol,.list ul{margin:0;padding-left:18px;font-size:14px;line-height:1.7}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pill{font-size:13px;padding:3px 10px;border-radius:999px;background:var(--cand-soft);color:var(--cand-ink);border:1px solid transparent}
+.pill.new{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+
+.qs{margin-top:20px;display:grid;gap:10px}
+.q{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.q b{font-family:"Bricolage Grotesque",sans-serif;color:var(--muted)}
+.q .a{font-size:14px;color:var(--muted);margin-top:4px}
+.q .a strong{color:var(--ink);font-weight:600}
+
+@media (max-width:640px){
+  .roles{grid-template-columns:1fr}
+  .fields{grid-template-columns:1fr;gap:2px 0}
+  .fields dt{margin-top:8px}
+}
+@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
+</style>
+
+<main class="page">
+  <div class="eyebrow">Ilova sxemasi · 3-versiya · yakuniy · 2026-09-09</div>
+  <h1>Top Xodim</h1>
+  <p class="lede">O'quv markazlar va maktablar uchun xodim topish ilovasi. Bir eshikdan nomzod kiradi, o'zi haqida yozadi va tayyor CV oladi; ikkinchi eshikdan ish beruvchi kiradi va talabini kiritib mos odamlarni topadi. Tomonlar ilova ichida yozishadi.</p>
+  <div class="meta">
+    <span>Platforma: <b>Web ilova (PWA)</b></span>
+    <span>Qidiruv: <b>ish beruvchi filtr bilan</b></span>
+    <span>Aloqa: <b>ichki chat</b></span>
+    <span>Moderatsiya: <b>hozircha yo'q</b></span>
+    <span>Admin panel: <b>bor</b></span>
+    <span>Kirish: <b>Telegram</b></span>
+    <span>Baza: <b>Firebase</b></span>
+  </div>
+
+  <div class="roles">
+    <section class="role cand">
+      <div class="tag">Rol 1 · «Ish kerak»</div>
+      <h3>Nomzod</h3>
+      <ul>
+        <li>Ro'yxatdan o'tadi, profil to'ldiradi (4 qadam) — tayyor CV shakllanadi</li>
+        <li>Qaysi lavozimlarga tayyorligini belgilaydi</li>
+        <li>Staj, ma'lumot, sertifikatlarini kiritadi</li>
+        <li>Ish beruvchi yozganda chatda javob beradi</li>
+        <li>Profilini yashirishi yoki yangilashi mumkin</li>
+      </ul>
+    </section>
+    <section class="role emp">
+      <div class="tag">Rol 2 · «Ishchi kerak»</div>
+      <h3>Ish beruvchi</h3>
+      <ul>
+        <li>Tashkilotini ro'yxatdan o'tkazadi</li>
+        <li>So'rov yaratadi: lavozim, staj, yosh, jins, sertifikat talablari</li>
+        <li>Mos nomzodlar ro'yxatini oladi</li>
+        <li>Nomzod CV'sini ko'rib «Xabar yozish» bosadi → chat</li>
+        <li>So'rovlarni va yoqqan nomzodlarni saqlaydi</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- ============ 1. EKRANLAR OQIMI ============ -->
+  <h2>1. Ekranlar oqimi</h2>
+  <p>Asosiy menyu ikkiga bo'linadi. Yuqori yo'l — nomzod, pastki yo'l — ish beruvchi. Ikkalasi bitta chat ekranida uchrashadi.</p>
+
+  <figure>
+    <div class="frame">
+      <svg viewBox="0 0 980 380" role="img" aria-label="Asosiy menyudan nomzod va ish beruvchi yo'llari alohida ketib, chat ekranida qo'shiladi">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        </defs>
+        <g color="var(--ink)">
+        <!-- menu -->
+        <rect class="box" x="16" y="160" width="130" height="60" rx="4"/>
+        <text x="81" y="186" text-anchor="middle" class="strong">Asosiy menyu</text>
+        <text x="81" y="203" text-anchor="middle" class="lbl">ikkita tugma</text>
+
+        <!-- branch arrows -->
+        <path class="edge cand" d="M146 180 H172 V60 H198" marker-end="url(#ah)" color="var(--cand)"/>
+        <text x="180" y="120" class="lbl t-cand strong" text-anchor="end">Ish kerak</text>
+        <path class="edge emp" d="M146 200 H172 V300 H198" marker-end="url(#ah)" color="var(--emp)"/>
+        <text x="180" y="260" class="lbl t-emp strong" text-anchor="end">Ishchi kerak</text>
+
+        <!-- candidate row y=60 -->
+        <g>
+          <rect class="box cand" x="200" y="32" width="130" height="56" rx="4"/>
+          <text x="265" y="56" text-anchor="middle" class="strong">Kirish</text>
+          <text x="265" y="73" text-anchor="middle" class="lbl">Telegram orqali</text>
+
+          <rect class="box cand" x="360" y="32" width="130" height="56" rx="4"/>
+          <text x="425" y="56" text-anchor="middle" class="strong">Profil to'ldirish</text>
+          <text x="425" y="73" text-anchor="middle" class="lbl">4 qadam</text>
+
+          <rect class="box cand" x="520" y="32" width="130" height="56" rx="4"/>
+          <text x="585" y="56" text-anchor="middle" class="strong">Mening CV'm</text>
+          <text x="585" y="73" text-anchor="middle" class="lbl">avtomatik · tahrirlash</text>
+
+          <rect class="box cand" x="680" y="32" width="130" height="56" rx="4"/>
+          <text x="745" y="56" text-anchor="middle" class="strong">Xabarlar</text>
+          <text x="745" y="73" text-anchor="middle" class="lbl">kim yozgani ro'yxati</text>
+
+          <g color="var(--cand)">
+            <path class="edge cand" d="M330 60 H358" marker-end="url(#ah)"/>
+            <path class="edge cand" d="M490 60 H518" marker-end="url(#ah)"/>
+            <text x="504" y="52" text-anchor="middle" class="lbl">CV tayyor</text>
+            <path class="edge cand" d="M650 60 H678" marker-end="url(#ah)"/>
+          </g>
+        </g>
+
+        <!-- employer row y=300 -->
+        <g>
+          <rect class="box emp" x="200" y="272" width="130" height="56" rx="4"/>
+          <text x="265" y="296" text-anchor="middle" class="strong">Kirish</text>
+          <text x="265" y="313" text-anchor="middle" class="lbl">Telegram + tashkilot</text>
+
+          <rect class="box emp" x="360" y="272" width="130" height="56" rx="4"/>
+          <text x="425" y="296" text-anchor="middle" class="strong">Xodim qidirish</text>
+          <text x="425" y="313" text-anchor="middle" class="lbl">talablar formasi</text>
+
+          <rect class="box emp" x="520" y="272" width="130" height="56" rx="4"/>
+          <text x="585" y="296" text-anchor="middle" class="strong">Natijalar</text>
+          <text x="585" y="313" text-anchor="middle" class="lbl">mos nomzodlar</text>
+
+          <rect class="box emp" x="680" y="272" width="130" height="56" rx="4"/>
+          <text x="745" y="296" text-anchor="middle" class="strong">Nomzod CV'si</text>
+          <text x="745" y="313" text-anchor="middle" class="lbl">to'liq ma'lumot</text>
+
+          <g color="var(--emp)">
+            <path class="edge emp" d="M330 300 H358" marker-end="url(#ah)"/>
+            <path class="edge emp" d="M490 300 H518" marker-end="url(#ah)"/>
+            <text x="504" y="345" text-anchor="middle" class="lbl">filtr</text>
+            <path class="edge emp" d="M650 300 H678" marker-end="url(#ah)"/>
+            <text x="664" y="345" text-anchor="middle" class="lbl">tanlash</text>
+          </g>
+        </g>
+
+        <!-- chat -->
+        <rect class="box shared" x="860" y="150" width="104" height="80" rx="4"/>
+        <text x="912" y="182" text-anchor="middle" class="strong">Chat</text>
+        <text x="912" y="199" text-anchor="middle" class="lbl">1 nomzod ↔</text>
+        <text x="912" y="213" text-anchor="middle" class="lbl">1 ish beruvchi</text>
+
+        <path class="edge cand" d="M810 60 H835 V170 H858" marker-end="url(#ah)" color="var(--cand)"/>
+        <text x="828" y="120" class="lbl t-cand" text-anchor="end">javob yozadi</text>
+        <path class="edge emp" d="M810 300 H835 V210 H858" marker-end="url(#ah)" color="var(--emp)"/>
+        <text x="828" y="262" class="lbl t-emp" text-anchor="end">«Xabar yozish»</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>Chatni faqat ish beruvchi boshlaydi (nomzod vakansiyalarni ko'rmaydi). Nomzodning bosh ekrani — o'zining CV'si; ish beruvchi natijalardan xuddi shu CV'ni ochadi. Admin panel alohida kirish bilan, oqimga kirmaydi (7-bo'lim).</figcaption>
+  </figure>
+
+  <!-- ============ 2. NOMZOD PROFILI ============ -->
+  <h2>2. Nomzod profili — 4 qadam</h2>
+  <p>Profil ketma-ket to'ldiriladi, har qadam alohida saqlanadi (yarmida chiqib ketsa yo'qolmaydi). To'rt qadam tugagach tayyor CV shakllanadi. Yulduzcha (<span style="color:var(--emp)">*</span>) — majburiy: CV chiqishi uchun to'ldirilishi shart. Ixtiyoriy faqat rasm va sertifikatlar ro'yxatlari (bo'lsa kiritadi, bo'lmasa «yo'q» deb belgilaydi).</p>
+
+  <div class="steps">
+    <div class="step">
+      <div>
+        <h4>Shaxsiy ma'lumot</h4>
+        <dl class="fields">
+          <dt class="req">fish</dt><dd>Familiya, ism, sharif</dd>
+          <dt class="req">tugilgan_sana</dt><dd>Sana — yosh avtomatik hisoblanadi, filtr yosh bilan ishlaydi</dd>
+          <dt class="req">jins</dt><dd>Erkak / Ayol</dd>
+          <dt class="req">shahar</dt><dd>Viloyat → shahar/tuman (ro'yxatdan)</dd>
+          <dt class="req">telefon</dt><dd>Qo'lda kiritiladi (Telegram kirishda raqam bermaydi); chat boshlanguncha yashirin. <code>telegram_id</code> kirishdan avtomatik olinadi</dd>
+          <dt>rasm</dt><dd>Profil rasmi</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h4>Lavozim va ish sharti</h4>
+        <dl class="fields">
+          <dt class="req">lavozimlar[]</dt><dd>Ro'yxatdan bir yoki bir nechta (masalan: Yordamchi ustoz + Uy vazifa tekshiruvchi)</dd>
+          <dt>dars_tillari[]</dt><dd>Dars o'tish tili: O'zbek / Rus / Ingliz — bir nechta (ustozlar uchun)</dd>
+          <dt class="req">stavka</dt><dd>To'liq / Yarim / Soatbay</dd>
+          <dt class="req">kutilgan_maosh</dt><dd>So'mda, oyiga</dd>
+          <dt class="req">boshlash_sanasi</dt><dd>Hoziroq / sana</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h4>Tajriba va ma'lumot</h4>
+        <dl class="fields">
+          <dt class="req">staj_yil</dt><dd>Umumiy ish staji, yil (0 = tajribasiz)</dd>
+          <dt class="req">malumot</dt><dd>O'rta / O'rta maxsus / Bakalavr / Magistr</dd>
+          <dt class="req">oqigan_joyi</dt><dd>O'quv yurti</dd>
+          <dt>yonalish · oqish_yil_dan · oqish_yil_gacha</dt><dd>Yo'nalish va o'qigan yillari (CV jadvali uchun)</dd>
+          <dt>ish_joylari[]</dt><dd>Tashkilot, lavozim, yildan–yilgacha (bir nechta). Ixtiyoriy</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h4>Sertifikatlar</h4>
+        <dl class="fields">
+          <dt>ingliz_tili</dt><dd>Turi (IELTS / CEFR / Milliy sertifikat) + daraja yoki ball. Masalan: <code>IELTS 7.0</code>, <code>CEFR B2</code></dd>
+          <dt>boshqa_tillar[]</dt><dd>Rus, boshqa — daraja A1–C2</dd>
+          <dt>fan_sertifikatlari[]</dt><dd>Fan + daraja (A+, A, B+, B, C+, C) — milliy sertifikat</dd>
+          <dt>sat</dt><dd>SAT balli, 400–1600</dd>
+          <dt>a_level[]</dt><dd>Fan + baho (A*, A, B, C, D, E) — Cambridge A level</dd>
+          <dt>boshqa_sertifikatlar[]</dt><dd>Nomi + rasm/fayl (masalan: hamshiralik diplomi, 1C kursi)</dd>
+          <dt class="req">ozim_haqimda</dt><dd>Qisqa matn, 300 belgigacha — CV'ning «Men haqimda» qismi</dd>
+        </dl>
+        <p class="note">Sertifikat rasmi ixtiyoriy — yuklasa ish beruvchi CV'da ko'radi. Fan sertifikatida fan ro'yxatdan tanlanadi (8-bo'lim).</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Profil holati</h3>
+  <p><b>Faol</b> — qidiruvda chiqadi. <b>Yashirin</b> — ish topgan, lekin profil o'chmaydi; xohlasa qayta yoqadi. Ochiq chatlar yashirin holatda ham ishlayveradi.</p>
+
+  <h3>Tayyor CV</h3>
+  <p>Nomzod alohida CV yozmaydi — to'rt qadam to'ldirilgach ilova o'zi CV'ni yig'adi. Bu nomzodning bosh ekrani («Mening CV'm») va ish beruvchi natijalardan ochadigan sahifa — ikkalasi bitta shablon. Maydon o'zgarsa CV ham darrov yangilanadi.</p>
+  <div class="tbl"><table>
+    <tr><th>CV qismi</th><th>Qaysi maydonlardan</th></tr>
+    <tr><td>Sarlavha</td><td>rasm (bo'lsa) · fish · yosh · jins · shahar · lavozimlar (teglar)</td></tr>
+    <tr><td>Ish sharti</td><td>stavka · kutilgan_maosh · boshlash_sanasi</td></tr>
+    <tr><td>Tajriba</td><td>staj_yil · ish_joylari[] (yildan–yilgacha, tashkilot, lavozim)</td></tr>
+    <tr><td>Ma'lumot</td><td>malumot · oqigan_joyi</td></tr>
+    <tr><td>Sertifikatlar</td><td>ingliz_tili · boshqa_tillar[] · fan_sertifikatlari[] · boshqa_sertifikatlar[] — rasmi bo'lsa «ko'rish» tugmasi</td></tr>
+    <tr><td>Men haqimda</td><td>ozim_haqimda</td></tr>
+    <tr><td>Aloqa</td><td>telefon — faqat chat boshlangan ish beruvchiga ko'rinadi; boshqalarga «Xabar yozish» tugmasi</td></tr>
+  </table></div>
+  <p class="note">Nomzod CV'ni PDF qilib yuklab olishi va havola bilan ulashishi mumkin (ilovadan tashqarida ham ishlatish uchun). Havola orqali ochilganda telefon ko'rinmaydi.</p>
+
+  <!-- ============ 3. ISH BERUVCHI ============ -->
+  <h2>3. Ish beruvchi so'rovi</h2>
+  <p>Ish beruvchi bir marta tashkilotini kiritadi, keyin istalgancha so'rov yaratadi. Har bir so'rov — bu bitta lavozim uchun talablar to'plami. So'rov saqlanadi, qayta ochib qidirish mumkin.</p>
+
+  <div class="form">
+    <h4>Tashkilot (bir marta)</h4>
+    <dl class="fields">
+      <dt class="req">nomi</dt><dd>Masalan: «Cambridge Learning Center»</dd>
+      <dt class="req">turi</dt><dd>O'quv markaz / Maktab / Bog'cha / Boshqa</dd>
+      <dt class="req">shahar</dt><dd>Viloyat → shahar/tuman</dd>
+      <dt class="req">masul_shaxs</dt><dd>Ism va lavozimi (HR, direktor)</dd>
+      <dt class="req">telefon</dt><dd>Tasdiqlangan raqam</dd>
+    </dl>
+  </div>
+
+  <div class="form">
+    <h4>So'rov: «Menga ... kerak»</h4>
+    <dl class="fields">
+      <dt class="req">lavozim</dt><dd>Ro'yxatdan bitta</dd>
+      <dt>nechta</dt><dd>Nechta xodim kerak (standart 1)</dd>
+      <dt>min_staj</dt><dd>Kamida N yil (0 yoki bo'sh = talab yo'q)</dd>
+      <dt>yosh_dan · yosh_gacha</dt><dd>Masalan 22–35; ikkalasi ham ixtiyoriy</dd>
+      <dt class="req">jins</dt><dd>Erkak / Ayol / Farqi yo'q</dd>
+      <dt>dars_tili</dt><dd>O'zbek / Rus / Ingliz / Farqi yo'q. «Kimyo (rus)» = lavozim Kimyo + dars tili Rus</dd>
+      <dt>min_malumot</dt><dd>Kamida: O'rta / O'rta maxsus / Bakalavr / Magistr</dd>
+      <dt>til_talab</dt><dd>Kamida <code>IELTS 7.0</code> yoki <code>CEFR B2</code> — ikkala shkala bir-biriga o'giriladi (4-bo'lim)</dd>
+      <dt>fan_talab[]</dt><dd>Fan + kamida daraja. Masalan: Matematika ≥ A, Fizika ≥ B+</dd>
+      <dt>sat_min</dt><dd>Kamida SAT balli, masalan 1300 (SAT ustoz uchun)</dd>
+      <dt>a_level_talab[]</dt><dd>Fan + kamida baho. Masalan: Kimyo ≥ A</dd>
+      <dt>shahar</dt><dd>Standart — tashkilot shahri; «butun O'zbekiston» tanlash mumkin</dd>
+      <dt>stavka</dt><dd>To'liq / Yarim / Soatbay / Farqi yo'q</dd>
+      <dt>maosh_dan · maosh_gacha</dt><dd>Taklif qilinadigan maosh (nomzodga chatda ko'rinadi)</dd>
+      <dt>izoh</dt><dd>Qo'shimcha talablar erkin matnda</dd>
+    </dl>
+  </div>
+
+  <h3>Natijalar ekrani</h3>
+  <p>Har nomzod karta ko'rinishida: ism, yosh, jins, shahar, staj, tanlagan lavozimlari, asosiy sertifikatlari (IELTS 7.0 · Matematika A). Tugmalar: <b>Profilni ko'rish</b>, <b>Xabar yozish</b>, <b>Saqlash</b>. Tartiblash: staj bo'yicha / yaqinda qo'shilganlar. Ro'yxat ostida alohida bo'lim: <b>«Yaqin mosliklar»</b> — 4-bo'limdagi qoida bo'yicha bitta shartga to'g'ri kelmaganlar, har karta ustida qaysi shart bajarilmagani yozilgan (<i>yoshi 31 — siz 30 gacha so'ragansiz</i>).</p>
+
+  <!-- ============ 4. MOSLIK MANTIQI ============ -->
+  <h2>4. Moslik mantiqi</h2>
+  <p>Qidiruv — bu so'rovdagi har bir talabni nomzod profilidagi mos maydon bilan solishtirish. Ish beruvchi to'ldirmagan talab tekshirilmaydi. To'ldirilgan talablarning hammasi bajarilsa nomzod ro'yxatga chiqadi.</p>
+
+  <figure>
+    <div class="frame">
+      <svg viewBox="0 0 780 520" role="img" aria-label="So'rovdagi to'qqiz talab nomzod profilidagi to'qqiz maydon bilan taqqoslanadi; barchasi bajarilsa nomzod natijaga chiqadi">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        </defs>
+        <g color="var(--ink)">
+        <!-- column headers -->
+        <rect class="box emp" x="20" y="16" width="280" height="36" rx="4"/>
+        <text x="160" y="39" text-anchor="middle" class="strong">Ish beruvchi so'rovi</text>
+        <rect class="box cand" x="480" y="16" width="280" height="36" rx="4"/>
+        <text x="620" y="39" text-anchor="middle" class="strong">Nomzod profili</text>
+        <text x="390" y="39" text-anchor="middle" class="lbl">shart</text>
+
+        <!-- rows -->
+        <g class="mono">
+          <!-- row 1 -->
+          <text x="32" y="86" class="t-emp">lavozim</text>
+          <rect class="op" x="322" y="70" width="136" height="24" rx="12"/><text x="390" y="86" text-anchor="middle">∈ ro'yxatda</text>
+          <text x="492" y="86" class="t-cand">lavozimlar[]</text>
+          <line class="edge" x1="300" y1="82" x2="320" y2="82" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="82" x2="478" y2="82" marker-end="url(#ah2)"/>
+          <!-- row 2 -->
+          <text x="32" y="130" class="t-emp">min_staj</text>
+          <rect class="op" x="322" y="114" width="136" height="24" rx="12"/><text x="390" y="130" text-anchor="middle">≤</text>
+          <text x="492" y="130" class="t-cand">staj_yil</text>
+          <line class="edge" x1="300" y1="126" x2="320" y2="126" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="126" x2="478" y2="126" marker-end="url(#ah2)"/>
+          <!-- row 3 -->
+          <text x="32" y="174" class="t-emp">yosh_dan … yosh_gacha</text>
+          <rect class="op" x="322" y="158" width="136" height="24" rx="12"/><text x="390" y="174" text-anchor="middle">∋ oraliqda</text>
+          <text x="492" y="174" class="t-cand">yosh ← tugilgan_sana</text>
+          <line class="edge" x1="300" y1="170" x2="320" y2="170" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="170" x2="478" y2="170" marker-end="url(#ah2)"/>
+          <!-- row 4 -->
+          <text x="32" y="218" class="t-emp">jins</text>
+          <rect class="op" x="322" y="202" width="136" height="24" rx="12"/><text x="390" y="218" text-anchor="middle">= yoki farqi yo'q</text>
+          <text x="492" y="218" class="t-cand">jins</text>
+          <line class="edge" x1="300" y1="214" x2="320" y2="214" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="214" x2="478" y2="214" marker-end="url(#ah2)"/>
+          <!-- row 5 -->
+          <text x="32" y="262" class="t-emp">min_malumot</text>
+          <rect class="op" x="322" y="246" width="136" height="24" rx="12"/><text x="390" y="262" text-anchor="middle">≤ daraja</text>
+          <text x="492" y="262" class="t-cand">malumot</text>
+          <line class="edge" x1="300" y1="258" x2="320" y2="258" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="258" x2="478" y2="258" marker-end="url(#ah2)"/>
+          <!-- row 6 -->
+          <text x="32" y="306" class="t-emp">til_talab (IELTS/CEFR)</text>
+          <rect class="op" x="322" y="290" width="136" height="24" rx="12"/><text x="390" y="306" text-anchor="middle">≤ til shkalasi</text>
+          <text x="492" y="306" class="t-cand">ingliz_tili</text>
+          <line class="edge" x1="300" y1="302" x2="320" y2="302" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="302" x2="478" y2="302" marker-end="url(#ah2)"/>
+          <!-- row 7 -->
+          <text x="32" y="350" class="t-emp">fan_talab[] (fan ≥ daraja)</text>
+          <rect class="op" x="322" y="334" width="136" height="24" rx="12"/><text x="390" y="350" text-anchor="middle">har biri ≤</text>
+          <text x="492" y="350" class="t-cand">fan_sertifikatlari[]</text>
+          <line class="edge" x1="300" y1="346" x2="320" y2="346" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="346" x2="478" y2="346" marker-end="url(#ah2)"/>
+          <!-- row 8 -->
+          <text x="32" y="394" class="t-emp">sat_min</text>
+          <rect class="op" x="322" y="378" width="136" height="24" rx="12"/><text x="390" y="394" text-anchor="middle">≤</text>
+          <text x="492" y="394" class="t-cand">sat</text>
+          <line class="edge" x1="300" y1="390" x2="320" y2="390" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="390" x2="478" y2="390" marker-end="url(#ah2)"/>
+          <!-- row 9 -->
+          <text x="32" y="438" class="t-emp">a_level_talab[] (fan ≥ baho)</text>
+          <rect class="op" x="322" y="422" width="136" height="24" rx="12"/><text x="390" y="438" text-anchor="middle">har biri ≤</text>
+          <text x="492" y="438" class="t-cand">a_level[]</text>
+          <line class="edge" x1="300" y1="434" x2="320" y2="434" marker-end="url(#ah2)"/>
+          <line class="edge" x1="458" y1="434" x2="478" y2="434" marker-end="url(#ah2)"/>
+        </g>
+        <line x1="20" y1="462" x2="760" y2="462" stroke="var(--line)" stroke-dasharray="4 4"/>
+        <text x="390" y="490" text-anchor="middle" class="strong">To'ldirilgan shartlarning hammasi bajarilsa → nomzod natijaga chiqadi</text>
+        <text x="390" y="508" text-anchor="middle" class="lbl">shahar va stavka ham xuddi shu tarzda: «farqi yo'q» bo'lsa tekshirilmaydi</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>Har bir talab «kamida» ma'nosida: so'rovdagi qiymat nomzodnikidan kichik yoki teng bo'lsa shart bajarilgan. Shuning uchun darajalar raqamga o'giriladi.</figcaption>
+  </figure>
+
+  <h3>Darajalarni raqamga o'girish</h3>
+  <p>«IELTS 7 kerak» va «CEFR B2 kerak» bir xil shkalada solishtirilishi uchun til darajasi 1–6 raqamga aylantiriladi. Fan sertifikati va ma'lumot darajasi ham shunday.</p>
+
+  <div class="lists">
+    <div class="list">
+      <h4>Til shkalasi (ingliz)</h4>
+      <div class="tbl"><table>
+        <tr><th>Ball</th><th>CEFR</th><th>IELTS</th><th>Milliy</th></tr>
+        <tr><td class="num">1</td><td>A1</td><td class="num">&lt; 4.0</td><td>—</td></tr>
+        <tr><td class="num">2</td><td>A2</td><td class="num">4.0</td><td>—</td></tr>
+        <tr><td class="num">3</td><td>B1</td><td class="num">4.5 – 5.0</td><td>B1</td></tr>
+        <tr><td class="num">4</td><td>B2</td><td class="num">5.5 – 6.5</td><td>B2</td></tr>
+        <tr><td class="num">5</td><td>C1</td><td class="num">7.0 – 8.0</td><td>C1</td></tr>
+        <tr><td class="num">6</td><td>C2</td><td class="num">8.5 – 9.0</td><td>C2</td></tr>
+      </table></div>
+    </div>
+    <div class="list">
+      <h4>Fan sertifikati</h4>
+      <div class="tbl"><table>
+        <tr><th>Ball</th><th>Daraja</th></tr>
+        <tr><td class="num">6</td><td>A+</td></tr>
+        <tr><td class="num">5</td><td>A</td></tr>
+        <tr><td class="num">4</td><td>B+</td></tr>
+        <tr><td class="num">3</td><td>B</td></tr>
+        <tr><td class="num">2</td><td>C+</td></tr>
+        <tr><td class="num">1</td><td>C</td></tr>
+      </table></div>
+    </div>
+    <div class="list">
+      <h4>A level bahosi</h4>
+      <div class="tbl"><table>
+        <tr><th>Ball</th><th>Baho</th></tr>
+        <tr><td class="num">6</td><td>A*</td></tr>
+        <tr><td class="num">5</td><td>A</td></tr>
+        <tr><td class="num">4</td><td>B</td></tr>
+        <tr><td class="num">3</td><td>C</td></tr>
+        <tr><td class="num">2</td><td>D</td></tr>
+        <tr><td class="num">1</td><td>E</td></tr>
+      </table></div>
+      <p class="note">SAT balli raqam (400–1600), o'girish shart emas.</p>
+    </div>
+    <div class="list">
+      <h4>Ma'lumot darajasi</h4>
+      <div class="tbl"><table>
+        <tr><th>Ball</th><th>Daraja</th></tr>
+        <tr><td class="num">4</td><td>Magistr</td></tr>
+        <tr><td class="num">3</td><td>Bakalavr</td></tr>
+        <tr><td class="num">2</td><td>O'rta maxsus</td></tr>
+        <tr><td class="num">1</td><td>O'rta</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <h3>Misol</h3>
+  <p>So'rov: <i>Support ustoz, staj ≥ 2, yosh 20–30, ayol, IELTS ≥ 6.5 (ball 4), Matematika ≥ A (ball 5)</i>. Nomzod: <i>lavozimlar = [Support ustoz, Kurator], staj 3, yosh 24, ayol, CEFR C1 (ball 5), Matematika A+ (ball 6)</i> → hamma shart bajarildi, chiqadi. Agar nomzodning Matematikasi B+ (ball 4) bo'lsa — to'liq mosliklarga chiqmaydi, «Yaqin mosliklar»da ko'rinadi.</p>
+
+  <h3>«Yaqin mosliklar» qoidasi</h3>
+  <div class="tbl"><table>
+    <tr><th>Shart</th><th>Yumshatiladimi</th></tr>
+    <tr><td>lavozim, jins, dars_tili</td><td><b>Hech qachon</b> — Farrosh so'ralsa Kurator chiqmaydi, ayol so'ralsa erkak chiqmaydi</td></tr>
+    <tr><td>min_staj, yosh, min_malumot, til_talab, fan_talab, sat_min, a_level_talab, shahar, stavka</td><td>Ha — lekin bularning <b>faqat bittasi</b> bajarilmagan bo'lsa</td></tr>
+    <tr><td>Ikki va undan ko'p shart bajarilmagan</td><td>Chiqmaydi</td></tr>
+    <tr><td>Kartada</td><td>Qaysi shart va qanchaga farq qilgani yoziladi: «staj 1 yil, siz 2 so'ragansiz»</td></tr>
+  </table></div>
+
+  <!-- ============ 5. CHAT ============ -->
+  <h2>5. Chat</h2>
+  <p>Chat ikki tomon o'rtasida, bitta so'rovga bog'langan holda ochiladi — ish beruvchi qaysi lavozim uchun yozayotgani nomzodga ko'rinadi.</p>
+  <div class="tbl"><table>
+    <tr><th>Qoida</th><th>Nima uchun</th></tr>
+    <tr><td>Chatni ish beruvchi boshlaydi</td><td>Nomzod vakansiya ko'rmaydi, demak kimga yozishni bilmaydi</td></tr>
+    <tr><td>Bir nomzod + bir ish beruvchi = bitta suhbat</td><td>Ikkinchi so'rov uchun ham o'sha suhbat davom etadi, spam bo'lmaydi</td></tr>
+    <tr><td>Birinchi xabar so'rov kartasi bilan keladi</td><td>Nomzod lavozim, maosh va shartlarni darrov ko'radi</td></tr>
+    <tr><td>Telefon raqam chat ichida ochiladi</td><td>Profil ochiq turgan bo'lsa ham raqam faqat suhbatdoshga ko'rinadi</td></tr>
+    <tr><td>Bildirishnoma: Telegram bot orqali</td><td>Kirish Telegram bo'lgani uchun bot «Sizga yangi xabar: Cambridge LC, Support ustoz» deb yozadi — ilovani ochmasa ham ko'radi</td></tr>
+    <tr><td>Bloklash / shikoyat</td><td>Nomzod noo'rin ish beruvchini bloklaydi, u yozolmaydi; shikoyat admin panelga tushadi</td></tr>
+  </table></div>
+
+  <!-- ============ 6. MA'LUMOTLAR MODELI ============ -->
+  <h2>6. Ma'lumotlar modeli</h2>
+  <p>Backend tanlanmasa ham jadval tuzilishi shu. Har bir jadval — bitta karta. Bog'lanishlar rasmda.</p>
+
+  <figure>
+    <div class="frame">
+      <svg viewBox="0 0 920 310" role="img" aria-label="Foydalanuvchi nomzod yoki ish beruvchi bo'ladi; nomzodda sertifikatlar va lavozimlar, ish beruvchida so'rovlar; ikkalasi suhbat orqali bog'lanadi, suhbatda xabarlar">
+        <defs>
+          <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        </defs>
+        <g color="var(--ink)">
+        <!-- row 1 -->
+        <rect class="box shared" x="380" y="16" width="160" height="44" rx="4"/>
+        <text x="460" y="43" text-anchor="middle" class="strong">Foydalanuvchi</text>
+        <!-- row 2 -->
+        <rect class="box cand" x="60" y="96" width="160" height="44" rx="4"/>
+        <text x="140" y="123" text-anchor="middle" class="strong">Nomzod</text>
+        <rect class="box shared" x="380" y="96" width="160" height="44" rx="4"/>
+        <text x="460" y="123" text-anchor="middle" class="strong">Suhbat</text>
+        <rect class="box emp" x="720" y="96" width="160" height="44" rx="4"/>
+        <text x="800" y="123" text-anchor="middle" class="strong">Ish beruvchi</text>
+        <!-- row 3 -->
+        <rect class="box cand" x="20" y="176" width="140" height="44" rx="4"/>
+        <text x="90" y="203" text-anchor="middle" class="strong">Sertifikat</text>
+        <rect class="box shared" x="380" y="176" width="160" height="44" rx="4"/>
+        <text x="460" y="203" text-anchor="middle" class="strong">Xabar</text>
+        <rect class="box emp" x="720" y="176" width="160" height="44" rx="4"/>
+        <text x="800" y="203" text-anchor="middle" class="strong">So'rov</text>
+        <!-- row 4 -->
+        <rect class="box" x="380" y="256" width="160" height="44" rx="4"/>
+        <text x="460" y="283" text-anchor="middle" class="strong">Lavozim</text>
+
+        <!-- edges -->
+        <path class="edge" d="M380 38 H140 V94" marker-end="url(#ah3)"/>
+        <text x="250" y="32" text-anchor="middle" class="lbl">rol = nomzod · 1:1</text>
+        <path class="edge" d="M540 38 H800 V94" marker-end="url(#ah3)"/>
+        <text x="670" y="32" text-anchor="middle" class="lbl">rol = ish beruvchi · 1:1</text>
+
+        <path class="edge cand" d="M100 140 V174" marker-end="url(#ah3)" color="var(--cand)"/>
+        <text x="108" y="162" class="lbl">1:n</text>
+        <path class="edge cand" d="M200 140 V278 H378" marker-end="url(#ah3)" color="var(--cand)"/>
+        <text x="290" y="272" text-anchor="middle" class="lbl">tanlaydi · n:m</text>
+
+        <path class="edge emp" d="M800 140 V174" marker-end="url(#ah3)" color="var(--emp)"/>
+        <text x="808" y="162" class="lbl">1:n</text>
+        <path class="edge emp" d="M800 220 V278 H542" marker-end="url(#ah3)" color="var(--emp)"/>
+        <text x="670" y="272" text-anchor="middle" class="lbl">bitta lavozim · n:1</text>
+
+        <path class="edge" d="M220 118 H378" marker-end="url(#ah3)"/>
+        <text x="299" y="112" text-anchor="middle" class="lbl">1:n</text>
+        <path class="edge" d="M720 118 H542" marker-end="url(#ah3)"/>
+        <text x="631" y="112" text-anchor="middle" class="lbl">1:n · so'rovga bog'liq</text>
+        <path class="edge" d="M460 140 V174" marker-end="url(#ah3)"/>
+        <text x="468" y="162" class="lbl">1:n</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>Bitta foydalanuvchi bitta rolga ega. Nomzod bir nechta lavozim tanlaydi, so'rov esa bitta lavozimga. Suhbat nomzod va ish beruvchini bog'laydi, xabarlar suhbat ichida.</figcaption>
+  </figure>
+
+  <div class="entities">
+    <div class="ent shared"><header>Foydalanuvchi <small>users</small></header><ul>
+      <li class="key">id</li><li>telegram_id · telegram_username</li><li>telefon <span>· qo'lda kiritilgan</span></li><li>rol <span>· nomzod | ish_beruvchi | admin</span></li><li>yaratilgan_vaqt</li><li>oxirgi_kirish</li>
+    </ul></div>
+    <div class="ent cand"><header>Nomzod <small>candidates</small></header><ul>
+      <li class="key">id · user_id</li><li>fish · tugilgan_sana · jins</li><li>shahar_id · rasm_url</li><li>dars_tillari[] <span>· O'zbek | Rus | Ingliz</span></li><li>staj_yil · malumot <span>· 1–4</span></li><li>oqigan_joyi · ozim_haqimda</li><li>stavka · kutilgan_maosh</li><li>holat <span>· faol | yashirin</span></li>
+    </ul></div>
+    <div class="ent cand"><header>Sertifikat <small>certificates</small></header><ul>
+      <li class="key">id · candidate_id</li><li>tur <span>· til | fan | sat | a_level | boshqa</span></li><li>nomi · subject_id <span>· fan/a_level bo'lsa ro'yxatdan</span></li><li>shkala <span>· IELTS | CEFR | milliy | daraja | SAT | A level</span></li><li>qiymat <span>· «7.0», «B2», «A+», «1350», «A*»</span></li><li>ball <span>· 1–6 hisoblangan; SAT — raqamning o'zi</span></li><li>fayl_url</li>
+    </ul></div>
+    <div class="ent cand"><header>Ish joyi <small>work_history</small></header><ul>
+      <li class="key">id · candidate_id</li><li>tashkilot · lavozim</li><li>yil_dan · yil_gacha</li>
+    </ul></div>
+    <div class="ent"><header>Lavozim <small>positions</small></header><ul>
+      <li class="key">id</li><li>nomi <span>· «Kurator», «Kimyo ustozi»</span></li><li>bolim <span>· oquv | mamuriyat</span></li><li>faol <span>· admin o'chirib qo'yishi mumkin</span></li><li>candidate_positions <span>· nomzod ↔ lavozim (n:m)</span></li>
+    </ul></div>
+    <div class="ent"><header>Fan <small>subjects</small></header><ul>
+      <li class="key">id</li><li>nomi <span>· «Matematika»</span></li><li>faol</li><li><span>fan_sertifikatlari va fan_talab shu ro'yxatdan</span></li>
+    </ul></div>
+    <div class="ent emp"><header>Ish beruvchi <small>employers</small></header><ul>
+      <li class="key">id · user_id</li><li>nomi · turi</li><li>shahar_id</li><li>masul_shaxs · telefon</li><li>tasdiqlangan <span>· hozircha ishlatilmaydi, keyin moderatsiya uchun</span></li>
+    </ul></div>
+    <div class="ent emp"><header>So'rov <small>job_requests</small></header><ul>
+      <li class="key">id · employer_id</li><li>position_id · nechta</li><li>min_staj · yosh_dan · yosh_gacha</li><li>jins <span>· erkak | ayol | farqi_yoq</span></li><li>dars_tili <span>· O'zbek | Rus | Ingliz | farqi_yoq</span></li><li>min_malumot · til_ball</li><li>fan_talab[] <span>· {subject_id, min_ball}</span></li><li>sat_min · a_level_talab[] <span>· {subject_id, min_ball}</span></li><li>shahar_id · stavka</li><li>maosh_dan · maosh_gacha · izoh</li><li>holat <span>· faol | yopiq</span></li>
+    </ul></div>
+    <div class="ent emp"><header>Saqlangan nomzod <small>saved_candidates</small></header><ul>
+      <li class="key">employer_id · candidate_id</li><li>request_id</li><li>vaqt</li>
+    </ul></div>
+    <div class="ent shared"><header>Shikoyat <small>reports</small></header><ul>
+      <li class="key">id · conversation_id</li><li>kim · sabab · vaqt</li><li>holat <span>· yangi | ko'rildi</span></li>
+    </ul></div>
+    <div class="ent shared"><header>Suhbat <small>conversations</small></header><ul>
+      <li class="key">id</li><li>candidate_id · employer_id</li><li>request_id <span>· qaysi so'rov bo'yicha</span></li><li>oxirgi_xabar_vaqti</li><li>bloklangan <span>· kim tomonidan</span></li>
+    </ul></div>
+    <div class="ent shared"><header>Xabar <small>messages</small></header><ul>
+      <li class="key">id · conversation_id</li><li>sender_user_id</li><li>matn · fayl_url</li><li>vaqt · oqildi</li>
+    </ul></div>
+  </div>
+
+  <!-- ============ 7. LUG'ATLAR ============ -->
+  <h2>7. Admin panel</h2>
+  <p>Faqat sizga (rol = admin). Alohida manzil, asosiy menyuda ko'rinmaydi. Birinchi versiyada to'rtta ekran:</p>
+  <div class="tbl"><table>
+    <tr><th>Ekran</th><th>Nima qilinadi</th></tr>
+    <tr><td>Lavozimlar</td><td>Qo'shish, nomini o'zgartirish, o'chirib qo'yish (faol = yo'q — eski profillarda qoladi, yangi tanlovda chiqmaydi)</td></tr>
+    <tr><td>Fanlar</td><td>Xuddi shunday — fan sertifikatlari uchun ro'yxat</td></tr>
+    <tr><td>Foydalanuvchilar</td><td>Nomzodlar va ish beruvchilar ro'yxati, qidirish, profilni ochish, bloklash. Ish beruvchi yonida «Tasdiqlash» tugmasi — moderatsiya yoqilganda ishlaydi</td></tr>
+    <tr><td>Shikoyatlar</td><td>Chatdan kelgan shikoyatlar: kim, kimga, sabab → ko'rildi / bloklandi</td></tr>
+  </table></div>
+  <p class="note">Statistika (nechta nomzod, nechta so'rov, nechta suhbat) — bosh sahifada uchta raqam, keyin kengaytiriladi.</p>
+
+  <h2>8. Lavozimlar va fanlar</h2>
+  <p>Ikkala ro'yxat bazada saqlanadi, admin paneldan boshqariladi. Lavozimlar ikki bo'limda: <b>o'quv bo'limi</b>da dars tili, fan sertifikati, SAT, A level so'raladi; <b>ma'muriy bo'lim</b>da bu maydonlar ko'rinmaydi.</p>
+  <p style="margin-top:18px"><b>O'quv bo'limi (20)</b></p>
+  <div class="pills"><span class="pill">Matematika ustozi</span><span class="pill">Fizika ustozi</span><span class="pill">Kimyo ustozi</span><span class="pill">Biologiya ustozi</span><span class="pill">Ona tili ustozi</span><span class="pill">Tarix ustozi</span><span class="pill">Ingliz tili ustozi</span><span class="pill">Rus tili ustozi</span><span class="pill">Informatika ustozi</span><span class="pill">Geografiya ustozi</span><span class="pill">Support ustoz</span><span class="pill">Yordamchi ustoz</span><span class="pill">Uy vazifa tekshiruvchi</span><span class="pill">Kurator</span><span class="pill">SAT ustoz</span><span class="pill">Kimyo A level ustoz</span><span class="pill">Biologiya A level ustoz</span><span class="pill">IT o'qituvchisi</span><span class="pill">Jismoniy tarbiya ustozi</span><span class="pill">Shaxmat ustozi</span></div>
+  <p style="margin-top:18px"><b>Ma'muriy bo'lim (11)</b></p>
+  <div class="pills"><span class="pill">Administrator</span><span class="pill">HR xodim</span><span class="pill">SMM</span><span class="pill">Marketolog</span><span class="pill">Moliyachi</span><span class="pill">Sotuv menejer</span><span class="pill">Kutubxonachi</span><span class="pill">Hamshira</span><span class="pill">Security</span><span class="pill">Tozalik xodimi</span><span class="pill">Bog'cha mudirasi</span></div>
+  <p style="margin-top:22px">Fanlar (10) — fan sertifikati va fan talabi uchun ro'yxat:</p>
+  <div class="pills">
+    <span class="pill">Matematika</span><span class="pill">Fizika</span><span class="pill">Kimyo</span><span class="pill">Biologiya</span><span class="pill">Ona tili</span><span class="pill">Tarix</span><span class="pill">Ingliz tili</span><span class="pill">Rus tili</span><span class="pill">Informatika</span><span class="pill">Geografiya</span>
+  </div>
+
+  <!-- ============ 9. QARORLAR ============ -->
+  <h2>9. Qabul qilingan qarorlar</h2>
+  <div class="tbl"><table>
+    <tr><th>Savol</th><th>Qaror</th><th>Sxemada</th></tr>
+    <tr><td>Ilova nomi</td><td><b>Top Xodim</b></td><td>sarlavha</td></tr>
+    <tr><td>Ish beruvchilarni moderatsiya qilish</td><td><b>Hozircha yo'q</b> — ro'yxatdan o'tdi, darrov qidiradi</td><td><code>tasdiqlangan</code> maydoni va admin paneldagi tugma tayyor turadi, yoqish oson</td></tr>
+    <tr><td>Sertifikat rasmi</td><td><b>Ixtiyoriy</b></td><td>2-bo'lim, 4-qadam</td></tr>
+    <tr><td>«Yaqin mosliklar»</td><td><b>Bor</b> — bitta shartga chegirma, lavozim va jinsga emas</td><td>4-bo'lim qoidasi</td></tr>
+    <tr><td>Tayyor CV</td><td><b>Bor</b> — profil to'lgach avtomatik; rasm ixtiyoriy, qolgani majburiy</td><td>2-bo'lim «Tayyor CV»</td></tr>
+    <tr><td>Admin panel</td><td><b>Bor</b></td><td>7-bo'lim</td></tr>
+    <tr><td>Fanlar ro'yxati</td><td>10 ta fan tasdiqlandi</td><td>8-bo'lim</td></tr>
+    <tr><td>Kirish usuli</td><td><b>Telegram orqali</b> — bepul; keyin SMS qo'shish mumkin</td><td>1-bo'lim, 10-bo'lim</td></tr>
+    <tr><td>Baza</td><td><b>Firebase</b> + haftalik eksport nusxasi</td><td>10-bo'lim</td></tr>
+    <tr><td>SAT, A level</td><td>Lavozim ham, nomzod sertifikati ham; ish beruvchi filtrga qo'ya oladi</td><td>2, 3, 4-bo'limlar</td></tr>
+    <tr><td>Nomzod so'rovlarni ko'rishi</td><td>Yo'q — faqat ish beruvchi qidiradi</td><td>1-bo'lim</td></tr>
+  </table></div>
+
+  <h2>10. Texnologiya</h2>
+  <p>Kod GitHub'da, ma'lumot Firebase'da. Firebase bir platformada kirish, baza, fayl, bildirishnoma va hostingni beradi — alohida server kerak emas.</p>
+  <div class="tbl"><table>
+    <tr><th>Qism</th><th>Nima bilan</th><th>Izoh</th></tr>
+    <tr><td>Ilova</td><td>PWA — HTML / CSS / JavaScript</td><td>Hozirgi repo kabi, telefonga o'rnatiladi</td></tr>
+    <tr><td>Kod</td><td>GitHub</td><td>Har o'zgarish tarixi qoladi</td></tr>
+    <tr><td>Kirish</td><td>Telegram Login → Firebase Auth</td><td>Telegram tasdiqlagan foydalanuvchiga Firebase kirish beriladi. Buning uchun kichik server funksiya (Firebase Functions) kerak — Blaze tarif, karta ulanadi, lekin bepul kvota ichida 0 so'm</td></tr>
+    <tr><td>Baza</td><td>Firestore</td><td>6-bo'limdagi jadvallar to'plamlar (collections) sifatida</td></tr>
+    <tr><td>Fayllar</td><td>Firebase Storage</td><td>Profil rasmi, sertifikat rasmlari, CV PDF</td></tr>
+    <tr><td>Bildirishnoma</td><td>Telegram bot</td><td>Yangi xabar kelganda bot yozadi; kirish ham shu bot orqali</td></tr>
+    <tr><td>Hosting</td><td>Firebase Hosting</td><td>Bepul, HTTPS, o'z domen ulash mumkin</td></tr>
+    <tr><td>Zaxira nusxa</td><td>Haftalik eksport → Google Drive</td><td>Butun baza JSON fayl bo'lib sizning Drive'ingizga tushadi — ikkinchi nusxa</td></tr>
+  </table></div>
+  <p class="note">Sxema yopildi. Keyingi qadam — ilovani yasash: 1) Firebase loyiha + Telegram bot ochish, 2) asosiy menyu va Telegram kirish, 3) nomzod 4 qadam + CV, 4) ish beruvchi so'rov + natijalar, 5) chat + bot bildirishnoma, 6) admin panel.</p>
+</main>

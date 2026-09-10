@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+    function isAdmin() { return signedIn() && get(/databases/$(database)/documents/users/$(me())).data.rol == 'admin'; }
+    function owns(data) { return signedIn() && data.user_id == me(); }
+    function participant(data) { return signedIn() && me() in data.user_ids; }
+
+    // Foydalanuvchi: o'zinikini yaratadi va o'zgartiradi (rolni o'zgartira olmaydi), admin hammasini
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create: if signedIn() && uid == me() && request.resource.data.rol in ['nomzod', 'ish_beruvchi'];
+      allow update: if isAdmin() || (signedIn() && uid == me() && request.resource.data.rol == resource.data.rol && request.resource.data.bloklangan == resource.data.bloklangan);
+      allow delete: if isAdmin();
+    }
+    // Lug'atlar: hamma o'qiydi, admin yozadi
+    match /positions/{id} { allow read: if signedIn(); allow write: if isAdmin(); }
+    match /subjects/{id}  { allow read: if signedIn(); allow write: if isAdmin(); }
+
+    // Nomzod, ish beruvchi, so'rov, saqlanganlar: egasi yozadi, kirganlar o'qiydi
+    match /candidates/{id}       { allow read: if signedIn(); allow create: if owns(request.resource.data); allow update, delete: if owns(resource.data) || isAdmin(); }
+    match /employers/{id}        { allow read: if signedIn(); allow create: if owns(request.resource.data); allow update, delete: if owns(resource.data) || isAdmin(); }
+    match /job_requests/{id}     { allow read: if signedIn(); allow create: if owns(request.resource.data); allow update, delete: if owns(resource.data) || isAdmin(); }
+    match /saved_candidates/{id} { allow read: if signedIn(); allow create: if owns(request.resource.data); allow update, delete: if owns(resource.data); }
+
+    // Suhbat va xabarlar: faqat ishtirokchilar (va admin)
+    match /conversations/{id} {
+      allow read: if participant(resource.data) || isAdmin();
+      allow create: if participant(request.resource.data);
+      allow update: if participant(resource.data) || isAdmin();
+    }
+    match /messages/{id} {
+      allow read: if participant(resource.data) || isAdmin();
+      allow create: if participant(request.resource.data) && request.resource.data.sender_user_id == me();
+      allow update: if participant(resource.data); // o'qildi belgisi
+    }
+    // Shikoyatlar: har kim yozadi, admin ko'radi
+    match /reports/{id} { allow create: if signedIn(); allow read, update, delete: if isAdmin(); }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "firestore.rules", "firestore.indexes.json", "storage.rules", "**/.*", "**/node_modules/**", "functions/**", "dist/**", "build-preview.sh", "SXEMA.md", "sxema.html", "README.md"],
+    "headers": [{ "source": "sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }]
+  },
+  "firestore": { "rules": "firestore.rules", "indexes": "firestore.indexes.json" },
+  "functions": [{ "source": "functions", "codebase": "default", "runtime": "nodejs20" }]
+}
